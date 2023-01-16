@@ -1,0 +1,177 @@
+﻿<w:document xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex" xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex" xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex" xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex" xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex" xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex" xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex" xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex" xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink" xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid" xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" mc:Ignorable="w14 w15 w16se w16cid wp14">
+  <w:body>
+    <w:sdt>
+      <w:sdtPr>
+        <w:rPr>
+          <w:lang w:val="en-US" />
+        </w:rPr>
+        <w:alias w:val="html" />
+        <w:tag w:val="html" />
+        <w:id w:val="12043414" />
+        <w:placeholder>
+          <w:docPart w:val="DefaultPlaceholder_-1854013440" />
+        </w:placeholder>
+      </w:sdtPr>
+      <w:sdtContent>
+        <w:p>
+          <w:r>
+            <w:t>часть тегов мы просто игнорируем some text here second paragraph</w:t>
+          </w:r>
+        </w:p>
+      </w:sdtContent>
+    </w:sdt>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblStyle w:val="a4" />
+        <w:tblW w:w="0" w:type="auto" />
+        <w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:noHBand="0" w:noVBand="1" />
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="4672" />
+        <w:gridCol w:w="4673" />
+      </w:tblGrid>
+      <w:tr w:rsidR="000E7D8B" w:rsidTr="000E7D8B">
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="4672" w:type="dxa" />
+          </w:tcPr>
+          <w:sdt>
+            <w:sdtPr>
+              <w:rPr>
+                <w:lang w:val="en-US" />
+              </w:rPr>
+              <w:alias w:val="html" />
+              <w:tag w:val="html" />
+              <w:id w:val="-1737696734" />
+              <w:placeholder>
+                <w:docPart w:val="DefaultPlaceholder_-1854013440" />
+              </w:placeholder>
+              <w:showingPlcHdr />
+            </w:sdtPr>
+            <w:sdtContent>
+              <w:p>
+                <w:r>
+                  <w:t>часть тегов мы просто игнорируем some text here second paragraph</w:t>
+                </w:r>
+              </w:p>
+            </w:sdtContent>
+          </w:sdt>
+        </w:tc>
+        <w:sdt>
+          <w:sdtPr>
+            <w:rPr>
+              <w:lang w:val="en-US" />
+            </w:rPr>
+            <w:alias w:val="html" />
+            <w:tag w:val="html" />
+            <w:id w:val="-409550827" />
+            <w:placeholder>
+              <w:docPart w:val="DefaultPlaceholder_-1854013440" />
+            </w:placeholder>
+            <w:showingPlcHdr />
+          </w:sdtPr>
+          <w:sdtContent>
+            <w:tc>
+              <w:p>
+                <w:r>
+                  <w:t>часть тегов мы просто игнорируем some text here second paragraph</w:t>
+                </w:r>
+              </w:p>
+            </w:tc>
+          </w:sdtContent>
+        </w:sdt>
+      </w:tr>
+      <w:tr w:rsidR="000E7D8B" w:rsidTr="000E7D8B">
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="4672" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidRPr="00900FDB" w:rsidR="000E7D8B" w:rsidRDefault="000E7D8B" />
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="4673" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidR="000E7D8B" w:rsidRDefault="000E7D8B">
+            <w:pPr>
+              <w:rPr>
+                <w:lang w:val="en-US" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+      </w:tr>
+    </w:tbl>
+    <w:p w:rsidR="000E7D8B" w:rsidRDefault="000E7D8B">
+      <w:pPr>
+        <w:rPr>
+          <w:lang w:val="en-US" />
+        </w:rPr>
+      </w:pPr>
+    </w:p>
+    <w:sdt>
+      <w:sdtPr>
+        <w:rPr>
+          <w:lang w:val="en-US" />
+        </w:rPr>
+        <w:alias w:val="html" />
+        <w:tag w:val="html" />
+        <w:id w:val="944959942" />
+        <w:placeholder>
+          <w:docPart w:val="DefaultPlaceholder_-1854013440" />
+        </w:placeholder>
+      </w:sdtPr>
+      <w:sdtContent>
+        <w:p>
+          <w:r>
+            <w:t>часть тегов мы просто игнорируем some text here second paragraph</w:t>
+          </w:r>
+        </w:p>
+      </w:sdtContent>
+    </w:sdt>
+    <w:sdt>
+      <w:sdtPr>
+        <w:rPr>
+          <w:lang w:val="en-US" />
+        </w:rPr>
+        <w:alias w:val="html" />
+        <w:tag w:val="html" />
+        <w:id w:val="-307163720" />
+        <w:placeholder>
+          <w:docPart w:val="DefaultPlaceholder_-1854013440" />
+        </w:placeholder>
+        <w:text />
+      </w:sdtPr>
+      <w:sdtContent>
+        <w:p w:rsidRPr="00900FDB" w:rsidR="00900FDB" w:rsidRDefault="00900FDB">
+          <w:pPr>
+            <w:rPr>
+              <w:lang w:val="en-US" />
+            </w:rPr>
+          </w:pPr>
+          <w:r>
+            <w:rPr>
+              <w:lang w:val="en-US" />
+            </w:rPr>
+            <w:t>часть &lt;b&gt;тегов&lt;/b&gt; &lt;i&gt;мы просто&lt;/i&gt; &lt;div&gt;игнорируем&lt;/div&gt;        &lt;w:p&gt;
+          &lt;w:r&gt;
+            &lt;w:t&gt;some text here&lt;/w:t&gt;
+          &lt;/w:r&gt;
+        &lt;/w:p&gt;
+        &lt;w:p&gt;
+          &lt;w:r&gt;
+            &lt;w:t&gt;second paragraph&lt;/w:t&gt;
+          &lt;/w:r&gt;
+        &lt;/w:p&gt;</w:t>
+          </w:r>
+        </w:p>
+      </w:sdtContent>
+    </w:sdt>
+    <w:sectPr w:rsidRPr="00900FDB" w:rsidR="00900FDB">
+      <w:pgSz w:w="11906" w:h="16838" />
+      <w:pgMar w:top="1134" w:right="850" w:bottom="1134" w:left="1701" w:header="708" w:footer="708" w:gutter="0" />
+      <w:cols w:space="708" />
+      <w:docGrid w:linePitch="360" />
+    </w:sectPr>
+  </w:body>
+</w:document>

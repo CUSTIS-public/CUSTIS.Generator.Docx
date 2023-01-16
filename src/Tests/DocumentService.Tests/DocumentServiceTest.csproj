@@ -16,6 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ApprovalTests" Version="5.8.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.7" />
     <PackageReference Include="MSTest.TestFramework" Version="2.2.7" />
@@ -27,16 +28,67 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Samples\ComplexDocument.docx">
+    <None Update="Samples\ComplexDocument.template.docx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Samples\InputParameters.json">
+    <None Update="Samples\ComplexDocument.input.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Samples\InputPayload.json">
+    <None Update="Samples\html.template.docx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Samples\SimpleDocument.docx">
+    <None Update="Samples\InputParameters.html.simple_text.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\InputParameters.html.paragraphs.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\InputParameters.html.br.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\InputParameters.html.ul.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\InputParameters.html.nested_ul.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\InputParameters.html.ol.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\InputParameters.html.nested_ol.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\InputParameters.html.invalid_tags.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\html.InputParameters.br.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\html.InputParameters.invalid_tags.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\html.InputParameters.nested_ol.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\html.InputParameters.nested_ul.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\html.InputParameters.ol.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\html.InputParameters.paragraphs.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\html.InputParameters.simple_text.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\html.InputParameters.ul.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\html-array.template.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\html-array.input.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

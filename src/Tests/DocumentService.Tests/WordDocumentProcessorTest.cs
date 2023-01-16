@@ -1,106 +1,116 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 using System.IO;
-using System.Threading.Tasks;
-using Novo.DocumentService;
+using System.Linq;
+using ApprovalTests;
+using ApprovalTests.Namers;
+using ApprovalTests.Reporters;
+using DocumentFormat.OpenXml.Packaging;
 
 namespace Novo.DocumentService.Tests;
+
 [TestClass]
+[UseReporter(typeof(DiffReporter))]
 public class WordDocumentProcessorTest
 {
     [TestMethod]
-    public void PopulateSimpleDocumentWithSeveralParameters()
+    public void PopulateComplexDocument()
     {
         // Arrange
-        using var fileStream = new FileStream(Path.Combine(@"Samples", "SimpleDocument.docx"), FileMode.Open, FileAccess.Read);
-        var base64 = fileStream.ConvertToBase64String();
+        var resultFile = "ComplexDocument.filled.docx";
+        File.Delete(resultFile);
+        File.Copy(Path.Combine(@"Samples", "ComplexDocument.template.docx"), resultFile);
+        var input = JObject.Parse(File.ReadAllText(Path.Combine(@"Samples", $"ComplexDocument.input.json")));
+
+        var docProcessor = new WordDocumentProcessor(NullLogger<WordDocumentProcessor>.Instance);
+
+        // Act
+        using (var fileStream = new FileStream(resultFile, FileMode.Open, FileAccess.ReadWrite))
+        {
+            docProcessor.PopulateDocumentTemplate(input, fileStream);
+        }
+
+        // Assert
+        using var resultStream = new FileStream(resultFile, FileMode.Open, FileAccess.ReadWrite);
+        using var doc = WordprocessingDocument.Open(resultStream, false);
+
+        NamerFactory.AdditionalInformation = "doc";
+        Approvals.VerifyXml(doc.MainDocumentPart?.Document.OuterXml);
+
+        NamerFactory.AdditionalInformation = "num";
+        Approvals.VerifyXml(doc.MainDocumentPart?.NumberingDefinitionsPart?.Numbering?.OuterXml);
+    }
+
+    [DataTestMethod]
+    [DataRow("simple_text")]
+    [DataRow("paragraphs")]
+    [DataRow("br")]
+    [DataRow("ul")]
+    [DataRow("nested_ul")]
+    [DataRow("ol")]
+    [DataRow("nested_ol")]
+    [DataRow("invalid_tags")]
+    public void PopulateDocumentWithHtml(string caseName)
+    {
+        // Arrange
+        var resultFile = $"html.{caseName}.filled.docx";
+        File.Delete(resultFile);
+        File.Copy(Path.Combine(@"Samples", "html.template.docx"), resultFile);
+        var input = JObject.Parse(File.ReadAllText(Path.Combine(@"Samples", $"html.InputParameters.{caseName}.json")));
+
+        var docProcessor = new WordDocumentProcessor(NullLogger<WordDocumentProcessor>.Instance);
+
+        // Act
+        using (var fileStream = new FileStream(resultFile, FileMode.Open, FileAccess.ReadWrite))
+        {
+            docProcessor.PopulateDocumentTemplate(input, fileStream);
+        }
+
+        // Assert
+        using var resultStream = new FileStream(resultFile, FileMode.Open, FileAccess.ReadWrite);
+        using var doc = WordprocessingDocument.Open(resultStream, false);
+
+        NamerFactory.AdditionalInformation = $"{caseName}.doc";
+        Approvals.VerifyXml(doc.MainDocumentPart?.Document.OuterXml);
+
+        NamerFactory.AdditionalInformation = $"{caseName}.num";
+        Approvals.VerifyXml(doc.MainDocumentPart?.NumberingDefinitionsPart?.Numbering?.OuterXml);
+    }
+
+    [TestMethod]
+    public void PopulateHtmlArrayDocument()
+    {
+        // Arrange
+        var resultFile = "html-array.filled.docx";
+        File.Delete(resultFile);
+        File.Copy(Path.Combine(@"Samples", "html-array.template.docx"), resultFile);
+        var items = File.ReadAllLines(Path.Combine(@"Samples", $"html-array.input.txt"));
         var input = new JObject
         {
-            ["file"] = base64,
-            ["parameters"] = new JObject()
+            ["items"] = new JArray(items.Select((item, i) => new JObject
             {
-                ["textInRun"] = "Text in Run",
-                ["textInRunInParagraph"] = "Text in Run in Paragraph",
-                ["textInRunInParagraphInCell"] = "Text in Run in Paragraph in Cell",
-                ["textInRunAllowMulti"] = "Text in Run Allow Multi Line 1\r\nLine 2.",
-                ["textInRunWithPlaceholderText"] = "Text in Run with Placeholder Text",
-            }
+                ["head"] = $"Item {i}",
+                ["html"] = item
+            }))
         };
+
         var docProcessor = new WordDocumentProcessor(NullLogger<WordDocumentProcessor>.Instance);
 
         // Act
-        var result = docProcessor.PopulateDocumentTemplate(input);
-
-        // Assert
-        Assert.IsTrue(result.Success);
-        Assert.IsNotNull(result.Result);
-        Assert.IsNotNull(result.Result["file"]);
-#if WRITEOUTPUT
-        WriteBase64ToFile(result.Result["file"]!.ToString(), "SimpleDocument.filled.docx");
-#endif
-    }
-
-    [TestMethod]
-    public void PopulateComplexDocumentWithSeveralParameters()
-    {
-        // Arrange
-        using var fileStream = new FileStream(Path.Combine(@"Samples", "ComplexDocument.docx"), FileMode.Open, FileAccess.Read);
-        var base64 = fileStream.ConvertToBase64String();
-        var input = JObject.Parse(File.ReadAllText(Path.Combine(@"Samples", "InputParameters.json")));
-        input["file"] = base64;
-        var docProcessor = new WordDocumentProcessor(NullLogger<WordDocumentProcessor>.Instance);
-
-        // Act
-        var result = docProcessor.PopulateDocumentTemplate(input);
-
-        // Assert
-        Assert.IsTrue(result.Success);
-        Assert.IsNotNull(result.Result);
-        Assert.IsNotNull(result.Result["file"]);
-#if WRITEOUTPUT
-        WriteBase64ToFile(result.Result["file"]!.ToString(), "ComplexDocument.filled.docx");
-#endif
-    }
-
-    [TestMethod]
-    public void PopulateRealworldUTF16LE()
-    {
-        //using var fileStream = new FileStream(@"Test1.docx", FileMode.Open, FileAccess.Read);
-        //var base64 = fileStream.ConvertToBase64String();
-        //input["file"] = base64;
-        // Arrange
-        var input = JObject.Parse(File.ReadAllText(Path.Combine(@"Samples", "InputPayload.json")));
-        var docProcessor = new WordDocumentProcessor(NullLogger<WordDocumentProcessor>.Instance);
-
-        // Act
-        var result = docProcessor.PopulateDocumentTemplate(input);
-
-        // Assert
-        Assert.IsTrue(result.Success);
-        Assert.IsNotNull(result.Result);
-        Assert.IsNotNull(result.Result["file"]);
-#if WRITEOUTPUT
-        WriteBase64ToFile(result.Result["file"]!.ToString(), Path.Combine(@"Samples", "RealworldDocument.filled.docx"));
-#endif
-    }
-
-    private void WriteBase64ToFile(string base64, string filePath)
-    {
-        var buffer = new byte[(base64.Length * 3 + 3) / 4 -
-            (base64.Length > 0 && base64[^1] == '=' ?
-                base64.Length > 1 && base64[^2] == '=' ?
-                    2 : 1 : 0)];
-        if (!Convert.TryFromBase64String(base64, buffer, out int writtenBytes))
+        using (var fileStream = new FileStream(resultFile, FileMode.Open, FileAccess.ReadWrite))
         {
-            throw new InvalidOperationException(
-                $"Document is not in base64 format. Make sure you are sending a valid base64 encoded docx file.\r\n" +
-                $"bytesParsed: {writtenBytes}");
+            docProcessor.PopulateDocumentTemplate(input, fileStream);
         }
-        using var memory = new MemoryStream(buffer);
-        using var output = new FileStream(filePath, FileMode.Create, FileAccess.Write);
-        memory.WriteTo(output);
+
+        // Assert
+        using var resultStream = new FileStream(resultFile, FileMode.Open, FileAccess.ReadWrite);
+        using var doc = WordprocessingDocument.Open(resultStream, false);
+
+        NamerFactory.AdditionalInformation = "doc";
+        Approvals.VerifyXml(doc.MainDocumentPart?.Document.OuterXml);
+
+        NamerFactory.AdditionalInformation = "num";
+        Approvals.VerifyXml(doc.MainDocumentPart?.NumberingDefinitionsPart?.Numbering?.OuterXml);
     }
 }
