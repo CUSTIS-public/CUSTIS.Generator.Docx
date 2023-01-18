@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <None Update="SimpleTemplate.docx" CopyToOutputDirectory="PreserveNewest"/>
+    <None Update="SimpleTemplate.docx" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
@@ -13,6 +13,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <RootNamespace>CUSTIS.SimpleConsoleApp</RootNamespace>
   </PropertyGroup>
 
 </Project>

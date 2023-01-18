@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace Novo.DocumentService;
+namespace CUSTIS.DocumentService;
 public class Error
 {
     public string Message { get; set; }

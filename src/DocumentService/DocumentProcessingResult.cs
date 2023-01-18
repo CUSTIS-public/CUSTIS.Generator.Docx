@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace Novo.DocumentService;
+namespace CUSTIS.DocumentService;
 public class DocumentProcessingResult
 {
     public bool Success { get; init; }

@@ -7,7 +7,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using Paragraph = DocumentFormat.OpenXml.Wordprocessing.Paragraph;
 using Run = DocumentFormat.OpenXml.Wordprocessing.Run;
 
-namespace Novo.DocumentService;
+namespace CUSTIS.DocumentService;
 
 public static class HtmlToWordConverter
 {

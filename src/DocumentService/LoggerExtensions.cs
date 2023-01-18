@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Novo.DocumentService;
+namespace CUSTIS.DocumentService;
 
 internal static class LoggerExtensions
 {

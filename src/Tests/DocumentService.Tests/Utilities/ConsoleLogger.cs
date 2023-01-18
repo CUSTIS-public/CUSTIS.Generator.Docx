@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
+using Microsoft.Extensions.Logging;
 
-namespace Novo.DocumentService.Tests.Utilities;
+namespace CUSTIS.DocumentServiceTest.Utilities;
 public class ConsoleLogger : ILogger
 {
     public IDisposable BeginScope<TState>(TState state) => new NullLogScope<TState>(state);

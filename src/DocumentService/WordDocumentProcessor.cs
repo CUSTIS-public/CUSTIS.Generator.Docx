@@ -1,14 +1,14 @@
-﻿using DocumentFormat.OpenXml.Office2013.Word;
+﻿using System.Xml.Linq;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Office2013.Word;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
-using System.Xml.Linq;
-using DocumentFormat.OpenXml;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using TableCell = DocumentFormat.OpenXml.Wordprocessing.TableCell;
 
-namespace Novo.DocumentService;
+namespace CUSTIS.DocumentService;
 
 public interface IDocumentProcessor
 {
@@ -251,7 +251,7 @@ public class WordDocumentProcessor : IDocumentProcessor
         _logger.LogDebug("{Tag}: {Token}", tag.Val, token);
 
         // Plain or Rich Text Content Control
-        sdtElement.SdtProperties.Elements<ShowingPlaceholder>().FirstOrDefault()?.Remove();
+        sdtElement.SdtProperties?.Elements<ShowingPlaceholder>().FirstOrDefault()?.Remove();
         // There are several possible types for <sdtContent> element (e.g. SdtContentBlock)
         // That's why we don't use a concrete type in the following line.
         var contentElement = FindContent(sdtElement);

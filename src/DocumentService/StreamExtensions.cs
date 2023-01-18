@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Novo.DocumentService;
+namespace CUSTIS.DocumentService;
 public static class StreamExtensions
 {
     public static Stream ConvertToBase64(this Stream stream)

@@ -6,6 +6,7 @@ using System.Linq;
 using ApprovalTests;
 using ApprovalTests.Namers;
 using ApprovalTests.Reporters;
+using CUSTIS.DocumentService;
 using DocumentFormat.OpenXml.Packaging;
 
 namespace Novo.DocumentService.Tests;
