@@ -335,7 +335,7 @@ public class WordDocumentProcessor : IDocumentProcessor
             return;
         }
 
-        var mainDocumentPart = contentElement.Ancestors<Document>().First().MainDocumentPart;
+        var mainDocumentPart = contentElement.Ancestors<Document>().First().MainDocumentPart ?? throw new NullReferenceException($"Failed to obtain MainDocumentPart from {contentElement}");
         var docx = content.ToString().ConvertToDocx(mainDocumentPart);
 
         if (docx.AbstractNums.Any() || docx.NumberingInstances.Any())

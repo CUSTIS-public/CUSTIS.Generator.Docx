@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DocumentService\DocumentService.csproj" />
+    <ProjectReference Include="..\..\CUSTIS.Generator.Docx\CUSTIS.Generator.Docx.csproj" />
   </ItemGroup>
 
   <ItemGroup>

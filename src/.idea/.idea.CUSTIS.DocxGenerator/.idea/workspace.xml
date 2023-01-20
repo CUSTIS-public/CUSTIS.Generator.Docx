@@ -6,7 +6,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89a3dd07-ec5a-4ff1-b401-774ef8ff8aa9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.CUSTIS.DocxGenerator/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.CUSTIS.DocxGenerator/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.CUSTIS.DocxGenerator/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.CUSTIS.DocxGenerator/.idea/indexLayout.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.CUSTIS.DocxGenerator/.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Novo.Document/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Novo.Document/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CUSTIS.DocxGenerator.sln" beforeDir="false" afterPath="$PROJECT_DIR$/CUSTIS.Generator.Docx.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentService/DocumentProcessingResult.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CUSTIS.Generator.Docx/DocumentProcessingResult.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentService/DocumentService.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/CUSTIS.Generator.Docx/CUSTIS.Generator.Docx.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentService/Error.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CUSTIS.Generator.Docx/Error.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentService/HtmlToWordConverter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CUSTIS.Generator.Docx/HtmlToWordConverter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentService/JsonExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CUSTIS.Generator.Docx/JsonExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentService/LoggerExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CUSTIS.Generator.Docx/LoggerExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentService/StreamExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CUSTIS.Generator.Docx/StreamExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentService/WordDocumentProcessor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CUSTIS.Generator.Docx/WordDocumentProcessor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Samples/SimpleConsoleApp/SimpleConsoleApp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Samples/SimpleConsoleApp/SimpleConsoleApp.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/DocumentService.Tests/DocumentServiceTest.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/DocumentService.Tests/CUSTIS.Generator.Docx.Tests.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,10 +30,6 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/052c77aaa0a24fb389e70b42d3e1ea18161400/17/4711b3d5/OpenXmlMemoryStreamDocument.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/15d8e2fdfac24be6ebe528363281392e7eddf7f8774681a21a281bc8638cafb/schemas_microsoft_com_office_word_2012_wordml.g.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1eac12ddc7df2bfce4d245442a7d0504d6af167ba621cb91defc3ded293c5/ExceptionMessages.Designer.cs" root0="SKIP_HIGHLIGHTING" />
@@ -46,15 +58,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "settings.editor.selected.configurable": "preferences.updates",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.updates&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Project.SimpleConsoleApp">
     <configuration name="SimpleConsoleApp" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
@@ -99,7 +111,8 @@
       <option name="presentableId" value="Default" />
       <updated>1673452439764</updated>
       <workItem from="1673452447056" duration="32471000" />
-      <workItem from="1673852489075" duration="36937000" />
+      <workItem from="1673852489075" duration="33006000" />
+      <workItem from="1674214971397" duration="119000" />
     </task>
     <servers />
   </component>
