@@ -1,5 +1,7 @@
-# Novo Docx 
-Novo Docx exists because I looked everywhere and I couldn't find a viable and simple-to-use library that can help me populate Word templates. The templates I'm talking about are standard template of Microsoft Word. In other words, Word documents that have placeholders. These are use by actual people like a form that they can fill. Some people call them Word forms.
+This is port from https://github.com/rezanid/novodocx
+
+# CUSTIS.Generator.Docx 
+CUSTIS.Generator.Docx exists because I looked everywhere and I couldn't find a viable and simple-to-use library that can help me populate Word templates. The templates I'm talking about are standard template of Microsoft Word. In other words, Word documents that have placeholders. These are use by actual people like a form that they can fill. Some people call them Word forms.
 
 ![Word template example screenshot](.media/word-template-example)
 
@@ -24,9 +26,9 @@ To be honest, at the time of this writing I only know two other alternatives tha
 
 If the first two alternatives sound gibberish to you, they are for Power Platform developers (basically a low-code application development platform from Microsoft), but even they some times are not easy or good enough to work with and both require licensing.
 
- ## What is Novo Docx
+ ## What is CUSTIS.Generator.Docx
 
-Novo Docx is a .NET core library and an Azure Functions App that hosts it. You can send a Word template in your JSON object to populate the template and it replies with a filled document, lightning fast. In case of any issues or potencial issues, it will explain well in the reply.
+CUSTIS.Generator.Docx is a .NET core library and an Azure Functions App that hosts it. You can send a Word template in your JSON object to populate the template and it replies with a filled document, lightning fast. In case of any issues or potencial issues, it will explain well in the reply.
 
 > 📯 NOTE! 
 >
@@ -34,7 +36,7 @@ Novo Docx is a .NET core library and an Azure Functions App that hosts it. You c
 
 ## How to use
 
-There are several ways to use Novo Docx, it depends on whether you want to use it as a library in your app, as a CLI from your terminal of choice, or you prefer to host it somewhere as a severless service and simply call it over HTTP(S). Right now you have the following options out-of-the-box.
+There are several ways to use CUSTIS.Generator.Docx, it depends on whether you want to use it as a library in your app, as a CLI from your terminal of choice, or you prefer to host it somewhere as a severless service and simply call it over HTTP(S). Right now you have the following options out-of-the-box.
 
 * [Use from Terminal / Console / PowerShell: docx CLI](#use-from-terminal--console--powershell-ndocx-cli)
 * [Use as Serverless: Docx Functions App](#use-as-serverless-docx-functions-app)
