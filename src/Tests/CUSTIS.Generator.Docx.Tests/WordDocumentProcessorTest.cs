@@ -154,10 +154,7 @@ public class WordDocumentProcessorTest
         
         File.Delete(resultFile);
         File.Copy(Path.Combine(@"Samples", "errors.template.docx"), resultFile);
-        var input = new JObject
-        {
-            ["ns"] = "some<br/>text"
-        };
+        var input = JObject.Parse(File.ReadAllText(Path.Combine(@"Samples", $"errors.input.json")));
         var docProcessor = new WordDocumentProcessor(NullLogger<WordDocumentProcessor>.Instance);
 
         // Act

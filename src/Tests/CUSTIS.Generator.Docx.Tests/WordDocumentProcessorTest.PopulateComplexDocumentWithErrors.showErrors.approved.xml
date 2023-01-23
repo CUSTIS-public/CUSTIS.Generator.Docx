@@ -249,6 +249,11 @@
       <w:t>No data matched placeholder '..disciplines[*]'</w:t>
     </w:r>
   </w:p>
+  <w:p>
+    <w:r>
+      <w:t />
+    </w:r>
+  </w:p>
   <w:body>
     <w:p w:rsidR="0038173F" w:rsidP="0038173F" w:rsidRDefault="0038173F" />
     <w:p w:rsidRPr="00AE4085" w:rsidR="00256DCA" w:rsidP="0038173F" w:rsidRDefault="002F6018">
@@ -272,6 +277,8 @@
           <w:r w:rsidRPr="0077088D">
             <w:rPr>
               <w:b />
+              <w:color w:val="C00000" />
+              <w:b />
             </w:rPr>
             <w:t>Какой-то текст</w:t>
           </w:r>
@@ -282,6 +289,8 @@
     <w:sdt>
       <w:sdtPr>
         <w:rPr>
+          <w:b />
+          <w:color w:val="C00000" />
           <w:lang w:val="en-US" />
         </w:rPr>
         <w:alias w:val="html" />
@@ -300,6 +309,8 @@
           </w:pPr>
           <w:r>
             <w:rPr>
+              <w:b />
+              <w:color w:val="C00000" />
               <w:lang w:val="en-US" />
             </w:rPr>
             <w:t>html</w:t>
@@ -1071,6 +1082,8 @@
             <w:sdtPr>
               <w:rPr>
                 <w:b />
+                <w:color w:val="C00000" />
+                <w:b />
               </w:rPr>
               <w:alias w:val="LectCountSum" />
               <w:tag w:val="LectCountSum" />
@@ -1090,6 +1103,8 @@
                 </w:pPr>
                 <w:r w:rsidRPr="00D602C6">
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:b />
                   </w:rPr>
                   <w:t>2</w:t>
@@ -1113,6 +1128,8 @@
             <w:sdtPr>
               <w:rPr>
                 <w:b />
+                <w:color w:val="C00000" />
+                <w:b />
               </w:rPr>
               <w:alias w:val="PracticeCountSum" />
               <w:tag w:val="PracticeCountSum" />
@@ -1132,6 +1149,8 @@
                 </w:pPr>
                 <w:r w:rsidRPr="00D602C6">
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:b />
                   </w:rPr>
                   <w:t>0</w:t>
@@ -1155,6 +1174,8 @@
             <w:sdtPr>
               <w:rPr>
                 <w:b />
+                <w:color w:val="C00000" />
+                <w:b />
               </w:rPr>
               <w:alias w:val="LabCountSum" />
               <w:tag w:val="LabCountSum" />
@@ -1174,6 +1195,8 @@
                 </w:pPr>
                 <w:r w:rsidRPr="00D602C6">
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:b />
                   </w:rPr>
                   <w:t>0</w:t>
@@ -1203,6 +1226,8 @@
               <w:sdtPr>
                 <w:rPr>
                   <w:b />
+                  <w:color w:val="C00000" />
+                  <w:b />
                 </w:rPr>
                 <w:alias w:val="TotalCountSum" />
                 <w:tag w:val="TotalCountSum" />
@@ -1216,6 +1241,8 @@
               <w:sdtContent>
                 <w:r w:rsidRPr="00D602C6" w:rsidR="00D602C6">
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:b />
                   </w:rPr>
                   <w:t>2</w:t>
@@ -1855,6 +1882,8 @@
         <w:sdtPr>
           <w:rPr>
             <w:b />
+            <w:color w:val="C00000" />
+            <w:b />
             <w:bCs />
             <w:i />
             <w:sz w:val="36" />
@@ -1866,6 +1895,8 @@
         </w:sdtPr>
         <w:sdtEndPr>
           <w:rPr>
+            <w:b />
+            <w:color w:val="C00000" />
             <w:b w:val="0" />
             <w:bCs w:val="0" />
             <w:i w:val="0" />
@@ -1876,6 +1907,8 @@
           <w:sdt>
             <w:sdtPr>
               <w:rPr>
+                <w:b />
+                <w:color w:val="C00000" />
                 <w:b />
                 <w:bCs />
                 <w:i />
@@ -1889,6 +1922,8 @@
             </w:sdtPr>
             <w:sdtEndPr>
               <w:rPr>
+                <w:b />
+                <w:color w:val="C00000" />
                 <w:b w:val="0" />
                 <w:bCs w:val="0" />
                 <w:i w:val="0" />
@@ -1936,6 +1971,8 @@
                     <w:sdtPr>
                       <w:rPr>
                         <w:b />
+                        <w:color w:val="C00000" />
+                        <w:b />
                         <w:bCs />
                         <w:i />
                         <w:sz w:val="36" />
@@ -1962,6 +1999,8 @@
                         </w:pPr>
                         <w:r w:rsidRPr="006E16FF">
                           <w:rPr>
+                            <w:b />
+                            <w:color w:val="C00000" />
                             <w:b />
                             <w:bCs />
                             <w:i />
@@ -1996,6 +2035,8 @@
                     <w:r w:rsidRPr="006E16FF">
                       <w:rPr>
                         <w:b />
+                        <w:color w:val="C00000" />
+                        <w:b />
                         <w:bCs />
                         <w:i />
                         <w:sz w:val="36" />
@@ -2026,6 +2067,8 @@
                     </w:pPr>
                     <w:r w:rsidRPr="006E16FF">
                       <w:rPr>
+                        <w:b />
+                        <w:color w:val="C00000" />
                         <w:b />
                         <w:bCs />
                         <w:i />
@@ -2058,6 +2101,8 @@
                     <w:r w:rsidRPr="006E16FF">
                       <w:rPr>
                         <w:b />
+                        <w:color w:val="C00000" />
+                        <w:b />
                         <w:bCs />
                         <w:i />
                         <w:sz w:val="36" />
@@ -2079,6 +2124,8 @@
                   <w:sdt>
                     <w:sdtPr>
                       <w:rPr>
+                        <w:b />
+                        <w:color w:val="C00000" />
                         <w:b />
                         <w:bCs />
                         <w:i />
@@ -2107,6 +2154,8 @@
                         <w:r w:rsidRPr="006E16FF">
                           <w:rPr>
                             <w:b />
+                            <w:color w:val="C00000" />
+                            <w:b />
                             <w:bCs />
                             <w:i />
                             <w:sz w:val="36" />
@@ -2122,6 +2171,8 @@
                 <w:sdtPr>
                   <w:rPr>
                     <w:b />
+                    <w:color w:val="C00000" />
+                    <w:b />
                   </w:rPr>
                   <w:alias w:val="disciplines" />
                   <w:tag w:val="disciplines" />
@@ -2130,6 +2181,8 @@
                 </w:sdtPr>
                 <w:sdtEndPr>
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:b w:val="0" />
                   </w:rPr>
                 </w:sdtEndPr>
@@ -2137,6 +2190,8 @@
                   <w:sdt>
                     <w:sdtPr>
                       <w:rPr>
+                        <w:b />
+                        <w:color w:val="C00000" />
                         <w:b />
                       </w:rPr>
                       <w:id w:val="-288973783" />
@@ -2147,6 +2202,8 @@
                     </w:sdtPr>
                     <w:sdtEndPr>
                       <w:rPr>
+                        <w:b />
+                        <w:color w:val="C00000" />
                         <w:b w:val="0" />
                       </w:rPr>
                     </w:sdtEndPr>
@@ -2195,6 +2252,8 @@
                               <w:sdtPr>
                                 <w:rPr>
                                   <w:b />
+                                  <w:color w:val="C00000" />
+                                  <w:b />
                                 </w:rPr>
                                 <w:alias w:val="disc.name" />
                                 <w:tag w:val="disc.name" />
@@ -2209,6 +2268,8 @@
                                 <w:r w:rsidRPr="001141AB" w:rsidR="00061F15">
                                   <w:rPr>
                                     <w:b />
+                                    <w:color w:val="C00000" />
+                                    <w:b />
                                   </w:rPr>
                                   <w:t>Дисциплина</w:t>
                                 </w:r>
@@ -2217,18 +2278,7 @@
                             <w:r w:rsidR="00061F15">
                               <w:rPr>
                                 <w:b />
-                                <w:lang w:val="en-US" />
-                              </w:rPr>
-                              <w:t xml:space="preserve"> </w:t>
-                            </w:r>
-                            <w:r w:rsidRPr="001141AB" w:rsidR="00061F15">
-                              <w:rPr>
-                                <w:b />
-                              </w:rPr>
-                              <w:t>0</w:t>
-                            </w:r>
-                            <w:r w:rsidR="00061F15">
-                              <w:rPr>
+                                <w:color w:val="C00000" />
                                 <w:b />
                                 <w:lang w:val="en-US" />
                               </w:rPr>
@@ -2237,11 +2287,15 @@
                             <w:r w:rsidRPr="001141AB" w:rsidR="00061F15">
                               <w:rPr>
                                 <w:b />
+                                <w:color w:val="C00000" />
+                                <w:b />
                               </w:rPr>
                               <w:t>0</w:t>
                             </w:r>
                             <w:r w:rsidR="00061F15">
                               <w:rPr>
+                                <w:b />
+                                <w:color w:val="C00000" />
                                 <w:b />
                                 <w:lang w:val="en-US" />
                               </w:rPr>
@@ -2250,11 +2304,32 @@
                             <w:r w:rsidRPr="001141AB" w:rsidR="00061F15">
                               <w:rPr>
                                 <w:b />
+                                <w:color w:val="C00000" />
+                                <w:b />
                               </w:rPr>
                               <w:t>0</w:t>
                             </w:r>
                             <w:r w:rsidR="00061F15">
                               <w:rPr>
+                                <w:b />
+                                <w:color w:val="C00000" />
+                                <w:b />
+                                <w:lang w:val="en-US" />
+                              </w:rPr>
+                              <w:t xml:space="preserve"> </w:t>
+                            </w:r>
+                            <w:r w:rsidRPr="001141AB" w:rsidR="00061F15">
+                              <w:rPr>
+                                <w:b />
+                                <w:color w:val="C00000" />
+                                <w:b />
+                              </w:rPr>
+                              <w:t>0</w:t>
+                            </w:r>
+                            <w:r w:rsidR="00061F15">
+                              <w:rPr>
+                                <w:b />
+                                <w:color w:val="C00000" />
                                 <w:b />
                                 <w:lang w:val="en-US" />
                               </w:rPr>
@@ -2263,6 +2338,8 @@
                             <w:sdt>
                               <w:sdtPr>
                                 <w:rPr>
+                                  <w:b />
+                                  <w:color w:val="C00000" />
                                   <w:b />
                                 </w:rPr>
                                 <w:alias w:val="TotalCount" />
@@ -2277,6 +2354,8 @@
                               <w:sdtContent>
                                 <w:r w:rsidRPr="001141AB" w:rsidR="00061F15">
                                   <w:rPr>
+                                    <w:b />
+                                    <w:color w:val="C00000" />
                                     <w:b />
                                   </w:rPr>
                                   <w:t>0</w:t>
@@ -2575,6 +2654,8 @@
             <w:sdtPr>
               <w:rPr>
                 <w:b />
+                <w:color w:val="C00000" />
+                <w:b />
               </w:rPr>
               <w:alias w:val="LectCountSum" />
               <w:tag w:val="LectCountSum" />
@@ -2594,6 +2675,8 @@
                 </w:pPr>
                 <w:r w:rsidRPr="00D602C6">
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:b />
                   </w:rPr>
                   <w:t>2</w:t>
@@ -2617,6 +2700,8 @@
             <w:sdtPr>
               <w:rPr>
                 <w:b />
+                <w:color w:val="C00000" />
+                <w:b />
               </w:rPr>
               <w:alias w:val="PracticeCountSum" />
               <w:tag w:val="PracticeCountSum" />
@@ -2636,6 +2721,8 @@
                 </w:pPr>
                 <w:r w:rsidRPr="00D602C6">
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:b />
                   </w:rPr>
                   <w:t>0</w:t>
@@ -2659,6 +2746,8 @@
             <w:sdtPr>
               <w:rPr>
                 <w:b />
+                <w:color w:val="C00000" />
+                <w:b />
               </w:rPr>
               <w:alias w:val="LabCountSum" />
               <w:tag w:val="LabCountSum" />
@@ -2678,6 +2767,8 @@
                 </w:pPr>
                 <w:r w:rsidRPr="00D602C6">
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:b />
                   </w:rPr>
                   <w:t>0</w:t>
@@ -2707,6 +2798,8 @@
               <w:sdtPr>
                 <w:rPr>
                   <w:b />
+                  <w:color w:val="C00000" />
+                  <w:b />
                 </w:rPr>
                 <w:alias w:val="TotalCountSum" />
                 <w:tag w:val="TotalCountSum" />
@@ -2720,6 +2813,8 @@
               <w:sdtContent>
                 <w:r w:rsidRPr="00D602C6" w:rsidR="00B37D46">
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:b />
                   </w:rPr>
                   <w:t>2</w:t>
@@ -2742,6 +2837,8 @@
       <w:sdtPr>
         <w:rPr>
           <w:b />
+          <w:color w:val="C00000" />
+          <w:b />
           <w:bCs />
           <w:highlight w:val="yellow" />
           <w:lang w:eastAsia="en-US" />
@@ -2753,6 +2850,8 @@
       </w:sdtPr>
       <w:sdtEndPr>
         <w:rPr>
+          <w:b />
+          <w:color w:val="C00000" />
           <w:b w:val="0" />
           <w:highlight w:val="none" />
         </w:rPr>
@@ -2761,6 +2860,8 @@
         <w:sdt>
           <w:sdtPr>
             <w:rPr>
+              <w:b />
+              <w:color w:val="C00000" />
               <w:b />
               <w:bCs />
               <w:highlight w:val="yellow" />
@@ -2774,6 +2875,8 @@
           </w:sdtPr>
           <w:sdtEndPr>
             <w:rPr>
+              <w:b />
+              <w:color w:val="C00000" />
               <w:b w:val="0" />
               <w:highlight w:val="none" />
             </w:rPr>
@@ -2801,6 +2904,8 @@
                 <w:sdtPr>
                   <w:rPr>
                     <w:b />
+                    <w:color w:val="C00000" />
+                    <w:b />
                     <w:bCs />
                     <w:highlight w:val="yellow" />
                     <w:lang w:eastAsia="en-US" />
@@ -2818,6 +2923,8 @@
                   <w:r w:rsidRPr="00D81A55" w:rsidR="00D81A55">
                     <w:rPr>
                       <w:b />
+                      <w:color w:val="C00000" />
+                      <w:b />
                       <w:bCs />
                       <w:highlight w:val="yellow" />
                       <w:lang w:eastAsia="en-US" />
@@ -2829,6 +2936,8 @@
               <w:r w:rsidR="00B17FA8">
                 <w:rPr>
                   <w:b />
+                  <w:color w:val="C00000" />
+                  <w:b />
                   <w:bCs />
                   <w:highlight w:val="yellow" />
                   <w:lang w:eastAsia="en-US" />
@@ -2838,6 +2947,8 @@
               <w:sdt>
                 <w:sdtPr>
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:b />
                     <w:bCs />
                     <w:highlight w:val="yellow" />
@@ -2856,6 +2967,8 @@
                   <w:r w:rsidR="0009106F">
                     <w:rPr>
                       <w:b />
+                      <w:color w:val="C00000" />
+                      <w:b />
                       <w:bCs />
                       <w:highlight w:val="yellow" />
                       <w:lang w:eastAsia="en-US" />
@@ -2869,6 +2982,8 @@
               <w:sdtPr>
                 <w:rPr>
                   <w:b />
+                  <w:color w:val="C00000" />
+                  <w:b />
                   <w:bCs />
                   <w:lang w:eastAsia="en-US" />
                 </w:rPr>
@@ -2879,6 +2994,8 @@
               </w:sdtPr>
               <w:sdtEndPr>
                 <w:rPr>
+                  <w:b />
+                  <w:color w:val="C00000" />
                   <w:b w:val="0" />
                 </w:rPr>
               </w:sdtEndPr>
@@ -2886,6 +3003,8 @@
                 <w:sdt>
                   <w:sdtPr>
                     <w:rPr>
+                      <w:b />
+                      <w:color w:val="C00000" />
                       <w:b />
                       <w:bCs />
                       <w:lang w:eastAsia="en-US" />
@@ -2898,6 +3017,8 @@
                   </w:sdtPr>
                   <w:sdtEndPr>
                     <w:rPr>
+                      <w:b />
+                      <w:color w:val="C00000" />
                       <w:b w:val="0" />
                     </w:rPr>
                   </w:sdtEndPr>
@@ -2923,6 +3044,8 @@
                         <w:sdtPr>
                           <w:rPr>
                             <w:b />
+                            <w:color w:val="C00000" />
+                            <w:b />
                             <w:bCs />
                             <w:lang w:eastAsia="en-US" />
                           </w:rPr>
@@ -2939,6 +3062,8 @@
                           <w:r w:rsidRPr="0009106F" w:rsidR="00D81A55">
                             <w:rPr>
                               <w:b />
+                              <w:color w:val="C00000" />
+                              <w:b />
                               <w:bCs />
                               <w:lang w:eastAsia="en-US" />
                             </w:rPr>
@@ -2949,6 +3074,8 @@
                       <w:r w:rsidR="00B17FA8">
                         <w:rPr>
                           <w:b />
+                          <w:color w:val="C00000" />
+                          <w:b />
                           <w:bCs />
                           <w:lang w:val="en-US" w:eastAsia="en-US" />
                         </w:rPr>
@@ -2957,6 +3084,8 @@
                       <w:sdt>
                         <w:sdtPr>
                           <w:rPr>
+                            <w:b />
+                            <w:color w:val="C00000" />
                             <w:b />
                             <w:bCs />
                             <w:lang w:eastAsia="en-US" />
@@ -2974,6 +3103,8 @@
                           <w:r w:rsidRPr="0009106F" w:rsidR="0009106F">
                             <w:rPr>
                               <w:b />
+                              <w:color w:val="C00000" />
+                              <w:b />
                               <w:bCs />
                               <w:lang w:eastAsia="en-US" />
                             </w:rPr>
@@ -2985,6 +3116,8 @@
                     <w:sdt>
                       <w:sdtPr>
                         <w:rPr>
+                          <w:b />
+                          <w:color w:val="C00000" />
                           <w:bCs />
                           <w:lang w:eastAsia="en-US" />
                         </w:rPr>
@@ -2998,6 +3131,8 @@
                         <w:sdt>
                           <w:sdtPr>
                             <w:rPr>
+                              <w:b />
+                              <w:color w:val="C00000" />
                               <w:bCs />
                               <w:lang w:eastAsia="en-US" />
                             </w:rPr>
@@ -3028,6 +3163,8 @@
                               <w:sdt>
                                 <w:sdtPr>
                                   <w:rPr>
+                                    <w:b />
+                                    <w:color w:val="C00000" />
                                     <w:bCs />
                                     <w:lang w:eastAsia="en-US" />
                                   </w:rPr>
@@ -3043,6 +3180,8 @@
                                 <w:sdtContent>
                                   <w:r w:rsidRPr="0009106F" w:rsidR="00D81A55">
                                     <w:rPr>
+                                      <w:b />
+                                      <w:color w:val="C00000" />
                                       <w:bCs />
                                       <w:lang w:eastAsia="en-US" />
                                     </w:rPr>
@@ -3052,6 +3191,8 @@
                               </w:sdt>
                               <w:r w:rsidRPr="0009106F" w:rsidR="00D81A55">
                                 <w:rPr>
+                                  <w:b />
+                                  <w:color w:val="C00000" />
                                   <w:bCs />
                                   <w:lang w:eastAsia="en-US" />
                                 </w:rPr>
@@ -3060,6 +3201,8 @@
                               <w:sdt>
                                 <w:sdtPr>
                                   <w:rPr>
+                                    <w:b />
+                                    <w:color w:val="C00000" />
                                     <w:bCs />
                                     <w:lang w:eastAsia="en-US" />
                                   </w:rPr>
@@ -3075,6 +3218,8 @@
                                 <w:sdtContent>
                                   <w:r w:rsidRPr="0009106F" w:rsidR="00D81A55">
                                     <w:rPr>
+                                      <w:b />
+                                      <w:color w:val="C00000" />
                                       <w:bCs />
                                       <w:lang w:eastAsia="en-US" />
                                     </w:rPr>
@@ -3084,6 +3229,8 @@
                               </w:sdt>
                               <w:r w:rsidRPr="0009106F" w:rsidR="0009106F">
                                 <w:rPr>
+                                  <w:b />
+                                  <w:color w:val="C00000" />
                                   <w:bCs />
                                   <w:lang w:val="en-US" w:eastAsia="en-US" />
                                 </w:rPr>
@@ -3091,6 +3238,8 @@
                               </w:r>
                               <w:r w:rsidR="00B17FA8">
                                 <w:rPr>
+                                  <w:b />
+                                  <w:color w:val="C00000" />
                                   <w:bCs />
                                   <w:lang w:val="en-US" w:eastAsia="en-US" />
                                 </w:rPr>
@@ -3099,6 +3248,8 @@
                               <w:sdt>
                                 <w:sdtPr>
                                   <w:rPr>
+                                    <w:b />
+                                    <w:color w:val="C00000" />
                                     <w:bCs />
                                     <w:lang w:eastAsia="en-US" />
                                   </w:rPr>
@@ -3114,6 +3265,8 @@
                                 <w:sdtContent>
                                   <w:r w:rsidRPr="0009106F" w:rsidR="0009106F">
                                     <w:rPr>
+                                      <w:b />
+                                      <w:color w:val="C00000" />
                                       <w:bCs />
                                       <w:lang w:eastAsia="en-US" />
                                     </w:rPr>
@@ -3533,6 +3686,8 @@
       <w:sdt>
         <w:sdtPr>
           <w:rPr>
+            <w:b />
+            <w:color w:val="C00000" />
             <w:lang w:eastAsia="en-US" />
           </w:rPr>
           <w:alias w:val="..themes[?(@.LectCount &gt; 0)]" />
@@ -3542,6 +3697,8 @@
         </w:sdtPr>
         <w:sdtEndPr>
           <w:rPr>
+            <w:b />
+            <w:color w:val="C00000" />
             <w:bCs />
             <w:color w:val="000000" />
             <w:sz w:val="20" />
@@ -3553,6 +3710,8 @@
           <w:sdt>
             <w:sdtPr>
               <w:rPr>
+                <w:b />
+                <w:color w:val="C00000" />
                 <w:lang w:eastAsia="en-US" />
               </w:rPr>
               <w:id w:val="-1759909979" />
@@ -3563,6 +3722,8 @@
             </w:sdtPr>
             <w:sdtEndPr>
               <w:rPr>
+                <w:b />
+                <w:color w:val="C00000" />
                 <w:bCs />
                 <w:color w:val="000000" />
                 <w:sz w:val="20" />
@@ -3619,6 +3780,8 @@
                   <w:sdt>
                     <w:sdtPr>
                       <w:rPr>
+                        <w:b />
+                        <w:color w:val="C00000" />
                         <w:sz w:val="20" />
                         <w:szCs w:val="22" />
                         <w:lang w:eastAsia="en-US" />
@@ -3650,6 +3813,8 @@
                         </w:pPr>
                         <w:r>
                           <w:rPr>
+                            <w:b />
+                            <w:color w:val="C00000" />
                             <w:sz w:val="20" />
                             <w:szCs w:val="22" />
                             <w:lang w:eastAsia="en-US" />
@@ -3674,6 +3839,8 @@
                   <w:sdt>
                     <w:sdtPr>
                       <w:rPr>
+                        <w:b />
+                        <w:color w:val="C00000" />
                         <w:sz w:val="20" />
                         <w:szCs w:val="22" />
                         <w:lang w:val="en-US" />
@@ -3703,6 +3870,8 @@
                         </w:pPr>
                         <w:r>
                           <w:rPr>
+                            <w:b />
+                            <w:color w:val="C00000" />
                             <w:sz w:val="20" />
                             <w:szCs w:val="22" />
                             <w:lang w:val="en-US" />
@@ -3776,6 +3945,8 @@
                   <w:sdt>
                     <w:sdtPr>
                       <w:rPr>
+                        <w:b />
+                        <w:color w:val="C00000" />
                         <w:bCs />
                         <w:color w:val="000000" />
                         <w:sz w:val="20" />
@@ -3806,6 +3977,8 @@
                         </w:pPr>
                         <w:r>
                           <w:rPr>
+                            <w:b />
+                            <w:color w:val="C00000" />
                             <w:bCs />
                             <w:color w:val="000000" />
                             <w:sz w:val="20" />
@@ -3875,6 +4048,8 @@
             <w:sdtPr>
               <w:rPr>
                 <w:b />
+                <w:color w:val="C00000" />
+                <w:b />
               </w:rPr>
               <w:alias w:val="LectCountSum" />
               <w:tag w:val="LectCountSum" />
@@ -3894,6 +4069,8 @@
                 </w:pPr>
                 <w:r w:rsidRPr="00D602C6">
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:b />
                   </w:rPr>
                   <w:t>2</w:t>
@@ -4395,6 +4572,8 @@
       <w:sdt>
         <w:sdtPr>
           <w:rPr>
+            <w:b />
+            <w:color w:val="C00000" />
             <w:lang w:eastAsia="en-US" />
           </w:rPr>
           <w:alias w:val="..themes[?(@.PracticeCount &gt; 0)]" />
@@ -4404,6 +4583,8 @@
         </w:sdtPr>
         <w:sdtEndPr>
           <w:rPr>
+            <w:b />
+            <w:color w:val="C00000" />
             <w:bCs />
             <w:color w:val="000000" />
             <w:sz w:val="20" />
@@ -4415,6 +4596,8 @@
           <w:sdt>
             <w:sdtPr>
               <w:rPr>
+                <w:b />
+                <w:color w:val="C00000" />
                 <w:lang w:eastAsia="en-US" />
               </w:rPr>
               <w:id w:val="680168075" />
@@ -4425,6 +4608,8 @@
             </w:sdtPr>
             <w:sdtEndPr>
               <w:rPr>
+                <w:b />
+                <w:color w:val="C00000" />
                 <w:bCs />
                 <w:color w:val="000000" />
                 <w:sz w:val="20" />
@@ -4481,6 +4666,8 @@
                   <w:sdt>
                     <w:sdtPr>
                       <w:rPr>
+                        <w:b />
+                        <w:color w:val="C00000" />
                         <w:sz w:val="20" />
                         <w:szCs w:val="22" />
                         <w:lang w:eastAsia="en-US" />
@@ -4512,6 +4699,8 @@
                         </w:pPr>
                         <w:r>
                           <w:rPr>
+                            <w:b />
+                            <w:color w:val="C00000" />
                             <w:sz w:val="20" />
                             <w:szCs w:val="22" />
                             <w:lang w:eastAsia="en-US" />
@@ -4536,6 +4725,8 @@
                   <w:sdt>
                     <w:sdtPr>
                       <w:rPr>
+                        <w:b />
+                        <w:color w:val="C00000" />
                         <w:sz w:val="20" />
                         <w:szCs w:val="22" />
                         <w:lang w:val="en-US" />
@@ -4565,6 +4756,8 @@
                         </w:pPr>
                         <w:r>
                           <w:rPr>
+                            <w:b />
+                            <w:color w:val="C00000" />
                             <w:sz w:val="20" />
                             <w:szCs w:val="22" />
                             <w:lang w:val="en-US" />
@@ -4638,6 +4831,8 @@
                   <w:sdt>
                     <w:sdtPr>
                       <w:rPr>
+                        <w:b />
+                        <w:color w:val="C00000" />
                         <w:bCs />
                         <w:color w:val="000000" />
                         <w:sz w:val="20" />
@@ -4668,6 +4863,8 @@
                         </w:pPr>
                         <w:r>
                           <w:rPr>
+                            <w:b />
+                            <w:color w:val="C00000" />
                             <w:bCs />
                             <w:color w:val="000000" />
                             <w:sz w:val="20" />
@@ -4737,6 +4934,8 @@
             <w:sdtPr>
               <w:rPr>
                 <w:b />
+                <w:color w:val="C00000" />
+                <w:b />
               </w:rPr>
               <w:alias w:val="PracticeCountSum" />
               <w:tag w:val="PracticeCountSum" />
@@ -4756,6 +4955,8 @@
                 </w:pPr>
                 <w:r w:rsidRPr="00D602C6">
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:b />
                   </w:rPr>
                   <w:t>2</w:t>
@@ -5009,6 +5210,8 @@
               <w:p w:rsidR="00D95155" w:rsidP="00D95155" w:rsidRDefault="008D335A">
                 <w:r>
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:lang w:val="en-US" />
                   </w:rPr>
                   <w:t>-</w:t>
@@ -5036,6 +5239,8 @@
               <w:p w:rsidR="00D95155" w:rsidP="00D95155" w:rsidRDefault="008D335A">
                 <w:r>
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:lang w:val="en-US" />
                   </w:rPr>
                   <w:t>-</w:t>
@@ -5068,6 +5273,8 @@
                 </w:pPr>
                 <w:r>
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:lang w:val="en-US" />
                   </w:rPr>
                   <w:t>-</w:t>
@@ -5196,6 +5403,8 @@
               <w:p w:rsidR="00040C64" w:rsidP="00040C64" w:rsidRDefault="008D335A">
                 <w:r>
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:lang w:val="en-US" />
                   </w:rPr>
                   <w:t>-</w:t>
@@ -5223,6 +5432,8 @@
               <w:p w:rsidR="00040C64" w:rsidP="00040C64" w:rsidRDefault="008D335A">
                 <w:r>
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:lang w:val="en-US" />
                   </w:rPr>
                   <w:t>-</w:t>
@@ -5250,6 +5461,8 @@
               <w:p w:rsidR="00040C64" w:rsidP="00040C64" w:rsidRDefault="008D335A">
                 <w:r>
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:lang w:val="en-US" />
                   </w:rPr>
                   <w:t>-</w:t>
@@ -5361,6 +5574,8 @@
               <w:p w:rsidR="00D95155" w:rsidP="00D95155" w:rsidRDefault="008D335A">
                 <w:r>
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:lang w:val="en-US" />
                   </w:rPr>
                   <w:t>-</w:t>
@@ -5388,6 +5603,8 @@
               <w:p w:rsidR="00D95155" w:rsidP="00D95155" w:rsidRDefault="008D335A">
                 <w:r>
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:lang w:val="en-US" />
                   </w:rPr>
                   <w:t>-</w:t>
@@ -5420,6 +5637,8 @@
                 </w:pPr>
                 <w:r>
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:lang w:val="en-US" />
                   </w:rPr>
                   <w:t>-</w:t>
@@ -5502,6 +5721,8 @@
             <w:sdtPr>
               <w:rPr>
                 <w:b />
+                <w:color w:val="C00000" />
+                <w:b />
                 <w:lang w:eastAsia="en-US" />
               </w:rPr>
               <w:alias w:val="TotalCountSum" />
@@ -5517,6 +5738,8 @@
               <w:p w:rsidR="00040C64" w:rsidP="00040C64" w:rsidRDefault="00040C64">
                 <w:r w:rsidRPr="00E5145A">
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:b />
                     <w:lang w:eastAsia="en-US" />
                   </w:rPr>
@@ -5574,6 +5797,8 @@
             <w:sdtPr>
               <w:rPr>
                 <w:b />
+                <w:color w:val="C00000" />
+                <w:b />
                 <w:lang w:eastAsia="en-US" />
               </w:rPr>
               <w:alias w:val="LectCountSum" />
@@ -5589,6 +5814,8 @@
               <w:p w:rsidR="00040C64" w:rsidP="00040C64" w:rsidRDefault="00040C64">
                 <w:r w:rsidRPr="00E5145A">
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:b />
                     <w:lang w:eastAsia="en-US" />
                   </w:rPr>
@@ -5641,6 +5868,8 @@
               <w:p w:rsidRPr="005C729A" w:rsidR="00040C64" w:rsidP="00040C64" w:rsidRDefault="008D335A">
                 <w:r>
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:lang w:val="en-US" />
                   </w:rPr>
                   <w:t>-</w:t>
@@ -5668,6 +5897,8 @@
               <w:p w:rsidR="00040C64" w:rsidP="00040C64" w:rsidRDefault="008D335A">
                 <w:r>
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:lang w:val="en-US" />
                   </w:rPr>
                   <w:t>-</w:t>
@@ -5695,6 +5926,8 @@
               <w:p w:rsidR="00040C64" w:rsidP="00040C64" w:rsidRDefault="008D335A">
                 <w:r>
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:lang w:val="en-US" />
                   </w:rPr>
                   <w:t>-</w:t>
@@ -5727,6 +5960,8 @@
             <w:sdtPr>
               <w:rPr>
                 <w:b />
+                <w:color w:val="C00000" />
+                <w:b />
                 <w:lang w:eastAsia="en-US" />
               </w:rPr>
               <w:alias w:val="PracticeCountSum" />
@@ -5742,6 +5977,8 @@
               <w:p w:rsidR="00040C64" w:rsidP="00040C64" w:rsidRDefault="00040C64">
                 <w:r w:rsidRPr="00E5145A">
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:b />
                     <w:lang w:eastAsia="en-US" />
                   </w:rPr>
@@ -5799,6 +6036,8 @@
             <w:sdtPr>
               <w:rPr>
                 <w:b />
+                <w:color w:val="C00000" />
+                <w:b />
                 <w:lang w:eastAsia="en-US" />
               </w:rPr>
               <w:alias w:val="LabCountSum" />
@@ -5814,6 +6053,8 @@
               <w:p w:rsidR="00040C64" w:rsidP="00040C64" w:rsidRDefault="00040C64">
                 <w:r w:rsidRPr="00E5145A">
                   <w:rPr>
+                    <w:b />
+                    <w:color w:val="C00000" />
                     <w:b />
                     <w:lang w:eastAsia="en-US" />
                   </w:rPr>
@@ -5985,6 +6226,8 @@
       <w:sdt>
         <w:sdtPr>
           <w:rPr>
+            <w:b />
+            <w:color w:val="C00000" />
             <w:lang w:val="en-US" />
           </w:rPr>
           <w:alias w:val="amountWeight" />
@@ -6000,6 +6243,8 @@
           <w:proofErr w:type="spellStart" />
           <w:r>
             <w:rPr>
+              <w:b />
+              <w:color w:val="C00000" />
               <w:lang w:val="en-US" />
             </w:rPr>
             <w:t>amountWeight</w:t>
@@ -6016,6 +6261,8 @@
       <w:sdt>
         <w:sdtPr>
           <w:rPr>
+            <w:b />
+            <w:color w:val="C00000" />
             <w:lang w:val="en-US" />
           </w:rPr>
           <w:alias w:val="amount" />
@@ -6030,6 +6277,8 @@
         <w:sdtContent>
           <w:r>
             <w:rPr>
+              <w:b />
+              <w:color w:val="C00000" />
               <w:lang w:val="en-US" />
             </w:rPr>
             <w:t>amount</w:t>
@@ -6451,6 +6700,8 @@
       <w:sdt>
         <w:sdtPr>
           <w:rPr>
+            <w:b />
+            <w:color w:val="C00000" />
             <w:sz w:val="20" />
             <w:highlight w:val="yellow" />
             <w:lang w:eastAsia="en-US" />
@@ -6462,6 +6713,8 @@
         </w:sdtPr>
         <w:sdtEndPr>
           <w:rPr>
+            <w:b />
+            <w:color w:val="C00000" />
             <w:sz w:val="24" />
             <w:highlight w:val="none" />
             <w:lang w:val="en-US" w:eastAsia="ru-RU" />
@@ -6471,6 +6724,8 @@
           <w:sdt>
             <w:sdtPr>
               <w:rPr>
+                <w:b />
+                <w:color w:val="C00000" />
                 <w:sz w:val="20" />
                 <w:highlight w:val="yellow" />
                 <w:lang w:eastAsia="en-US" />
@@ -6483,6 +6738,8 @@
             </w:sdtPr>
             <w:sdtEndPr>
               <w:rPr>
+                <w:b />
+                <w:color w:val="C00000" />
                 <w:sz w:val="24" />
                 <w:highlight w:val="none" />
                 <w:lang w:val="en-US" w:eastAsia="ru-RU" />
@@ -6519,6 +6776,8 @@
                     </w:pPr>
                     <w:r>
                       <w:rPr>
+                        <w:b />
+                        <w:color w:val="C00000" />
                         <w:sz w:val="20" />
                         <w:highlight w:val="yellow" />
                         <w:lang w:eastAsia="en-US" />
@@ -6542,6 +6801,8 @@
                   <w:sdt>
                     <w:sdtPr>
                       <w:rPr>
+                        <w:b />
+                        <w:color w:val="C00000" />
                         <w:sz w:val="20" />
                         <w:highlight w:val="yellow" />
                         <w:lang w:eastAsia="en-US" />
@@ -6570,6 +6831,8 @@
                         </w:pPr>
                         <w:r>
                           <w:rPr>
+                            <w:b />
+                            <w:color w:val="C00000" />
                             <w:sz w:val="20" />
                             <w:highlight w:val="yellow" />
                             <w:lang w:eastAsia="en-US" />
@@ -6595,6 +6858,8 @@
                   <w:sdt>
                     <w:sdtPr>
                       <w:rPr>
+                        <w:b />
+                        <w:color w:val="C00000" />
                         <w:lang w:val="en-US" />
                       </w:rPr>
                       <w:alias w:val="lecture" />
@@ -6622,6 +6887,8 @@
                         </w:pPr>
                         <w:r>
                           <w:rPr>
+                            <w:b />
+                            <w:color w:val="C00000" />
                             <w:lang w:val="en-US" />
                           </w:rPr>
                           <w:t>lecture</w:t>
@@ -6657,6 +6924,8 @@
                     </w:pPr>
                     <w:r>
                       <w:rPr>
+                        <w:b />
+                        <w:color w:val="C00000" />
                         <w:lang w:val="en-US" />
                       </w:rPr>
                       <w:t>${@practice}</w:t>
@@ -6690,6 +6959,8 @@
                     </w:pPr>
                     <w:r>
                       <w:rPr>
+                        <w:b />
+                        <w:color w:val="C00000" />
                         <w:lang w:val="en-US" />
                       </w:rPr>
                       <w:t>${@laboratory}</w:t>
@@ -6723,6 +6994,8 @@
                     </w:pPr>
                     <w:r>
                       <w:rPr>
+                        <w:b />
+                        <w:color w:val="C00000" />
                         <w:bCs />
                         <w:lang w:val="en-US" />
                       </w:rPr>
@@ -6757,6 +7030,8 @@
                     </w:pPr>
                     <w:r>
                       <w:rPr>
+                        <w:b />
+                        <w:color w:val="C00000" />
                         <w:lang w:val="en-US" />
                       </w:rPr>
                       <w:t>${@</w:t>
@@ -6764,6 +7039,8 @@
                     <w:proofErr w:type="spellStart" />
                     <w:r>
                       <w:rPr>
+                        <w:b />
+                        <w:color w:val="C00000" />
                         <w:lang w:val="en-US" />
                       </w:rPr>
                       <w:t>attestationType</w:t>
@@ -6771,6 +7048,8 @@
                     <w:proofErr w:type="spellEnd" />
                     <w:r>
                       <w:rPr>
+                        <w:b />
+                        <w:color w:val="C00000" />
                         <w:lang w:val="en-US" />
                       </w:rPr>
                       <w:t>}</w:t>
@@ -6869,6 +7148,8 @@
         <w:sdtPr>
           <w:rPr>
             <w:b />
+            <w:color w:val="C00000" />
+            <w:b />
             <w:lang w:eastAsia="en-US" />
           </w:rPr>
           <w:alias w:val="LectCountSum" />
@@ -6883,6 +7164,8 @@
         <w:sdtContent>
           <w:r w:rsidRPr="00E5145A">
             <w:rPr>
+              <w:b />
+              <w:color w:val="C00000" />
               <w:b />
               <w:lang w:eastAsia="en-US" />
             </w:rPr>
@@ -6928,6 +7211,8 @@
         <w:sdtPr>
           <w:rPr>
             <w:b />
+            <w:color w:val="C00000" />
+            <w:b />
             <w:lang w:eastAsia="en-US" />
           </w:rPr>
           <w:alias w:val="PracticeCountSum" />
@@ -6942,6 +7227,8 @@
         <w:sdtContent>
           <w:r w:rsidRPr="00E5145A">
             <w:rPr>
+              <w:b />
+              <w:color w:val="C00000" />
               <w:b />
               <w:lang w:eastAsia="en-US" />
             </w:rPr>
@@ -6989,6 +7276,8 @@
         <w:sdtPr>
           <w:rPr>
             <w:b />
+            <w:color w:val="C00000" />
+            <w:b />
             <w:lang w:eastAsia="en-US" />
           </w:rPr>
           <w:alias w:val="LabCountSum" />
@@ -7003,6 +7292,8 @@
         <w:sdtContent>
           <w:r w:rsidRPr="00E5145A">
             <w:rPr>
+              <w:b />
+              <w:color w:val="C00000" />
               <w:b />
               <w:lang w:eastAsia="en-US" />
             </w:rPr>
@@ -7041,6 +7332,8 @@
         <w:sdtPr>
           <w:rPr>
             <w:b />
+            <w:color w:val="C00000" />
+            <w:b />
             <w:lang w:eastAsia="en-US" />
           </w:rPr>
           <w:alias w:val="TotalCountSum" />
@@ -7055,6 +7348,8 @@
         <w:sdtContent>
           <w:r w:rsidRPr="00E5145A">
             <w:rPr>
+              <w:b />
+              <w:color w:val="C00000" />
               <w:b />
               <w:lang w:eastAsia="en-US" />
             </w:rPr>
@@ -7112,6 +7407,8 @@
       <w:sdtPr>
         <w:rPr>
           <w:b />
+          <w:color w:val="C00000" />
+          <w:b />
           <w:u w:val="single" />
         </w:rPr>
         <w:alias w:val="..disciplines[*]" />
@@ -7121,6 +7418,8 @@
       </w:sdtPr>
       <w:sdtEndPr>
         <w:rPr>
+          <w:b />
+          <w:color w:val="C00000" />
           <w:b w:val="0" />
           <w:u w:val="none" />
         </w:rPr>
@@ -7129,6 +7428,8 @@
         <w:sdt>
           <w:sdtPr>
             <w:rPr>
+              <w:b />
+              <w:color w:val="C00000" />
               <w:b />
               <w:u w:val="single" />
             </w:rPr>
@@ -7140,6 +7441,8 @@
           </w:sdtPr>
           <w:sdtEndPr>
             <w:rPr>
+              <w:b />
+              <w:color w:val="C00000" />
               <w:b w:val="0" />
               <w:u w:val="none" />
             </w:rPr>
@@ -7148,6 +7451,8 @@
             <w:sdt>
               <w:sdtPr>
                 <w:rPr>
+                  <w:b />
+                  <w:color w:val="C00000" />
                   <w:b />
                   <w:u w:val="single" />
                 </w:rPr>
@@ -7168,6 +7473,8 @@
                   <w:r>
                     <w:rPr>
                       <w:b />
+                      <w:color w:val="C00000" />
+                      <w:b />
                       <w:u w:val="single" />
                     </w:rPr>
                     <w:t>Тема</w:t>
@@ -7184,6 +7491,8 @@
               <w:sdtPr>
                 <w:rPr>
                   <w:b />
+                  <w:color w:val="C00000" />
+                  <w:b />
                 </w:rPr>
                 <w:alias w:val="themes" />
                 <w:tag w:val="themes" />
@@ -7192,6 +7501,8 @@
               </w:sdtPr>
               <w:sdtEndPr>
                 <w:rPr>
+                  <w:b />
+                  <w:color w:val="C00000" />
                   <w:b w:val="0" />
                 </w:rPr>
               </w:sdtEndPr>
@@ -7199,6 +7510,8 @@
                 <w:sdt>
                   <w:sdtPr>
                     <w:rPr>
+                      <w:b />
+                      <w:color w:val="C00000" />
                       <w:b />
                     </w:rPr>
                     <w:id w:val="-1553156708" />
@@ -7209,6 +7522,8 @@
                   </w:sdtPr>
                   <w:sdtEndPr>
                     <w:rPr>
+                      <w:b />
+                      <w:color w:val="C00000" />
                       <w:b w:val="0" />
                     </w:rPr>
                   </w:sdtEndPr>
@@ -7225,12 +7540,16 @@
                       <w:r w:rsidRPr="009144BF">
                         <w:rPr>
                           <w:b />
+                          <w:color w:val="C00000" />
+                          <w:b />
                         </w:rPr>
                         <w:t>"</w:t>
                       </w:r>
                       <w:sdt>
                         <w:sdtPr>
                           <w:rPr>
+                            <w:b />
+                            <w:color w:val="C00000" />
                             <w:b />
                           </w:rPr>
                           <w:alias w:val="Theme" />
@@ -7246,6 +7565,8 @@
                           <w:r>
                             <w:rPr>
                               <w:b />
+                              <w:color w:val="C00000" />
+                              <w:b />
                             </w:rPr>
                             <w:t>Встреча</w:t>
                           </w:r>
@@ -7253,6 +7574,8 @@
                       </w:sdt>
                       <w:r w:rsidRPr="009144BF">
                         <w:rPr>
+                          <w:b />
+                          <w:color w:val="C00000" />
                           <w:b />
                         </w:rPr>
                         <w:t>"</w:t>

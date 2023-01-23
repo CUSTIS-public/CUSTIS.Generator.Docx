@@ -14,6 +14,7 @@ namespace CUSTIS.Generator.Docx;
 public class WordDocumentProcessor : IDocumentProcessor
 {
     private const string Wordml2006Ns = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+    private const string Red = "C00000";
 
     private readonly ILogger<WordDocumentProcessor> _logger;
     private static readonly XNamespace W = Wordml2006Ns;
@@ -44,7 +45,7 @@ public class WordDocumentProcessor : IDocumentProcessor
         if (showErrorsInDocument && errors.Errors.Any())
         {
             var bold = new Bold();
-            var color = new Color() { Val = "C00000" };
+            var color = new Color() { Val = Red };
             var size = new FontSize() { Val = "36" };
             var text = new Text("Some errors occured while generating document");
             var runPro = new RunProperties(bold, color, size, text);
@@ -55,7 +56,19 @@ public class WordDocumentProcessor : IDocumentProcessor
                 var newChild = new Paragraph(new Run(new Text(error.Message)));
                 lastError.InsertAfterSelf(newChild);
                 lastError = newChild;
+
+                if (error.Element is SdtElement sdtElement)
+                {
+                    foreach (var runProps in sdtElement.Descendants<RunProperties>())
+                    {
+                        runProps.PrependChild(new Color() { Val = Red });
+                        runProps.PrependChild(new Bold());
+                    }
+                }
             }
+
+            var space = new Paragraph(new Run(new Text()));
+            lastError.InsertAfterSelf(space);
         }
 
         doc.Save();
@@ -209,8 +222,14 @@ public class WordDocumentProcessor : IDocumentProcessor
             id.Remove();
         }
 
-        foreach (JObject tokenChild in tokens)
+        foreach (var tokenChild in tokens)
         {
+            if (tokenChild is not JObject jObject)
+            {
+                _logger.LogWarning("Element '{Token}' in '{Tag}' is not an object. It should be an object in '{{}}' braces", tokenChild, tag.Val);
+                errorsCollector.AddError($"Element '{tokenChild}' in '{tag.Val}' is not an object. It should be an object in '{{}}' braces", sdtElement);
+                continue;
+            }
             // Find the first repeating section item, and clone it.
             var repeatingItemClone = firstRepeatingItem.CloneNode(true);
             var repeatingItemChildSdtElements =
@@ -219,7 +238,7 @@ public class WordDocumentProcessor : IDocumentProcessor
             content.AppendChild(repeatingItemClone);
             foreach (var sdt in repeatingItemChildSdtElements)
             {
-                PopulateSdtElement(tokenChild, sdt, errorsCollector);
+                PopulateSdtElement(jObject, sdt, errorsCollector);
             }
 
             _logger.LogDebug("Placeholder row inserted successfully");
