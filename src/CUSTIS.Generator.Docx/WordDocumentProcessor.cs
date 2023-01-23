@@ -6,97 +6,21 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Color = DocumentFormat.OpenXml.Wordprocessing.Color;
 using TableCell = DocumentFormat.OpenXml.Wordprocessing.TableCell;
 
 namespace CUSTIS.Generator.Docx;
 
-public interface IDocumentProcessor
-{
-    DocumentProcessingResult PopulateDocumentTemplate(JObject input);
-    void PopulateDocumentTemplate(JObject parameters, Stream stream);
-}
-
 public class WordDocumentProcessor : IDocumentProcessor
 {
-    const string documentRelationshipNs =
-        "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument";
-
-    const string stylesRelationshipNs =
-        "http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles";
-
-    const string wordml2006Ns =
-        "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
-
-    const string wordml2012Ns =
-        "http://schemas.microsoft.com/office/word/2012/wordml";
-
+    const string Wordml2006Ns = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
 
     private readonly ILogger<WordDocumentProcessor> _logger;
-    private static readonly XNamespace W = (XNamespace)wordml2006Ns;
+    private static readonly XNamespace W = Wordml2006Ns;
 
     public WordDocumentProcessor(ILogger<WordDocumentProcessor> log) => _logger = log;
 
-    public DocumentProcessingResult PopulateDocumentTemplate(JObject input)
-    {
-        if (!input.TryGetValue<JObject>("parameters", out var parameters))
-        {
-            return new DocumentProcessingResult(
-                false,
-                new Error(
-                    "The 'parameters' property was not found in the input. You need to provide an input in the" +
-                    " format {\"parameters\":{ ... }, \"file\":\"base64 encoded docx file\""));
-        }
-
-        if (parameters == null)
-        {
-            return new DocumentProcessingResult(false, new Error(
-                "The `parameters' property has no values. You need to provide an input in the format" +
-                " {\"parameters\":{ ... }, \"file\":\"base64 encoded docx file\""));
-        }
-
-        if (!input.TryGetValue("file", out var inputfile) || inputfile.Type != JTokenType.String)
-        {
-            return new DocumentProcessingResult(
-                false,
-                new Error(
-                    "The 'file' token was not found in the input. You need to provide an input in the format" +
-                    " {\"parameters\":{ ... }, \"file\":\"base64 encoded docx file\""));
-        }
-
-        var base64 = inputfile.ToString();
-        var buffer = new byte[(base64.Length * 3 + 3) / 4 -
-                              (base64.Length > 0 && base64[^1] == '='
-                                  ? base64.Length > 1 && base64[^2] == '=' ? 2 : 1
-                                  : 0)];
-        if (!Convert.TryFromBase64String(base64, buffer, out int writtenBytes))
-        {
-            return new DocumentProcessingResult(
-                success: false,
-                result: new ParsingError(
-                    message:
-                    "Document is not in base64 format. Make sure you are " +
-                    "sending a valid base64 encoded docx file.",
-                    bytesParsed: writtenBytes));
-        }
-
-        using var stream = new MemoryStream();
-        stream.Write(buffer, 0, buffer.Length);
-        try
-        {
-            PopulateDocumentTemplate(parameters, stream);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogCritical($"Unable to populate the document due to an error. {ex}");
-            throw;
-        }
-
-        return new DocumentProcessingResult(
-            true,
-            new JObject(new JProperty("file", Convert.ToBase64String(stream.ToArray()))));
-    }
-
-    public void PopulateDocumentTemplate(JObject parameters, Stream stream)
+    public void PopulateDocumentTemplate(Stream stream, JObject parameters, bool showErrorsInDocument = false)
     {
         using var doc = WordprocessingDocument.Open(stream, true);
         var mainPart = doc.MainDocumentPart;
@@ -106,19 +30,38 @@ public class WordDocumentProcessor : IDocumentProcessor
                 "Invalid document format. The document is lacking its main part.");
         }
 
+        var errors = new ErrorsCollector();
+
         var topLevelSdtElements
             = mainPart.Document.Descendants<SdtElement>().Where(e => !e.Ancestors<SdtElement>().Any());
         // Note: An <sdt> can be SdtBlock, SdtCell, SdtRow, SdtRun, SdtRunRub, and they are inherit
         // from SdtElement. That's why we used SdtElement above.
         foreach (var sdtElement in topLevelSdtElements)
         {
-            PopulateSdtElement(parameters, sdtElement);
+            PopulateSdtElement(parameters, sdtElement, errors);
+        }
+
+        if (showErrorsInDocument && errors.Errors.Any())
+        {
+            var bold = new Bold();
+            var color = new Color() { Val = "C00000" };
+            var size = new FontSize() { Val = "36" };
+            var text = new Text("Some errors occured while generating document");
+            var runPro = new RunProperties(bold, color, size, text);
+            OpenXmlElement lastError = new Paragraph(new Run(runPro));
+            mainPart.Document.PrependChild(lastError);
+            foreach (var error in errors.Errors)
+            {
+                var newChild = new Paragraph(new Run(new Text(error.Message)));
+                lastError.InsertAfterSelf(newChild);
+                lastError = newChild;
+            }
         }
 
         doc.Save();
     }
 
-    private void PopulateSdtElement(JObject parameters, SdtElement sdtElement)
+    private void PopulateSdtElement(JObject parameters, SdtElement sdtElement, ErrorsCollector errorsCollector)
     {
         if (parameters == null)
         {
@@ -130,22 +73,25 @@ public class WordDocumentProcessor : IDocumentProcessor
             throw new ArgumentNullException(nameof(sdtElement));
         }
 
-        var tag = sdtElement.SdtProperties?.Descendants<Tag>().FirstOrDefault();
-        if (tag == null || string.IsNullOrWhiteSpace(tag.Val))
+        var sdtProperties = sdtElement.SdtProperties;
+        var tag = sdtProperties?.Descendants<Tag>().FirstOrDefault();
+        if (sdtProperties == null || tag == null || string.IsNullOrWhiteSpace(tag.Val))
         {
-            _logger.LogWarning(
-                "Placeholder found without tag. Placeholders without tag are not supported.");
+            errorsCollector.AddError("Placeholder found without tag. Placeholders without tag are not supported",
+                sdtElement);
+            _logger.LogWarning("Placeholder found without tag. Placeholders without tag are not supported");
             return;
         }
 
         if (string.IsNullOrWhiteSpace(tag.Val))
         {
-            _logger.LogWarning(
-                "Placeholder found without an empty tag. Placeholders without tag are not supported.");
+            errorsCollector.AddError("Placeholder found with an empty tag. Placeholders without tag are not supported",
+                sdtElement);
+            _logger.LogWarning("Placeholder found with an empty tag. Placeholders without tag are not supported");
             return;
         }
 
-        _logger.LogDebug($"Processing tag: '{tag.Val}'");
+        _logger.LogDebug("Processing tag: '{Tag}'", tag.Val);
         if (!parameters.TryGetValue(tag.Val!, out var token))
         {
             try
@@ -153,7 +99,8 @@ public class WordDocumentProcessor : IDocumentProcessor
                 token = parameters.SelectToken(tag.Val!);
                 if (token == null)
                 {
-                    _logger.LogInformation($"No parameter matched placeholder '{tag.Val}'.");
+                    errorsCollector.AddError($"No data matched placeholder '{tag.Val}'", sdtElement);
+                    _logger.LogInformation("No data matched placeholder '{Tag}'", tag.Val);
                     return;
                 }
             }
@@ -163,53 +110,93 @@ public class WordDocumentProcessor : IDocumentProcessor
             }
         }
 
+        var unsupportedTypes = new[]
+        {
+            typeof(DocumentFormat.OpenXml.Wordprocessing.DataBinding),
+            typeof(DocumentFormat.OpenXml.Office2013.Word.DataBinding),
+            typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentEquation),
+            typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentPicture),
+            typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentCitation),
+            typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentGroup),
+            typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentBibliography),
+            typeof(DocumentFormat.OpenXml.Office2010.Word.EntityPickerEmpty),
+            typeof(DocumentFormat.OpenXml.Office2013.Word.SdtRepeatedSectionItem),
+            typeof(DocumentFormat.OpenXml.Office2013.Word.WebExtensionLinked),
+            typeof(DocumentFormat.OpenXml.Office2013.Word.WebExtensionCreated),
+            typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentComboBox),
+            typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentDate),
+            typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentDocPartObject),
+            typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentDocPartList),
+            typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentDropDownList),
+            typeof(DocumentFormat.OpenXml.Office2010.Word.SdtContentCheckBox),
+            typeof(DocumentFormat.OpenXml.Office2013.Word.Appearance),
+        };
+
         try
         {
-            if (sdtElement.SdtProperties?.Descendants<SdtContentText>().Any() ?? false)
+            var unsupportedDescendants = sdtProperties.Descendants().Where(d => unsupportedTypes.Contains(d.GetType())).ToArray();
+            if (unsupportedDescendants.Any())
+            {
+                var typeNames = unsupportedDescendants.Select(d => d.GetType().Name);
+                _logger.LogWarning("Placeholder '{Tag}' has incorrect type '{Type}'. Only plain text, rich text and repeated section are supported", tag.Val, typeNames);
+                errorsCollector.AddError($"Placeholder '{tag.Val}' has incorrect type '{string.Join(", ", typeNames)}'. Only plain text, rich text and repeated section are supported", sdtElement);
+            }
+            else if (sdtProperties.Descendants<SdtContentText>().Any())
             {
                 // if <w:text> is present, then this is plain text control
-                ProcessText(sdtElement, tag, token);
+                ProcessText(sdtElement, tag, token, errorsCollector);
             }
-            else if (sdtElement.SdtProperties!.Descendants<SdtRepeatedSection>().Any())
+            else if (sdtProperties.Descendants<SdtRepeatedSection>().Any())
             {
                 // if <w15:repeatingSection> is present, then this is repeating section
-                ProcessRepeatedSection(sdtElement, tag, token);
+                ProcessRepeatedSection(sdtElement, tag, token, errorsCollector);
             }
             else
             {
-                // we'll suggest this is rich text control, but this could also be any other control
-                // the problem is Word puts no special property for rich text
-                ProcessRichText(sdtElement, tag, token); 
+                // sometimes Word puts no special property for rich text,
+                // so we can't write sdtProperties.Descendants<SdtRichText>().Any()
+                ProcessRichText(sdtElement, tag, token, errorsCollector);
             }
         }
         catch (Exception e)
         {
+            errorsCollector.AddError($"An error '{e.Message}' while processing '{tag.Val}'", sdtElement);
             _logger.LogError(e, "An error '{Message}' while processing '{Tag}'", e.Message, tag.Val);
         }
     }
 
-    private void ProcessRepeatedSection(SdtElement sdtElement, Tag tag, JToken token)
+    private void ProcessRepeatedSection(SdtElement sdtElement, Tag tag, JToken token, ErrorsCollector errorsCollector)
     {
         // Repeating Section Content Control
         if (token is not JArray tokens)
         {
+            errorsCollector.AddError(
+                $"The value of '{tag.Val}' parameter is not an array. Parameter mapped to a repeating section can only be an array",
+                sdtElement);
             _logger.LogWarning(
-                $"The value of '{tag.Val}' parameter is not an array. Parameter mapped " +
-                $"to a repeating section can only be an array.");
+                "The value of '{Tag}' parameter is not an array. Parameter mapped to a repeating section can only be an array",
+                tag.Val);
             return;
         }
 
         var content = sdtElement.Elements().FirstOrDefault(e => e.XName == W + "sdtContent");
-        if (content == null || content.FirstChild == null)
+        if (content?.FirstChild == null)
         {
-            _logger.LogCritical(
-                $"Encountered repeating with no content area for repeating item. It will be skipped.");
+            errorsCollector.AddError(
+                $"Encountered repeating '{tag.Val}' with no content area for repeating item. It will be skipped",
+                sdtElement);
+            _logger.LogWarning(
+                "Encountered repeating '{Tag}' with no content area for repeating item. It will be skipped", tag.Val);
         }
 
         if (content!.FirstChild is not SdtElement firstRepeatingItem)
         {
-            _logger.LogWarning($"Encountered repeating with wrong element instead of repeating item." +
-                               $" It will be skipped.");
+            errorsCollector.AddError(
+                $"Encountered repeating '{tag.Val}' with wrong element instead of repeating item. It will be skipped",
+                sdtElement);
+            _logger.LogWarning(
+                "Encountered repeating '{Tag}' with wrong element instead of repeating item. It will be skipped",
+                tag.Val);
             return;
         }
 
@@ -232,21 +219,14 @@ public class WordDocumentProcessor : IDocumentProcessor
             content.AppendChild(repeatingItemClone);
             foreach (var sdt in repeatingItemChildSdtElements)
             {
-                PopulateSdtElement(tokenChild, sdt);
+                PopulateSdtElement(tokenChild, sdt, errorsCollector);
             }
 
-            //lastRepeatingItem.InsertAfterSelf(repeatingItemClone);
-            //// If the last repeating section item is empty remove it.
-            //if (!lastRepeatingItem.Descendants<SdtElement>().Any(
-            //    e => e.SdtProperties?.Elements<ShowingPlaceholder>().SingleOrDefault() == null))
-            //{
-            //    lastRepeatingItem.Remove();
-            //}
-            _logger.LogDebug("Placeholder row inserted successfully.");
+            _logger.LogDebug("Placeholder row inserted successfully");
         }
     }
 
-    private void ProcessText(SdtElement sdtElement, Tag tag, JToken token)
+    private void ProcessText(SdtElement sdtElement, Tag tag, JToken token, ErrorsCollector errorsCollector)
     {
         _logger.LogDebug("{Tag}: {Token}", tag.Val, token);
 
@@ -257,7 +237,8 @@ public class WordDocumentProcessor : IDocumentProcessor
         var contentElement = FindContent(sdtElement);
         if (contentElement == null)
         {
-            _logger.LogWarning("Placeholder doesn't have any content area.");
+            errorsCollector.AddError($"Placeholder {tag.Val} doesn't have any content area", sdtElement);
+            _logger.LogWarning("Placeholder {Tag} doesn't have any content area", tag.Val);
             return;
         }
 
@@ -299,7 +280,8 @@ public class WordDocumentProcessor : IDocumentProcessor
             }
             else
             {
-                _logger.LogWarning($"Place holder '{tag.Val}' does not have a correct structure.");
+                errorsCollector.AddError($"Placeholder '{tag.Val}' does not have a correct structure", sdtElement);
+                _logger.LogWarning("Placeholder '{Tag}' does not have a correct structure", tag.Val);
                 return;
             }
         }
@@ -318,26 +300,36 @@ public class WordDocumentProcessor : IDocumentProcessor
         return sdtElement.Descendants().SingleOrDefault(e => e.XName == W + "sdtContent");
     }
 
-    private void ProcessRichText(SdtElement sdtElement, Tag tag, JToken content)
+    private void ProcessRichText(SdtElement sdtElement, Tag tag, JToken content, ErrorsCollector errorsCollector)
     {
         _logger.LogDebug("RichText: {Tag}: {Content}", tag.Val, content);
 
         if (sdtElement.Descendants<SdtContentText>().Any())
         {
-            _logger.LogWarning("HTML cannot be written to PlainText control. Use Rich Text Control instead");
+            errorsCollector.AddError(
+                $"HTML '{tag.Val}' cannot be written to PlainText control. Use Rich Text Control instead", sdtElement);
+            _logger.LogWarning("HTML '{Tag}' cannot be written to PlainText control. Use Rich Text Control instead",
+                tag.Val);
             return;
         }
-        
+
         var contentElement = FindContent(sdtElement);
         if (contentElement == null)
         {
-            _logger.LogWarning("Placeholder doesn't have any content area.");
+            errorsCollector.AddError($"Placeholder '{tag.Val}' doesn't have any content area", sdtElement);
+            _logger.LogWarning("Placeholder '{Tag}' doesn't have any content area", tag.Val);
             return;
         }
 
-        var mainDocumentPart = contentElement.Ancestors<Document>().First().MainDocumentPart ?? throw new NullReferenceException($"Failed to obtain MainDocumentPart from {contentElement}");
-        var docx = content.ToString().ConvertToDocx(mainDocumentPart);
+        var mainDocumentPart = contentElement.Ancestors<Document>().First().MainDocumentPart;
+        if (mainDocumentPart == null)
+        {
+            errorsCollector.AddError($"Failed to obtain MainDocumentPart while processing {tag.Val}", sdtElement);
+            _logger.LogWarning("Failed to obtain MainDocumentPart while processing {Tag}", tag.Val);
+            return;
+        }
 
+        var docx = content.ToString().ConvertToDocx(mainDocumentPart);
         if (docx.AbstractNums.Any() || docx.NumberingInstances.Any())
         {
             var numberingPart = mainDocumentPart.NumberingDefinitionsPart;
@@ -357,7 +349,7 @@ public class WordDocumentProcessor : IDocumentProcessor
         pasteHere.Append(docx.Paragraphs);
     }
 
-    private static void Insert<T>(NumberingDefinitionsPart numberingPart, IList<T> elements) 
+    private static void Insert<T>(NumberingDefinitionsPart numberingPart, IList<T> elements)
         where T : OpenXmlElement
     {
         var lastElement = numberingPart.Numbering.Elements<T>().LastOrDefault();

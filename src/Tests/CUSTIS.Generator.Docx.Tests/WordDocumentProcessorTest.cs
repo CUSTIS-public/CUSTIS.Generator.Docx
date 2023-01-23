@@ -29,7 +29,7 @@ public class WordDocumentProcessorTest
         // Act
         using (var fileStream = new FileStream(resultFile, FileMode.Open, FileAccess.ReadWrite))
         {
-            docProcessor.PopulateDocumentTemplate(input, fileStream);
+            docProcessor.PopulateDocumentTemplate(fileStream, input);
         }
 
         // Assert
@@ -65,7 +65,7 @@ public class WordDocumentProcessorTest
         // Act
         using (var fileStream = new FileStream(resultFile, FileMode.Open, FileAccess.ReadWrite))
         {
-            docProcessor.PopulateDocumentTemplate(input, fileStream);
+            docProcessor.PopulateDocumentTemplate(fileStream, input);
         }
 
         // Assert
@@ -101,7 +101,7 @@ public class WordDocumentProcessorTest
         // Act
         using (var fileStream = new FileStream(resultFile, FileMode.Open, FileAccess.ReadWrite))
         {
-            docProcessor.PopulateDocumentTemplate(input, fileStream);
+            docProcessor.PopulateDocumentTemplate(fileStream, input);
         }
 
         // Assert
@@ -113,5 +113,64 @@ public class WordDocumentProcessorTest
 
         NamerFactory.AdditionalInformation = "num";
         Approvals.VerifyXml(doc.MainDocumentPart?.NumberingDefinitionsPart?.Numbering?.OuterXml);
+    }
+    
+    [DataTestMethod]
+    [DataRow(true)]
+    [DataRow(false)]
+    public void PopulateComplexDocumentWithErrors(bool showErrorsInDocument)
+    {
+        // Arrange
+        var additionalInformation = showErrorsInDocument ? "showErrors" : "hideErrors";
+        var resultFile = $"ComplexDocument.{additionalInformation}.filled.docx";
+        File.Delete(resultFile);
+        File.Copy(Path.Combine(@"Samples", "ComplexDocument.template.docx"), resultFile);
+        var input = new JObject(); // пустой объект
+
+        var docProcessor = new WordDocumentProcessor(NullLogger<WordDocumentProcessor>.Instance);
+
+        // Act
+        using (var fileStream = new FileStream(resultFile, FileMode.Open, FileAccess.ReadWrite))
+        {
+            docProcessor.PopulateDocumentTemplate(fileStream, input, showErrorsInDocument);
+        }
+
+        // Assert
+        using var resultStream = new FileStream(resultFile, FileMode.Open, FileAccess.ReadWrite);
+        using var doc = WordprocessingDocument.Open(resultStream, false);
+
+        NamerFactory.AdditionalInformation = additionalInformation;
+        Approvals.VerifyXml(doc.MainDocumentPart?.Document.OuterXml);
+    }
+    
+    [DataTestMethod]
+    [DataRow(true)]
+    [DataRow(false)]
+    public void PopulateDocumentWithErrors(bool showErrorsInDocument)
+    {
+        // Arrange
+        var additionalInformation = showErrorsInDocument ? "showErrors" : "hideErrors";
+        var resultFile = $"errors.{additionalInformation}.filled.docx";
+        
+        File.Delete(resultFile);
+        File.Copy(Path.Combine(@"Samples", "errors.template.docx"), resultFile);
+        var input = new JObject
+        {
+            ["ns"] = "some<br/>text"
+        };
+        var docProcessor = new WordDocumentProcessor(NullLogger<WordDocumentProcessor>.Instance);
+
+        // Act
+        using (var fileStream = new FileStream(resultFile, FileMode.Open, FileAccess.ReadWrite))
+        {
+            docProcessor.PopulateDocumentTemplate(fileStream, input, showErrorsInDocument);
+        }
+
+        // Assert
+        using var resultStream = new FileStream(resultFile, FileMode.Open, FileAccess.ReadWrite);
+        using var doc = WordprocessingDocument.Open(resultStream, false);
+
+        NamerFactory.AdditionalInformation = additionalInformation;
+        Approvals.VerifyXml(doc.MainDocumentPart?.Document.OuterXml);
     }
 }
