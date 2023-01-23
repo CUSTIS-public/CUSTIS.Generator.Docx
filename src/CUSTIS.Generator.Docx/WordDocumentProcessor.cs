@@ -42,36 +42,102 @@ public class WordDocumentProcessor : IDocumentProcessor
             PopulateSdtElement(parameters, sdtElement, errors);
         }
 
-        if (showErrorsInDocument && errors.Errors.Any())
-        {
-            var bold = new Bold();
-            var color = new Color() { Val = Red };
-            var size = new FontSize() { Val = "36" };
-            var text = new Text("Some errors occured while generating document");
-            var runPro = new RunProperties(bold, color, size, text);
-            OpenXmlElement lastError = new Paragraph(new Run(runPro));
-            mainPart.Document.PrependChild(lastError);
-            foreach (var error in errors.Errors)
-            {
-                var newChild = new Paragraph(new Run(new Text(error.Message)));
-                lastError.InsertAfterSelf(newChild);
-                lastError = newChild;
-
-                if (error.Element is SdtElement sdtElement)
-                {
-                    foreach (var runProps in sdtElement.Descendants<RunProperties>())
-                    {
-                        runProps.PrependChild(new Color() { Val = Red });
-                        runProps.PrependChild(new Bold());
-                    }
-                }
-            }
-
-            var space = new Paragraph(new Run(new Text()));
-            lastError.InsertAfterSelf(space);
-        }
+        AddErrors(mainPart, errors, showErrorsInDocument);
 
         doc.Save();
+    }
+
+    private static void AddErrors(MainDocumentPart mainPart, ErrorsCollector errors, bool showErrorsInDocument)
+    {
+        if (!showErrorsInDocument || !errors.Errors.Any())
+        {
+            return;
+        }
+
+        var errorNum = 1;
+        var bookmarkId = GetFreeBookmarkId(mainPart);
+
+        var lastError = GenerateErrorsHeading();
+        mainPart.Document.Body!.PrependChild(lastError);
+
+        foreach (var error in errors.Errors)
+        {
+            var bookmarkName = $"__docx_error_{errorNum++}";
+            var newChild = GenerateError(error, bookmarkName);
+            lastError.InsertAfterSelf(newChild);
+            lastError = newChild;
+
+            if (error.Element is not SdtElement sdtElement)
+            {
+                continue;
+            }
+            
+            MakeRed(sdtElement);
+
+            sdtElement.InsertBeforeSelf(new BookmarkStart
+            {
+                Id = new StringValue(bookmarkId.ToString()),
+                Name = new StringValue(bookmarkName)
+            });
+            sdtElement.InsertAfterSelf(new BookmarkEnd
+            {
+                Id = new StringValue(bookmarkId.ToString())
+            });
+
+            bookmarkId++;
+        }
+
+        var space = new Paragraph(new Run(new Text()));
+        lastError.InsertAfterSelf(space);
+    }
+
+    private static void MakeRed(SdtElement sdtElement)
+    {
+        foreach (var runProps in sdtElement.Descendants<RunProperties>())
+        {
+            runProps.PrependChild(new Color() { Val = Red });
+            runProps.PrependChild(new Bold());
+        }
+    }
+
+    private static Paragraph GenerateError(Error error, string bookmarkName)
+    {
+        var underline = new Underline
+        {
+            Val = new EnumValue<UnderlineValues>(UnderlineValues.Single)
+        };
+        var blueColor = new Color() { Val = "2F5496" };
+        var hyperlink = new Hyperlink(new Run(new RunProperties(underline, blueColor), new Text(error.Message)))
+        {
+            Anchor = new StringValue(bookmarkName),
+            History = new OnOffValue(true)
+        };
+        var newChild = new Paragraph(hyperlink);
+        return newChild;
+    }
+
+    private static int GetFreeBookmarkId(MainDocumentPart mainPart)
+    {
+        return mainPart.Document.Descendants<BookmarkStart>().Select(s =>
+        {
+            if (int.TryParse(s.Id, out var i))
+            {
+                return (int?)i;
+            }
+
+            return null;
+        }).Max() ?? 0 + 1;
+    }
+
+    private static OpenXmlElement GenerateErrorsHeading()
+    {
+        var bold = new Bold();
+        var color = new Color() { Val = Red };
+        var size = new FontSize() { Val = "36" };
+        var text = new Text("Some errors occured while generating document");
+        var runPro = new RunProperties(bold, color, size, text);
+        OpenXmlElement lastError = new Paragraph(new Run(runPro));
+        return lastError;
     }
 
     private void PopulateSdtElement(JObject parameters, SdtElement sdtElement, ErrorsCollector errorsCollector)
@@ -147,12 +213,17 @@ public class WordDocumentProcessor : IDocumentProcessor
 
         try
         {
-            var unsupportedDescendants = sdtProperties.Descendants().Where(d => unsupportedTypes.Contains(d.GetType())).ToArray();
+            var unsupportedDescendants =
+                sdtProperties.Descendants().Where(d => unsupportedTypes.Contains(d.GetType())).ToArray();
             if (unsupportedDescendants.Any())
             {
                 var typeNames = unsupportedDescendants.Select(d => d.GetType().Name);
-                _logger.LogWarning("Placeholder '{Tag}' has incorrect type '{Type}'. Only plain text, rich text and repeated section are supported", tag.Val, typeNames);
-                errorsCollector.AddError($"Placeholder '{tag.Val}' has incorrect type '{string.Join(", ", typeNames)}'. Only plain text, rich text and repeated section are supported", sdtElement);
+                _logger.LogWarning(
+                    "Placeholder '{Tag}' has incorrect type '{Type}'. Only plain text, rich text and repeated section are supported",
+                    tag.Val, typeNames);
+                errorsCollector.AddError(
+                    $"Placeholder '{tag.Val}' has incorrect type '{string.Join(", ", typeNames)}'. Only plain text, rich text and repeated section are supported",
+                    sdtElement);
             }
             else if (sdtProperties.Descendants<SdtContentText>().Any())
             {
@@ -199,7 +270,8 @@ public class WordDocumentProcessor : IDocumentProcessor
                 $"Encountered repeating '{tag.Val}' with no content area for repeating item. It will be skipped",
                 sdtElement);
             _logger.LogWarning(
-                "Encountered repeating '{Tag}' with no content area for repeating item. It will be skipped", tag.Val);
+                "Encountered repeating '{Tag}' with no content area for repeating item. It will be skipped",
+                tag.Val);
         }
 
         if (content!.FirstChild is not SdtElement firstRepeatingItem)
@@ -226,10 +298,15 @@ public class WordDocumentProcessor : IDocumentProcessor
         {
             if (tokenChild is not JObject jObject)
             {
-                _logger.LogWarning("Element '{Token}' in '{Tag}' is not an object. It should be an object in '{{}}' braces", tokenChild, tag.Val);
-                errorsCollector.AddError($"Element '{tokenChild}' in '{tag.Val}' is not an object. It should be an object in '{{}}' braces", sdtElement);
+                _logger.LogWarning(
+                    "Element '{Token}' in '{Tag}' is not an object. It should be an object in '{{}}' braces",
+                    tokenChild, tag.Val);
+                errorsCollector.AddError(
+                    $"Element '{tokenChild}' in '{tag.Val}' is not an object. It should be an object in '{{}}' braces",
+                    sdtElement);
                 continue;
             }
+
             // Find the first repeating section item, and clone it.
             var repeatingItemClone = firstRepeatingItem.CloneNode(true);
             var repeatingItemChildSdtElements =
@@ -326,7 +403,8 @@ public class WordDocumentProcessor : IDocumentProcessor
         if (sdtElement.Descendants<SdtContentText>().Any())
         {
             errorsCollector.AddError(
-                $"HTML '{tag.Val}' cannot be written to PlainText control. Use Rich Text Control instead", sdtElement);
+                $"HTML '{tag.Val}' cannot be written to PlainText control. Use Rich Text Control instead",
+                sdtElement);
             _logger.LogWarning("HTML '{Tag}' cannot be written to PlainText control. Use Rich Text Control instead",
                 tag.Val);
             return;
