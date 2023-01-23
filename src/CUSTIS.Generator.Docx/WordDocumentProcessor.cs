@@ -13,7 +13,7 @@ namespace CUSTIS.Generator.Docx;
 
 public class WordDocumentProcessor : IDocumentProcessor
 {
-    const string Wordml2006Ns = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+    private const string Wordml2006Ns = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
 
     private readonly ILogger<WordDocumentProcessor> _logger;
     private static readonly XNamespace W = Wordml2006Ns;

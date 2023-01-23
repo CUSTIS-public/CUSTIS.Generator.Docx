@@ -43,8 +43,10 @@ public static class HtmlToWordConverter
         {
             if (token.ValueSpan.IsWhiteSpace())
             {
-                if(current.Length > 0 && current[^1] == ' ')
+                if (current.Length > 0 && current[^1] == ' ')
+                {
                     continue;
+                }
 
                 current.Append(' ');
                 continue;
@@ -67,18 +69,19 @@ public static class HtmlToWordConverter
                     }
 
                     var closingTag = match.ValueSpan.Slice(1).Trim();
-                    if (currentList != null 
+                    if (currentList != null
                         && (closingTag.Equals("ul", StringComparison.InvariantCultureIgnoreCase) || closingTag.Equals("ol", StringComparison.InvariantCultureIgnoreCase)))
                     {
                         AppendParagraph(paragraphs, current, currentList);
                         current = new StringBuilder();
-                        
+
                         currentList.Level--;
                         if (currentList.Level < 0)
                         {
                             currentList = null;
                         }
                     }
+
                     continue;
                 }
 
@@ -123,10 +126,12 @@ public static class HtmlToWordConverter
     private static void AppendParagraph(IList<Paragraph> paragraphs, StringBuilder current, ListInfo? currentList)
     {
         var text = current.ToString().Trim();
-        
+
         if (text.Length <= 0)
+        {
             return;
-        
+        }
+
         if (currentList != null)
         {
             paragraphs.Add(CreateListItem(text, currentList));
@@ -175,8 +180,7 @@ public static class HtmlToWordConverter
     private static NumberingInstance CreateFormatInstance(AbstractNum abstractFormat, int maxNumberId)
     {
         return new NumberingInstance(
-            new AbstractNumId() { Val = abstractFormat.AbstractNumberId }
-        ) { NumberID = maxNumberId };
+            new AbstractNumId() { Val = abstractFormat.AbstractNumberId }) { NumberID = maxNumberId };
     }
 
     private static AbstractNum CreateAbstractFormat(int maxAbstractNumberId, NumberFormatValues numberFormat,
@@ -193,13 +197,11 @@ public static class HtmlToWordConverter
                         Left = $"{720 * (l + 1)}",
                         Hanging = "360"
                     }
-                }
-            )
+                })
             {
                 LevelIndex = l,
                 StartNumberingValue = new() { Val = 1 }
-            }
-        );
+            });
         return new AbstractNum(levels) { AbstractNumberId = maxAbstractNumberId };
     }
 
