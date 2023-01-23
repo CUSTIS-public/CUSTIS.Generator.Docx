@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace CUSTIS.DocumentService;
+namespace CUSTIS.Generator.Docx;
 public static class JsonExtensions
 {
     public static bool TryGetValue<T>(this JObject obj, string propertyName, out T? value) where T : JToken

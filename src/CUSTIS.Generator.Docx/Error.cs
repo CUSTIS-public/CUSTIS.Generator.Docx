@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace CUSTIS.DocumentService;
+namespace CUSTIS.Generator.Docx;
 public class Error
 {
     public string Message { get; set; }

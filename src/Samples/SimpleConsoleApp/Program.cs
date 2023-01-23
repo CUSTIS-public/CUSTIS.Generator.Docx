@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using CUSTIS.DocumentService;
+using CUSTIS.Generator.Docx;
 using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.Logging.Abstractions;
 

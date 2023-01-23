@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TableCell = DocumentFormat.OpenXml.Wordprocessing.TableCell;
 
-namespace CUSTIS.DocumentService;
+namespace CUSTIS.Generator.Docx;
 
 public interface IDocumentProcessor
 {

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace CUSTIS.DocumentService;
+namespace CUSTIS.Generator.Docx;
 public static class StreamExtensions
 {
     public static Stream ConvertToBase64(this Stream stream)

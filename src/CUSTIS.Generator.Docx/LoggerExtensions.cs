@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace CUSTIS.DocumentService;
+namespace CUSTIS.Generator.Docx;
 
 internal static class LoggerExtensions
 {

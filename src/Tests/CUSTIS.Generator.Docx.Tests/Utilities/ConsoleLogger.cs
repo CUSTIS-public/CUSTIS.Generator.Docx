@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
 
-namespace CUSTIS.DocumentServiceTest.Utilities;
+namespace CUSTIS.Generator.Docx.Tests.Utilities;
 public class ConsoleLogger : ILogger
 {
     public IDisposable BeginScope<TState>(TState state) => new NullLogScope<TState>(state);

@@ -6,10 +6,10 @@ using System.Linq;
 using ApprovalTests;
 using ApprovalTests.Namers;
 using ApprovalTests.Reporters;
-using CUSTIS.DocumentService;
+using CUSTIS.Generator.Docx;
 using DocumentFormat.OpenXml.Packaging;
 
-namespace Novo.DocumentService.Tests;
+namespace CUSTIS.Generator.Docx.Tests;
 
 [TestClass]
 [UseReporter(typeof(DiffReporter))]

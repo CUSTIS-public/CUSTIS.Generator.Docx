@@ -7,7 +7,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using Paragraph = DocumentFormat.OpenXml.Wordprocessing.Paragraph;
 using Run = DocumentFormat.OpenXml.Wordprocessing.Run;
 
-namespace CUSTIS.DocumentService;
+namespace CUSTIS.Generator.Docx;
 
 public static class HtmlToWordConverter
 {
