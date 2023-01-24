@@ -71,7 +71,7 @@ public class WordDocumentProcessor : IDocumentProcessor
             {
                 continue;
             }
-            
+
             MakeRed(sdtElement);
 
             sdtElement.InsertBeforeSelf(new BookmarkStart
