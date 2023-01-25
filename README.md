@@ -43,7 +43,7 @@ Output: `Hello, CUSTIS.Generator.Docx!`
 
 ## HTML
 
-![HTML](.media/HTML.png)
+![HTML](.media/html.png)
 
 1. Use `Rich Text Content Control` if you need to render HTML
 2. Open `Properties`

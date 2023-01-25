@@ -16,6 +16,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{3B3ABBC6-96D5-416A-BAAA-85C62A3ABB3B}"
 	ProjectSection(SolutionItems) = preProject
 		..\README.md = ..\README.md
+		..\LICENSE = ..\LICENSE
 	EndProjectSection
 EndProject
 Global
