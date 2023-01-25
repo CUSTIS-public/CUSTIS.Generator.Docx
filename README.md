@@ -71,7 +71,7 @@ CUSTIS.Generator.Docx!
 3. Fill `Tag` with the name of array from JSON
 4. Use either `Plain` or `Rich Text Content Controls` inside `Repeated Section Control` to render text 
 
-Arrays can be rendered as paragraphs, lists or even tables. You can even render nested arrays!
+Arrays can be rendered as paragraphs, lists or even tables. You can render nested arrays too (with any number of nested lists).
 
 Data sample:
 ```csharp
