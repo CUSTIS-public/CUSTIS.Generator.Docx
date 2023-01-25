@@ -87,7 +87,7 @@ Sports:
 
 # Advanced features
 
-[Json Path expressions](https://goessner.net/articles/JsonPath) can be used to query data. `CUSTIS.Generator.Docx` uses `Json.NET` (from Newtonsoft). You can get some samples of JSON path [here](https://www.newtonsoft.com/json/help/html/QueryJsonSelectToken.htm). 
+[Json Path expressions](https://goessner.net/articles/JsonPath) can be used to query data (use it as `Tag` in Word content control). `CUSTIS.Generator.Docx` uses `Json.NET` (from Newtonsoft). You can get some samples of JSON path [here](https://www.newtonsoft.com/json/help/html/QueryJsonSelectToken.htm). 
 
 # Release
 
