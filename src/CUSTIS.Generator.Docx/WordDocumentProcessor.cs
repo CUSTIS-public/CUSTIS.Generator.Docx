@@ -20,6 +20,19 @@ public class WordDocumentProcessor : IDocumentProcessor
     private static readonly XNamespace W = Wordml2006Ns;
 
     public WordDocumentProcessor(ILogger<WordDocumentProcessor> log) => _logger = log;
+    
+    public async Task<MemoryStream> PopulateDocumentTemplate(string fileName, string jsonData, bool showErrorsInDocument = false)
+    {
+        await using var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+        var filledStream = new MemoryStream();
+        await fileStream.CopyToAsync(filledStream);
+
+        var input = JObject.Parse(jsonData);
+
+        PopulateDocumentTemplate(filledStream, input);
+        filledStream.Position = 0;
+        return filledStream;
+    }
 
     public void PopulateDocumentTemplate(Stream stream, JObject parameters, bool showErrorsInDocument = false)
     {

@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using ApprovalTests;
 using ApprovalTests.Namers;
 using ApprovalTests.Reporters;
@@ -15,6 +16,35 @@ namespace CUSTIS.Generator.Docx.Tests;
 [UseReporter(typeof(DiffReporter))]
 public class WordDocumentProcessorTest
 {
+    [TestMethod]
+    public async Task PopulateSimpleDocument()
+    {
+        // Arrange
+        var resultFile = "simple.filled.docx";
+        File.Delete(resultFile);
+        
+        var input = await File.ReadAllTextAsync(Path.Combine(@"Samples", "simple.input.json"));
+
+        var docProcessor = new WordDocumentProcessor(NullLogger<WordDocumentProcessor>.Instance);
+
+        // Act
+        using var filled = await docProcessor.PopulateDocumentTemplate(Path.Combine(@"Samples", "simple.template.docx"), input);
+        await using (var resultFileStream = new FileStream(resultFile, FileMode.OpenOrCreate, FileAccess.Write))
+        {
+            await filled.CopyToAsync(resultFileStream);
+        }
+
+        // Assert
+        await using var resultStream = new FileStream(resultFile, FileMode.Open, FileAccess.Read);
+        using var doc = WordprocessingDocument.Open(resultStream, false);
+
+        NamerFactory.AdditionalInformation = "doc";
+        Approvals.VerifyXml(doc.MainDocumentPart?.Document.OuterXml);
+
+        NamerFactory.AdditionalInformation = "num";
+        Approvals.VerifyXml(doc.MainDocumentPart?.NumberingDefinitionsPart?.Numbering?.OuterXml);
+    }
+    
     [TestMethod]
     public void PopulateComplexDocument()
     {

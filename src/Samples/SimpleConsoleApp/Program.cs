@@ -7,7 +7,7 @@ Console.WriteLine("Welcome to CUSTIS.Generator.DocX!");
 
 File.Copy("SimpleTemplate.docx", "SimpleTemplate.filled.docx");
 
-using var fileStream = new FileStream("SimpleTemplate.docx", FileMode.Open, FileAccess.ReadWrite);
+using var fileStream = new FileStream("SimpleTemplate.filled.docx", FileMode.Open, FileAccess.ReadWrite);
 var input = new JObject
 {
     ["textInRun"] = "Text in Run",
