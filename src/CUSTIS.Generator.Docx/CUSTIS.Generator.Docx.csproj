@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Description>Generates docx document from docx template using data in JSON-format. This is a port from novodocx with some improvements. See https://github.com/CUSTIS-public/CUSTIS.Generator.Docx for details.</Description>
   </PropertyGroup>
 
   <ItemGroup>
