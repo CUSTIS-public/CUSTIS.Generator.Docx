@@ -89,6 +89,11 @@ Sports:
 
 [Json Path expressions](https://goessner.net/articles/JsonPath) can be used to query data. `CUSTIS.Generator.Docx` uses `Json.NET` (from Newtonsoft). You can get some samples of JSON path [here](https://www.newtonsoft.com/json/help/html/QueryJsonSelectToken.htm). 
 
+# Release
+
+1. Change version in `Directory.Build.props`
+2. Use internal CUSTIS git to push to nuget 
+
 # Links
 
 * [Some info about creating Word templates](https://support.clio.com/hc/en-us/articles/203359420-Tutorial-Creating-a-Protected-Fillable-Template-in-Microsoft-Word-for-Use-in-Document-Automation)
