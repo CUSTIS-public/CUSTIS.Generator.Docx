@@ -15,7 +15,7 @@ var templateFile = "template.docx"; // file with template
 
 // populate file with data
 var docProcessor = new WordDocumentProcessor(NullLogger<WordDocumentProcessor>.Instance);
-using var filled = await docProcessor.PopulateDocumentTemplate(templateFile, input);
+using var filled = await docProcessor.PopulateDocumentTemplate(templateFile, jsonData);
 
 // save file
 await using var resultFileStream = new FileStream("destination.docx", FileMode.OpenOrCreate, FileAccess.Write);
