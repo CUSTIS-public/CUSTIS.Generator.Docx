@@ -4,12 +4,8 @@ using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Office2013.Word;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
-using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Color = DocumentFormat.OpenXml.Wordprocessing.Color;
 using TableCell = DocumentFormat.OpenXml.Wordprocessing.TableCell;
 
 namespace CUSTIS.Generator.Docx;
