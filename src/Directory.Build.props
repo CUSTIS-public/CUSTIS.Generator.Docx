@@ -7,7 +7,7 @@
         <RepositoryUrl>https://github.com/CUSTIS-public/CUSTIS.Generator.Docx</RepositoryUrl>
         <PackageProjectUrl>https://github.com/CUSTIS-public/CUSTIS.Generator.Docx</PackageProjectUrl>
         <RepositoryType>git</RepositoryType>
-        <Version>1.1.0</Version>
+        <Version>1.1.1</Version>
         <Authors>ishatalkin@custis.ru</Authors>
         <Company>CUSTIS</Company>
         <Copyright>Copyright © 2023-$([System.DateTime]::Now.Year) CUSTIS</Copyright>
