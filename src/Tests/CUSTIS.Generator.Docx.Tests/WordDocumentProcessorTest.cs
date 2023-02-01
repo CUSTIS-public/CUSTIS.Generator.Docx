@@ -200,4 +200,33 @@ public class WordDocumentProcessorTest
         NamerFactory.AdditionalInformation = additionalInformation;
         Approvals.VerifyXml(doc.MainDocumentPart?.Document.OuterXml);
     }
+    
+    [TestMethod]
+    public async Task TestConditionalVisibility()
+    {
+        // Arrange
+        var resultFile = "conditional.filled.docx";
+        File.Delete(resultFile);
+        
+        var input = await File.ReadAllTextAsync(Path.Combine(@"Samples", "conditional.input.json"));
+
+        var docProcessor = new WordDocumentProcessor(NullLogger<WordDocumentProcessor>.Instance);
+
+        // Act
+        using var filled = await docProcessor.PopulateDocumentTemplate(Path.Combine(@"Samples", "conditional.template.docx"), input, true);
+        await using (var resultFileStream = new FileStream(resultFile, FileMode.OpenOrCreate, FileAccess.Write))
+        {
+            await filled.CopyToAsync(resultFileStream);
+        }
+
+        // Assert
+        await using var resultStream = new FileStream(resultFile, FileMode.Open, FileAccess.Read);
+        using var doc = WordprocessingDocument.Open(resultStream, false);
+
+        NamerFactory.AdditionalInformation = "doc";
+        Approvals.VerifyXml(doc.MainDocumentPart?.Document.OuterXml);
+
+        NamerFactory.AdditionalInformation = "num";
+        Approvals.VerifyXml(doc.MainDocumentPart?.NumberingDefinitionsPart?.Numbering?.OuterXml);
+    }
 }

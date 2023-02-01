@@ -50,7 +50,7 @@
             <w:u w:val="single" />
             <w:color w:val="2F5496" />
           </w:rPr>
-          <w:t>Placeholder 'ns' has incorrect type 'SdtContentComboBox'. Only plain text, rich text and repeated section are supported</w:t>
+          <w:t>Placeholder 'ns' has incorrect type 'SdtContentComboBox'. Only plain text, rich text and repeating section are supported</w:t>
         </w:r>
       </w:hyperlink>
     </w:p>

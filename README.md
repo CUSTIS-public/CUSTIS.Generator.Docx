@@ -85,9 +85,30 @@ Sports:
 2. Name: football
 ```
 
+## Visibility conditions
+
+You can manage visibility of content using conditional expressions.
+
+1. Wrap the content into `Plain` or `Rich Text Content Control`
+2. Open `Properties`
+3. Fill `Tag` with `visible: expression` (e.g. `visible: myField == 'git'`)
+
+You can use other content controls inside visibility control.
+
+Supported expressions:
+* `operand`, `!operand`;
+* `op1 == op2`, `op1 != op2`;
+* only for ints: `op1 < op2`, `op1 > op2`, `op1 <= op2`, `op1 >= op2`.
+
+Examples of expressions with their result (including `!null`, `null == null`, etc.) could be found in [ExpressionEvaluatorTests](src/Tests/CUSTIS.Generator.Docx.Tests/ExpressionEvaluatorTests.cs#9).
+
 # Advanced features
 
 [Json Path expressions](https://goessner.net/articles/JsonPath) can be used to query data (use it as `Tag` in Word content control). `CUSTIS.Generator.Docx` uses `Json.NET` (from Newtonsoft). You can get some samples of JSON path [here](https://www.newtonsoft.com/json/help/html/QueryJsonSelectToken.htm). 
+
+# Limitations
+
+MS Word doesn't allow to repeat columns. The workaround is to create multiple tables (with 1, 2, ... columns) and to wrap each table in [visibility expression](#visibility-conditions). 
 
 # Release
 

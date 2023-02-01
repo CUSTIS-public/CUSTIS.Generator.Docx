@@ -1,8 +1,11 @@
-﻿using System.Xml.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Xml.Linq;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Office2013.Word;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -14,14 +17,37 @@ namespace CUSTIS.Generator.Docx;
 public class WordDocumentProcessor : IDocumentProcessor
 {
     private const string Wordml2006Ns = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
-    private const string Red = "C00000";
 
     private readonly ILogger<WordDocumentProcessor> _logger;
     private static readonly XNamespace W = Wordml2006Ns;
 
+    /// <summary> Controls (SDT) that we don't process  </summary>
+    private static readonly Type[] UnsupportedSdtTypes = new[]
+    {
+        typeof(DocumentFormat.OpenXml.Wordprocessing.DataBinding),
+        typeof(DocumentFormat.OpenXml.Office2013.Word.DataBinding),
+        typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentEquation),
+        typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentPicture),
+        typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentCitation),
+        typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentGroup),
+        typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentBibliography),
+        typeof(DocumentFormat.OpenXml.Office2010.Word.EntityPickerEmpty),
+        typeof(DocumentFormat.OpenXml.Office2013.Word.SdtRepeatedSectionItem),
+        typeof(DocumentFormat.OpenXml.Office2013.Word.WebExtensionLinked),
+        typeof(DocumentFormat.OpenXml.Office2013.Word.WebExtensionCreated),
+        typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentComboBox),
+        typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentDate),
+        typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentDocPartObject),
+        typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentDocPartList),
+        typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentDropDownList),
+        typeof(DocumentFormat.OpenXml.Office2010.Word.SdtContentCheckBox),
+        typeof(DocumentFormat.OpenXml.Office2013.Word.Appearance),
+    };
+
     public WordDocumentProcessor(ILogger<WordDocumentProcessor> log) => _logger = log;
-    
-    public async Task<MemoryStream> PopulateDocumentTemplate(string fileName, string jsonData, bool showErrorsInDocument = false)
+
+    public async Task<MemoryStream> PopulateDocumentTemplate(string fileName, string jsonData,
+        bool showErrorsInDocument = false)
     {
         await using var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
         var filledStream = new MemoryStream();
@@ -29,7 +55,7 @@ public class WordDocumentProcessor : IDocumentProcessor
 
         var input = JObject.Parse(jsonData);
 
-        PopulateDocumentTemplate(filledStream, input);
+        PopulateDocumentTemplate(filledStream, input, showErrorsInDocument);
         filledStream.Position = 0;
         return filledStream;
     }
@@ -47,7 +73,7 @@ public class WordDocumentProcessor : IDocumentProcessor
         var errors = new ErrorsCollector();
 
         var topLevelSdtElements
-            = mainPart.Document.Descendants<SdtElement>().Where(e => !e.Ancestors<SdtElement>().Any());
+            = mainPart.Document.Descendants<SdtElement>().Where(e => !e.Ancestors<SdtElement>().Any()).ToArray();
         // Note: An <sdt> can be SdtBlock, SdtCell, SdtRow, SdtRun, SdtRunRub, and they are inherit
         // from SdtElement. That's why we used SdtElement above.
         foreach (var sdtElement in topLevelSdtElements)
@@ -55,102 +81,12 @@ public class WordDocumentProcessor : IDocumentProcessor
             PopulateSdtElement(parameters, sdtElement, errors);
         }
 
-        AddErrors(mainPart, errors, showErrorsInDocument);
+        if (showErrorsInDocument)
+        {
+            errors.AddErrors(mainPart);
+        }
 
         doc.Save();
-    }
-
-    private static void AddErrors(MainDocumentPart mainPart, ErrorsCollector errors, bool showErrorsInDocument)
-    {
-        if (!showErrorsInDocument || !errors.Errors.Any())
-        {
-            return;
-        }
-
-        var errorNum = 1;
-        var bookmarkId = GetFreeBookmarkId(mainPart);
-
-        var lastError = GenerateErrorsHeading();
-        mainPart.Document.Body!.PrependChild(lastError);
-
-        foreach (var error in errors.Errors)
-        {
-            var bookmarkName = $"__docx_error_{errorNum++}";
-            var newChild = GenerateError(error, bookmarkName);
-            lastError.InsertAfterSelf(newChild);
-            lastError = newChild;
-
-            if (error.Element is not SdtElement sdtElement)
-            {
-                continue;
-            }
-
-            MakeRed(sdtElement);
-
-            sdtElement.InsertBeforeSelf(new BookmarkStart
-            {
-                Id = new StringValue(bookmarkId.ToString()),
-                Name = new StringValue(bookmarkName)
-            });
-            sdtElement.InsertAfterSelf(new BookmarkEnd
-            {
-                Id = new StringValue(bookmarkId.ToString())
-            });
-
-            bookmarkId++;
-        }
-
-        var space = new Paragraph(new Run(new Text()));
-        lastError.InsertAfterSelf(space);
-    }
-
-    private static void MakeRed(SdtElement sdtElement)
-    {
-        foreach (var runProps in sdtElement.Descendants<RunProperties>())
-        {
-            runProps.PrependChild(new Color() { Val = Red });
-            runProps.PrependChild(new Bold());
-        }
-    }
-
-    private static Paragraph GenerateError(Error error, string bookmarkName)
-    {
-        var underline = new Underline
-        {
-            Val = new EnumValue<UnderlineValues>(UnderlineValues.Single)
-        };
-        var blueColor = new Color() { Val = "2F5496" };
-        var hyperlink = new Hyperlink(new Run(new RunProperties(underline, blueColor), new Text(error.Message)))
-        {
-            Anchor = new StringValue(bookmarkName),
-            History = new OnOffValue(true)
-        };
-        var newChild = new Paragraph(hyperlink);
-        return newChild;
-    }
-
-    private static int GetFreeBookmarkId(MainDocumentPart mainPart)
-    {
-        return mainPart.Document.Descendants<BookmarkStart>().Select(s =>
-        {
-            if (int.TryParse(s.Id, out var i))
-            {
-                return (int?)i;
-            }
-
-            return null;
-        }).Max() ?? 0 + 1;
-    }
-
-    private static OpenXmlElement GenerateErrorsHeading()
-    {
-        var bold = new Bold();
-        var color = new Color() { Val = Red };
-        var size = new FontSize() { Val = "36" };
-        var text = new Text("Some errors occured while generating document");
-        var runPro = new RunProperties(bold, color, size, text);
-        OpenXmlElement lastError = new Paragraph(new Run(runPro));
-        return lastError;
     }
 
     private void PopulateSdtElement(JObject parameters, SdtElement sdtElement, ErrorsCollector errorsCollector)
@@ -165,88 +101,86 @@ public class WordDocumentProcessor : IDocumentProcessor
             throw new ArgumentNullException(nameof(sdtElement));
         }
 
+        if (!TryGetTag(sdtElement, errorsCollector, out var tag))
+        {
+            return;
+        }
+
+        _logger.LogDebug("Processing tag: '{Tag}'", tag);
+        
         var sdtProperties = sdtElement.SdtProperties;
-        var tag = sdtProperties?.Descendants<Tag>().FirstOrDefault();
-        if (sdtProperties == null || tag == null || string.IsNullOrWhiteSpace(tag.Val))
+        if (sdtProperties == null)
         {
-            errorsCollector.AddError("Placeholder found without tag. Placeholders without tag are not supported",
+            errorsCollector.AddError(
+                $"Placeholder '{tag}' found without sdt properties. Placeholders without sdt properties are not supported",
                 sdtElement);
-            _logger.LogWarning("Placeholder found without tag. Placeholders without tag are not supported");
+            _logger.LogWarning(
+                "Placeholder '{Tag}' found without sdt properties. Placeholders without sdt properties are not supported",
+                tag);
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(tag.Val))
+        var unsupportedDescendants =
+            sdtProperties.Descendants().Where(d => UnsupportedSdtTypes.Contains(d.GetType())).ToArray();
+        if (unsupportedDescendants.Any())
         {
-            errorsCollector.AddError("Placeholder found with an empty tag. Placeholders without tag are not supported",
+            var typeNames = unsupportedDescendants.Select(d => d.GetType().Name);
+            _logger.LogWarning(
+                "Placeholder '{Tag}' has incorrect type '{Type}'. Only plain text, rich text and repeating section are supported",
+                tag, typeNames);
+            errorsCollector.AddError(
+                $"Placeholder '{tag}' has incorrect type '{string.Join(", ", typeNames)}'. Only plain text, rich text and repeating section are supported",
                 sdtElement);
-            _logger.LogWarning("Placeholder found with an empty tag. Placeholders without tag are not supported");
             return;
         }
 
-        _logger.LogDebug("Processing tag: '{Tag}'", tag.Val);
-        if (!parameters.TryGetValue(tag.Val!, out var token))
+        if (tag.StartsWith("visible:", StringComparison.InvariantCultureIgnoreCase))
         {
-            try
+            if (IsRepeatingSection(sdtProperties))
             {
-                token = parameters.SelectToken(tag.Val!);
-                if (token == null)
-                {
-                    errorsCollector.AddError($"No data matched placeholder '{tag.Val}'", sdtElement);
-                    _logger.LogInformation("No data matched placeholder '{Tag}'", tag.Val);
-                    return;
-                }
+                _logger.LogWarning(
+                    "Conditional tag '{Tag}' can be applied only on plain or rich text, but is applied on repeating section",
+                    tag);
+                errorsCollector.AddError(
+                    $"Conditional tag '{tag}' can be applied only on plain or rich text, but is applied on repeating section",
+                    sdtElement);
+                return;
             }
-            catch (JsonException e) when (e.Message.Contains("Path returned multiple tokens"))
-            {
-                token = new JArray(parameters.SelectTokens(tag.Val!));
-            }
+
+            // this tag controls visibility of contained element
+            // "visible: x == y" -> "x == y"
+            var visibilityCondition = tag.Replace("visible:", string.Empty, StringComparison.InvariantCultureIgnoreCase)
+                .Trim();
+
+            ProcessIfNecessary(sdtElement, visibilityCondition, parameters, errorsCollector);
+            return;
         }
 
-        var unsupportedTypes = new[]
+        if(!parameters.TryGetData(tag, out var token, out var dataError))
         {
-            typeof(DocumentFormat.OpenXml.Wordprocessing.DataBinding),
-            typeof(DocumentFormat.OpenXml.Office2013.Word.DataBinding),
-            typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentEquation),
-            typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentPicture),
-            typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentCitation),
-            typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentGroup),
-            typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentBibliography),
-            typeof(DocumentFormat.OpenXml.Office2010.Word.EntityPickerEmpty),
-            typeof(DocumentFormat.OpenXml.Office2013.Word.SdtRepeatedSectionItem),
-            typeof(DocumentFormat.OpenXml.Office2013.Word.WebExtensionLinked),
-            typeof(DocumentFormat.OpenXml.Office2013.Word.WebExtensionCreated),
-            typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentComboBox),
-            typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentDate),
-            typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentDocPartObject),
-            typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentDocPartList),
-            typeof(DocumentFormat.OpenXml.Wordprocessing.SdtContentDropDownList),
-            typeof(DocumentFormat.OpenXml.Office2010.Word.SdtContentCheckBox),
-            typeof(DocumentFormat.OpenXml.Office2013.Word.Appearance),
-        };
+            errorsCollector.AddError($"An error '{dataError}' occurred while fetching data from '{tag}'", sdtElement);
+            _logger.LogInformation("An error '{DataError}' occurred while fetching data from '{Tag}'", dataError, tag);
+            return;
+        }
+
+        if (token == null)
+        {
+            errorsCollector.AddError($"No data matched placeholder '{tag}'", sdtElement);
+            _logger.LogInformation("No data matched placeholder '{Tag}'", tag);
+            return;
+        }
 
         try
         {
-            var unsupportedDescendants =
-                sdtProperties.Descendants().Where(d => unsupportedTypes.Contains(d.GetType())).ToArray();
-            if (unsupportedDescendants.Any())
-            {
-                var typeNames = unsupportedDescendants.Select(d => d.GetType().Name);
-                _logger.LogWarning(
-                    "Placeholder '{Tag}' has incorrect type '{Type}'. Only plain text, rich text and repeated section are supported",
-                    tag.Val, typeNames);
-                errorsCollector.AddError(
-                    $"Placeholder '{tag.Val}' has incorrect type '{string.Join(", ", typeNames)}'. Only plain text, rich text and repeated section are supported",
-                    sdtElement);
-            }
-            else if (sdtProperties.Descendants<SdtContentText>().Any())
+            if (sdtProperties.Descendants<SdtContentText>().Any())
             {
                 // if <w:text> is present, then this is plain text control
                 ProcessText(sdtElement, tag, token, errorsCollector);
             }
-            else if (sdtProperties.Descendants<SdtRepeatedSection>().Any())
+            else if (IsRepeatingSection(sdtProperties))
             {
                 // if <w15:repeatingSection> is present, then this is repeating section
-                ProcessRepeatedSection(sdtElement, tag, token, errorsCollector);
+                ProcessRepeatingSection(sdtElement, tag, token, errorsCollector);
             }
             else
             {
@@ -257,22 +191,85 @@ public class WordDocumentProcessor : IDocumentProcessor
         }
         catch (Exception e)
         {
-            errorsCollector.AddError($"An error '{e.Message}' while processing '{tag.Val}'", sdtElement);
-            _logger.LogError(e, "An error '{Message}' while processing '{Tag}'", e.Message, tag.Val);
+            errorsCollector.AddError($"An error '{e.Message}' occured while processing '{tag}'", sdtElement);
+            _logger.LogError(e, "An error '{Message}' occured while processing '{Tag}'", e.Message, tag);
         }
     }
 
-    private void ProcessRepeatedSection(SdtElement sdtElement, Tag tag, JToken token, ErrorsCollector errorsCollector)
+    private static bool IsRepeatingSection(SdtProperties sdtProperties)
+    {
+        return sdtProperties.Descendants<SdtRepeatedSection>().Any();
+    }
+
+    private void ProcessIfNecessary(SdtElement sdtElement,
+        string visibilityCondition, JObject parameters, ErrorsCollector errorsCollector)
+    {
+        var success = visibilityCondition.TryEvaluate(parameters, out var visible, out var error);
+        if (!success)
+        {
+            errorsCollector.AddError($"Failed to evaluate visibility condition '{visibilityCondition}'. Error: '{error}'",
+                sdtElement);
+            _logger.LogWarning("Failed to evaluate visibility condition '{VisibilityCondition}'. Error: '{Error}'",
+                visibilityCondition, error);
+            visible = true;
+        }
+
+        if (visible)
+        {
+            var sdtChildren = GetChildSdtElements(sdtElement);
+            foreach (var sdt in sdtChildren)
+            {
+                PopulateSdtElement(parameters, sdt, errorsCollector);
+            }
+        }
+        else
+        {
+            if (sdtElement.Parent is TableCell cell)
+            {
+                sdtElement.InsertAfterSelf(new Paragraph());
+            }
+            sdtElement.Remove();
+        }
+    }
+
+    private bool TryGetTag(SdtElement sdtElement, ErrorsCollector errorsCollector,
+        [NotNullWhen(true)] out string? tagVal)
+    {
+        var sdtProperties = sdtElement.SdtProperties;
+        var tag = sdtProperties?.Descendants<Tag>().FirstOrDefault();
+        tagVal = null;
+        if (sdtProperties == null || tag == null)
+        {
+            errorsCollector.AddError("Placeholder found without tag. Placeholders without tag are not supported",
+                sdtElement);
+            _logger.LogWarning("Placeholder found without tag. Placeholders without tag are not supported");
+            return false;
+        }
+
+        tagVal = tag.Val?.Value;
+        if (string.IsNullOrWhiteSpace(tagVal))
+        {
+            errorsCollector.AddError("Placeholder found with an empty tag. Placeholders without tag are not supported",
+                sdtElement);
+            _logger.LogWarning("Placeholder found with an empty tag. Placeholders without tag are not supported");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void ProcessRepeatingSection(SdtElement sdtElement, string tag, JToken token,
+        ErrorsCollector errorsCollector)
     {
         // Repeating Section Content Control
         if (token is not JArray tokens)
         {
             errorsCollector.AddError(
-                $"The value of '{tag.Val}' parameter is not an array. Parameter mapped to a repeating section can only be an array",
+                $"The value of '{tag}' parameter is not an array. Parameter mapped to a repeating section can only be an array",
                 sdtElement);
             _logger.LogWarning(
                 "The value of '{Tag}' parameter is not an array. Parameter mapped to a repeating section can only be an array",
-                tag.Val);
+                tag);
             return;
         }
 
@@ -280,21 +277,21 @@ public class WordDocumentProcessor : IDocumentProcessor
         if (content?.FirstChild == null)
         {
             errorsCollector.AddError(
-                $"Encountered repeating '{tag.Val}' with no content area for repeating item. It will be skipped",
+                $"Encountered repeating '{tag}' with no content area for repeating item. It will be skipped",
                 sdtElement);
             _logger.LogWarning(
                 "Encountered repeating '{Tag}' with no content area for repeating item. It will be skipped",
-                tag.Val);
+                tag);
         }
 
         if (content!.FirstChild is not SdtElement firstRepeatingItem)
         {
             errorsCollector.AddError(
-                $"Encountered repeating '{tag.Val}' with wrong element instead of repeating item. It will be skipped",
+                $"Encountered repeating '{tag}' with wrong element instead of repeating item. It will be skipped",
                 sdtElement);
             _logger.LogWarning(
                 "Encountered repeating '{Tag}' with wrong element instead of repeating item. It will be skipped",
-                tag.Val);
+                tag);
             return;
         }
 
@@ -313,18 +310,16 @@ public class WordDocumentProcessor : IDocumentProcessor
             {
                 _logger.LogWarning(
                     "Element '{Token}' in '{Tag}' is not an object. It should be an object in '{{}}' braces",
-                    tokenChild, tag.Val);
+                    tokenChild, tag);
                 errorsCollector.AddError(
-                    $"Element '{tokenChild}' in '{tag.Val}' is not an object. It should be an object in '{{}}' braces",
+                    $"Element '{tokenChild}' in '{tag}' is not an object. It should be an object in '{{}}' braces",
                     sdtElement);
                 continue;
             }
 
             // Find the first repeating section item, and clone it.
             var repeatingItemClone = firstRepeatingItem.CloneNode(true);
-            var repeatingItemChildSdtElements =
-                repeatingItemClone.Descendants<SdtElement>().Where(
-                    e => !e.Ancestors<SdtElement>().Except(new[] { repeatingItemClone }).Any()).ToArray();
+            var repeatingItemChildSdtElements = GetChildSdtElements(repeatingItemClone);
             content.AppendChild(repeatingItemClone);
             foreach (var sdt in repeatingItemChildSdtElements)
             {
@@ -335,9 +330,16 @@ public class WordDocumentProcessor : IDocumentProcessor
         }
     }
 
-    private void ProcessText(SdtElement sdtElement, Tag tag, JToken token, ErrorsCollector errorsCollector)
+    private static SdtElement[] GetChildSdtElements(OpenXmlElement xmlElement)
     {
-        _logger.LogDebug("{Tag}: {Token}", tag.Val, token);
+        var parents = new[] { xmlElement }.Concat(xmlElement.Ancestors<SdtElement>()).ToArray();
+        // find only 'first level' descendants: we are not interested in descendants of descendants
+        return xmlElement.Descendants<SdtElement>().Where(e => !e.Ancestors<SdtElement>().Except(parents).Any()).ToArray();
+    }
+
+    private void ProcessText(SdtElement sdtElement, string tag, JToken token, ErrorsCollector errorsCollector)
+    {
+        _logger.LogDebug("{Tag}: {Token}", tag, token);
 
         // Plain or Rich Text Content Control
         sdtElement.SdtProperties?.Elements<ShowingPlaceholder>().FirstOrDefault()?.Remove();
@@ -346,8 +348,8 @@ public class WordDocumentProcessor : IDocumentProcessor
         var contentElement = FindContent(sdtElement);
         if (contentElement == null)
         {
-            errorsCollector.AddError($"Placeholder {tag.Val} doesn't have any content area", sdtElement);
-            _logger.LogWarning("Placeholder {Tag} doesn't have any content area", tag.Val);
+            errorsCollector.AddError($"Placeholder {tag} doesn't have any content area", sdtElement);
+            _logger.LogWarning("Placeholder {Tag} doesn't have any content area", tag);
             return;
         }
 
@@ -389,8 +391,8 @@ public class WordDocumentProcessor : IDocumentProcessor
             }
             else
             {
-                errorsCollector.AddError($"Placeholder '{tag.Val}' does not have a correct structure", sdtElement);
-                _logger.LogWarning("Placeholder '{Tag}' does not have a correct structure", tag.Val);
+                errorsCollector.AddError($"Placeholder '{tag}' does not have a correct structure", sdtElement);
+                _logger.LogWarning("Placeholder '{Tag}' does not have a correct structure", tag);
                 return;
             }
         }
@@ -409,33 +411,33 @@ public class WordDocumentProcessor : IDocumentProcessor
         return sdtElement.Descendants().SingleOrDefault(e => e.XName == W + "sdtContent");
     }
 
-    private void ProcessRichText(SdtElement sdtElement, Tag tag, JToken content, ErrorsCollector errorsCollector)
+    private void ProcessRichText(SdtElement sdtElement, string tag, JToken content, ErrorsCollector errorsCollector)
     {
-        _logger.LogDebug("RichText: {Tag}: {Content}", tag.Val, content);
+        _logger.LogDebug("RichText: {Tag}: {Content}", tag, content);
 
         if (sdtElement.Descendants<SdtContentText>().Any())
         {
             errorsCollector.AddError(
-                $"HTML '{tag.Val}' cannot be written to PlainText control. Use Rich Text Control instead",
+                $"HTML '{tag}' cannot be written to PlainText control. Use Rich Text Control instead",
                 sdtElement);
             _logger.LogWarning("HTML '{Tag}' cannot be written to PlainText control. Use Rich Text Control instead",
-                tag.Val);
+                tag);
             return;
         }
 
         var contentElement = FindContent(sdtElement);
         if (contentElement == null)
         {
-            errorsCollector.AddError($"Placeholder '{tag.Val}' doesn't have any content area", sdtElement);
-            _logger.LogWarning("Placeholder '{Tag}' doesn't have any content area", tag.Val);
+            errorsCollector.AddError($"Placeholder '{tag}' doesn't have any content area", sdtElement);
+            _logger.LogWarning("Placeholder '{Tag}' doesn't have any content area", tag);
             return;
         }
 
         var mainDocumentPart = contentElement.Ancestors<Document>().First().MainDocumentPart;
         if (mainDocumentPart == null)
         {
-            errorsCollector.AddError($"Failed to obtain MainDocumentPart while processing {tag.Val}", sdtElement);
-            _logger.LogWarning("Failed to obtain MainDocumentPart while processing {Tag}", tag.Val);
+            errorsCollector.AddError($"Failed to obtain MainDocumentPart while processing {tag}", sdtElement);
+            _logger.LogWarning("Failed to obtain MainDocumentPart while processing {Tag}", tag);
             return;
         }
 
