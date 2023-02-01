@@ -100,7 +100,7 @@ Supported expressions:
 * `op1 == op2`, `op1 != op2`;
 * only for ints: `op1 < op2`, `op1 > op2`, `op1 <= op2`, `op1 >= op2`.
 
-Examples of expressions with their result (including `!null`, `null == null`, etc.) could be found in [ExpressionEvaluatorTests](src/Tests/CUSTIS.Generator.Docx.Tests/ExpressionEvaluatorTests.cs#9).
+Examples of expressions with their result (including `!null`, `null == null`, etc.) could be found in [ExpressionEvaluatorTests](src/Tests/CUSTIS.Generator.Docx.Tests/ExpressionEvaluatorTests.cs#L10).
 
 # Advanced features
 
