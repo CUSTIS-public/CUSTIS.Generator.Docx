@@ -264,7 +264,7 @@ public class WordDocumentProcessorTest
     public async Task StreamWithJsonTest()
     {
         // Arrange
-        var resultFile = "line-break.filled.docx";
+        var resultFile = "StreamWithJsonTest.filled.docx";
         File.Delete(resultFile);
 
         var input = new
