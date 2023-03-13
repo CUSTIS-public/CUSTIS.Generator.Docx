@@ -411,17 +411,25 @@ public class WordDocumentProcessor : IDocumentProcessor
         {
             if (firstRun != null)
             {
-                firstRun.AddChild(
-                    strTokensTags != null
-                        ? new Run(strTokensTags)
-                        : new Text(strToken));
+                if (strTokensTags == null)
+                {
+                    firstRun.AddChild(new Text(strToken));
+                }
+                else
+                {
+                    firstRun.AddChild(new Run(strTokensTags));
+                }
             }
             else if (paragraph != null)
             {
-                paragraph.AddChild(new Run(
-                    strTokensTags != null
-                        ? strTokensTags
-                        : new Text(strToken)));
+                if (strTokensTags == null)
+                {
+                    paragraph.AddChild(new Run(new Text(strToken)));
+                }
+                else
+                {
+                    paragraph.AddChild(new Run(strTokensTags));
+                }
             }
             else
             {
@@ -432,7 +440,11 @@ public class WordDocumentProcessor : IDocumentProcessor
         }
         else
         {
-            if (strTokensTags != null)
+            if (strTokensTags == null)
+            {
+                firstText.Text = strToken;
+            }
+            else
             {
                 firstText.Text = ((Text)strTokensTags[0]).Text;
                 var prev = (OpenXmlElement)firstText;
@@ -440,10 +452,6 @@ public class WordDocumentProcessor : IDocumentProcessor
                 {
                     prev = firstText.Parent!.InsertAfter(t, prev);
                 }
-            }
-            else
-            {
-                firstText.Text = strToken;
             }
             firstText.Parent!.Descendants<RunStyle>().FirstOrDefault(s => s.Val == "PlaceholderText")?.Remove();
         }

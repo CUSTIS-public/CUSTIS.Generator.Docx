@@ -13,7 +13,8 @@ using DocumentFormat.OpenXml.Packaging;
 namespace CUSTIS.Generator.Docx.Tests;
 
 [TestClass]
-[UseReporter(typeof(DiffReporter))]
+//[UseReporter(typeof(DiffReporter))]
+[UseReporter(typeof(CustomDiffReporter))]
 public class WordDocumentProcessorTest
 {
     [TestMethod]
@@ -231,7 +232,6 @@ public class WordDocumentProcessorTest
     }
 
     [TestMethod]
-    [Ignore("need to repair Approvals.VerifyXml")]
     public async Task LineBreakTest()
     {
         // Arrange
