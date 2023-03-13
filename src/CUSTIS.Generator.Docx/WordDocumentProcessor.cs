@@ -464,6 +464,8 @@ public class WordDocumentProcessor : IDocumentProcessor
     {
         var strTokens = token
             .Replace(Environment.NewLine, "\n")
+            .Replace("\r\n", "\n")
+            .Replace("\n\r", "\n")
             .Replace("\r", "\n")
             .Split("\n");
         var strTokensTags = new List<OpenXmlElement>();
