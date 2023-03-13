@@ -22,7 +22,7 @@ public class WordDocumentProcessorTest
         // Arrange
         var resultFile = "simple.filled.docx";
         File.Delete(resultFile);
-        
+
         var input = await File.ReadAllTextAsync(Path.Combine(@"Samples", "simple.input.json"));
 
         var docProcessor = new WordDocumentProcessor(NullLogger<WordDocumentProcessor>.Instance);
@@ -44,7 +44,7 @@ public class WordDocumentProcessorTest
         NamerFactory.AdditionalInformation = "num";
         Approvals.VerifyXml(doc.MainDocumentPart?.NumberingDefinitionsPart?.Numbering?.OuterXml);
     }
-    
+
     [TestMethod]
     public void PopulateComplexDocument()
     {
@@ -144,7 +144,7 @@ public class WordDocumentProcessorTest
         NamerFactory.AdditionalInformation = "num";
         Approvals.VerifyXml(doc.MainDocumentPart?.NumberingDefinitionsPart?.Numbering?.OuterXml);
     }
-    
+
     [DataTestMethod]
     [DataRow(true)]
     [DataRow(false)]
@@ -172,7 +172,7 @@ public class WordDocumentProcessorTest
         NamerFactory.AdditionalInformation = additionalInformation;
         Approvals.VerifyXml(doc.MainDocumentPart?.Document.OuterXml);
     }
-    
+
     [DataTestMethod]
     [DataRow(true)]
     [DataRow(false)]
@@ -181,7 +181,7 @@ public class WordDocumentProcessorTest
         // Arrange
         var additionalInformation = showErrorsInDocument ? "showErrors" : "hideErrors";
         var resultFile = $"errors.{additionalInformation}.filled.docx";
-        
+
         File.Delete(resultFile);
         File.Copy(Path.Combine(@"Samples", "errors.template.docx"), resultFile);
         var input = JObject.Parse(File.ReadAllText(Path.Combine(@"Samples", $"errors.input.json")));
@@ -200,14 +200,14 @@ public class WordDocumentProcessorTest
         NamerFactory.AdditionalInformation = additionalInformation;
         Approvals.VerifyXml(doc.MainDocumentPart?.Document.OuterXml);
     }
-    
+
     [TestMethod]
     public async Task TestConditionalVisibility()
     {
         // Arrange
         var resultFile = "conditional.filled.docx";
         File.Delete(resultFile);
-        
+
         var input = await File.ReadAllTextAsync(Path.Combine(@"Samples", "conditional.input.json"));
 
         var docProcessor = new WordDocumentProcessor(NullLogger<WordDocumentProcessor>.Instance);
@@ -228,5 +228,64 @@ public class WordDocumentProcessorTest
 
         NamerFactory.AdditionalInformation = "num";
         Approvals.VerifyXml(doc.MainDocumentPart?.NumberingDefinitionsPart?.Numbering?.OuterXml);
+    }
+
+    [TestMethod]
+    public async Task LineBreakTest()
+    {
+        // Arrange
+        var resultFile = "line-break.filled.docx";
+        File.Delete(resultFile);
+
+        var input = await File.ReadAllTextAsync(Path.Combine(@"Samples", "line-break.input.json"));
+
+        var docProcessor = new WordDocumentProcessor(NullLogger<WordDocumentProcessor>.Instance,
+            new ProcessorOptions { ReplaceLineBreakWithTag = true });
+
+        // Act
+        using var filled = await docProcessor.PopulateDocumentTemplate(Path.Combine(@"Samples", "line-break.template.docx"), input);
+        await using (var resultFileStream = new FileStream(resultFile, FileMode.OpenOrCreate, FileAccess.Write))
+        {
+            await filled.CopyToAsync(resultFileStream);
+        }
+
+        // Assert
+        await using var resultStream = new FileStream(resultFile, FileMode.Open, FileAccess.Read);
+        using var doc = WordprocessingDocument.Open(resultStream, false);
+
+        NamerFactory.AdditionalInformation = "doc";
+        Approvals.VerifyXml(doc.MainDocumentPart?.Document.OuterXml);
+
+        NamerFactory.AdditionalInformation = "num";
+        Approvals.VerifyXml(doc.MainDocumentPart?.NumberingDefinitionsPart?.Numbering?.OuterXml);
+    }
+
+    [TestMethod]
+    public async Task StreamWithJsonTest()
+    {
+        // Arrange
+        var resultFile = "line-break.filled.docx";
+        File.Delete(resultFile);
+
+        var input = new
+        {
+            textInRun = "Line1\r\nLine2\rLine3\nLine4",
+            textInRunInParagraph = "Line1\r\nLine2\rLine3\nLine4",
+            textInRunInParagraphInCell = "Line1\r\nLine2\rLine3\nLine4",
+            textInRunAllowMulti = "Line1\r\nLine2\rLine3\nLine4",
+            textInRunWithPlaceholderText = "Line1\r\nLine2\rLine3\nLine4"
+        };
+
+        var stream = new FileStream(Path.Combine(@"Samples", "line-break.template.docx"), FileMode.Open, FileAccess.Read);
+
+        var docProcessor = new WordDocumentProcessor(NullLogger<WordDocumentProcessor>.Instance,
+            new ProcessorOptions { ReplaceLineBreakWithTag = true });
+
+        // Act - Assert
+        using var filled = await docProcessor.PopulateDocumentTemplate(stream, input);
+        await using (var resultFileStream = new FileStream(resultFile, FileMode.OpenOrCreate, FileAccess.Write))
+        {
+            await filled.CopyToAsync(resultFileStream);
+        }
     }
 }

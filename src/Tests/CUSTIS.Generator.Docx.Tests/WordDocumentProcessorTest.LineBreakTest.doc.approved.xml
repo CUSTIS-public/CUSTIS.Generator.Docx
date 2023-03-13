@@ -1,0 +1,675 @@
+﻿<w:document xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex" xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex" xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex" xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex" xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex" xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex" xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex" xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex" xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink" xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex" xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid" xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml" xmlns:w16sdtdh="http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash" xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" mc:Ignorable="w14 w15 w16se w16cid w16 w16cex w16sdtdh wp14">
+  <w:body>
+    <w:p w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="5F088B80" w14:textId="20DAAB48">
+      <w:pPr>
+        <w:rPr>
+          <w:noProof />
+          <w:lang w:val="pt-PT" />
+        </w:rPr>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:noProof />
+          <w:lang w:val="pt-PT" />
+        </w:rPr>
+        <w:t>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.</w:t>
+      </w:r>
+      <w:r w:rsidRPr="00913848" w:rsidR="00913848">
+        <w:rPr>
+          <w:noProof />
+          <w:lang w:val="pt-PT" />
+        </w:rPr>
+        <w:t xml:space="preserve" />
+      </w:r>
+      <w:sdt>
+        <w:sdtPr>
+          <w:rPr>
+            <w:noProof />
+            <w:lang w:val="fr-BE" />
+          </w:rPr>
+          <w:alias w:val="textInRun" />
+          <w:tag w:val="textInRun" />
+          <w:id w:val="-346249938" />
+          <w:placeholder>
+            <w:docPart w:val="B58EEC54C05C42A8AFE918786E3D1170" />
+          </w:placeholder>
+          <w:text />
+        </w:sdtPr>
+        <w:sdtContent>
+          <w:r w:rsidRPr="00E54EE8" w:rsidR="00913848">
+            <w:rPr>
+              <w:noProof />
+              <w:lang w:val="fr-BE" />
+            </w:rPr>
+            <w:t>Line1</w:t>
+            <w:br />
+            <w:t>Line2</w:t>
+            <w:br />
+            <w:t>Line3</w:t>
+            <w:br />
+            <w:t>Line4</w:t>
+          </w:r>
+        </w:sdtContent>
+      </w:sdt>
+    </w:p>
+    <w:p w:rsidRPr="000513E9" w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="711AFA66" w14:textId="010244B1">
+      <w:pPr>
+        <w:rPr>
+          <w:noProof />
+          <w:lang w:val="fr-BE" />
+        </w:rPr>
+      </w:pPr>
+      <w:r w:rsidRPr="00E54EE8">
+        <w:rPr>
+          <w:noProof />
+          <w:lang w:val="fr-BE" />
+        </w:rPr>
+        <w:t xml:space="preserve">Nunc viverra  enim. </w:t>
+      </w:r>
+      <w:r w:rsidRPr="000513E9">
+        <w:rPr>
+          <w:noProof />
+          <w:lang w:val="fr-BE" />
+        </w:rPr>
+        <w:t>Fusce est. Vivamus a tellus.</w:t>
+      </w:r>
+    </w:p>
+    <w:p w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="3ABFA1FA" w14:textId="2CF581F8">
+      <w:pPr>
+        <w:rPr>
+          <w:noProof />
+          <w:lang w:val="pt-PT" />
+        </w:rPr>
+      </w:pPr>
+      <w:r w:rsidRPr="000513E9">
+        <w:rPr>
+          <w:noProof />
+          <w:lang w:val="fr-BE" />
+        </w:rPr>
+        <w:t xml:space="preserve">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. </w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:noProof />
+          <w:lang w:val="pt-PT" />
+        </w:rPr>
+        <w:t>Proin pharetra nonummy pede. Mauris et orci.</w:t>
+      </w:r>
+    </w:p>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblStyle w:val="TableGrid" />
+        <w:tblW w:w="0" w:type="auto" />
+        <w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:noHBand="0" w:noVBand="1" />
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="1803" />
+        <w:gridCol w:w="1803" />
+        <w:gridCol w:w="1803" />
+        <w:gridCol w:w="1803" />
+        <w:gridCol w:w="1804" />
+      </w:tblGrid>
+      <w:tr w:rsidR="000513E9" w:rsidTr="000513E9" w14:paraId="7124ECD6" w14:textId="77777777">
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1803" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidR="000513E9" w:rsidRDefault="005978D6" w14:paraId="75AA651A" w14:textId="62F875B3">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="pt-PT" />
+              </w:rPr>
+            </w:pPr>
+            <w:r>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="pt-PT" />
+              </w:rPr>
+              <w:t>Two words</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1803" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="24F58E42" w14:textId="77777777">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="pt-PT" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1803" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="7B5F3E88" w14:textId="77777777">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="pt-PT" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1803" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="0FEEEF54" w14:textId="77777777">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="pt-PT" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1804" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="5C60302C" w14:textId="77777777">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="pt-PT" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr w:rsidR="000513E9" w:rsidTr="000513E9" w14:paraId="5A12B413" w14:textId="77777777">
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1803" w:type="dxa" />
+          </w:tcPr>
+          <w:sdt>
+            <w:sdtPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="pt-PT" />
+              </w:rPr>
+              <w:alias w:val="textInRunInParagraph" />
+              <w:tag w:val="textInRunInParagraph" />
+              <w:id w:val="-1273619231" />
+              <w:placeholder>
+                <w:docPart w:val="DefaultPlaceholder_-1854013440" />
+              </w:placeholder>
+              <w:text />
+            </w:sdtPr>
+            <w:sdtEndPr />
+            <w:sdtContent>
+              <w:p w:rsidR="000513E9" w:rsidRDefault="006F1D19" w14:paraId="42B73EDC" w14:textId="43CE50A8">
+                <w:pPr>
+                  <w:rPr>
+                    <w:noProof />
+                    <w:lang w:val="pt-PT" />
+                  </w:rPr>
+                </w:pPr>
+                <w:r>
+                  <w:rPr>
+                    <w:noProof />
+                    <w:lang w:val="pt-PT" />
+                  </w:rPr>
+                  <w:t>Line1</w:t>
+                  <w:br />
+                  <w:t>Line2</w:t>
+                  <w:br />
+                  <w:t>Line3</w:t>
+                  <w:br />
+                  <w:t>Line4</w:t>
+                </w:r>
+              </w:p>
+            </w:sdtContent>
+          </w:sdt>
+          <w:p w:rsidR="006F1D19" w:rsidRDefault="006F1D19" w14:paraId="309EBA51" w14:textId="5BCE8E28">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="pt-PT" />
+              </w:rPr>
+            </w:pPr>
+            <w:r>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="pt-PT" />
+              </w:rPr>
+              <w:t>Second paragraph.</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:sdt>
+          <w:sdtPr>
+            <w:rPr>
+              <w:noProof />
+              <w:lang w:val="en-US" />
+            </w:rPr>
+            <w:alias w:val="textInRunInParagraphInCell" />
+            <w:tag w:val="textInRunInParagraphInCell" />
+            <w:id w:val="2008400576" />
+            <w:placeholder>
+              <w:docPart w:val="DefaultPlaceholder_-1854013440" />
+            </w:placeholder>
+            <w:text />
+          </w:sdtPr>
+          <w:sdtEndPr />
+          <w:sdtContent>
+            <w:tc>
+              <w:tcPr>
+                <w:tcW w:w="1803" w:type="dxa" />
+              </w:tcPr>
+              <w:p w:rsidRPr="008D3DAD" w:rsidR="000513E9" w:rsidRDefault="008D3DAD" w14:paraId="545E708B" w14:textId="5143926F">
+                <w:pPr>
+                  <w:rPr>
+                    <w:noProof />
+                    <w:lang w:val="en-US" />
+                  </w:rPr>
+                </w:pPr>
+                <w:r w:rsidRPr="0042560F">
+                  <w:rPr>
+                    <w:noProof />
+                    <w:lang w:val="en-US" />
+                  </w:rPr>
+                  <w:t>Line1</w:t>
+                  <w:br />
+                  <w:t>Line2</w:t>
+                  <w:br />
+                  <w:t>Line3</w:t>
+                  <w:br />
+                  <w:t>Line4</w:t>
+                </w:r>
+              </w:p>
+            </w:tc>
+          </w:sdtContent>
+        </w:sdt>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1803" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidRPr="008D3DAD" w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="46106A66" w14:textId="77777777">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="en-US" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1803" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidRPr="008D3DAD" w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="7ECEA617" w14:textId="77777777">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="en-US" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1804" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidRPr="008D3DAD" w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="58C6B4CB" w14:textId="77777777">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="en-US" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr w:rsidR="000513E9" w:rsidTr="000513E9" w14:paraId="13B68D85" w14:textId="77777777">
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1803" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidRPr="008D3DAD" w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="1A931F10" w14:textId="77777777">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="en-US" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1803" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidRPr="008D3DAD" w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="191B5A58" w14:textId="77777777">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="en-US" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1803" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidRPr="008D3DAD" w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="496597EB" w14:textId="77777777">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="en-US" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1803" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidRPr="008D3DAD" w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="5981E3D1" w14:textId="77777777">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="en-US" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1804" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidRPr="008D3DAD" w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="670DB3C5" w14:textId="77777777">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="en-US" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr w:rsidR="000513E9" w:rsidTr="000513E9" w14:paraId="582F5907" w14:textId="77777777">
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1803" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidRPr="008D3DAD" w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="5D5FF1F2" w14:textId="77777777">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="en-US" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1803" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidRPr="008D3DAD" w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="44D1A775" w14:textId="77777777">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="en-US" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1803" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidRPr="008D3DAD" w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="3A12057A" w14:textId="77777777">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="en-US" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1803" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidRPr="008D3DAD" w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="6068E838" w14:textId="77777777">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="en-US" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1804" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidRPr="008D3DAD" w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="33A19073" w14:textId="77777777">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="en-US" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr w:rsidR="000513E9" w:rsidTr="000513E9" w14:paraId="387C3ABA" w14:textId="77777777">
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1803" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidRPr="008D3DAD" w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="2B7745CC" w14:textId="77777777">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="en-US" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1803" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidRPr="008D3DAD" w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="19BD7E4D" w14:textId="77777777">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="en-US" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1803" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidRPr="008D3DAD" w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="15A305A0" w14:textId="77777777">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="en-US" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1803" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidRPr="008D3DAD" w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="2A1B80B3" w14:textId="77777777">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="en-US" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:w="1804" w:type="dxa" />
+          </w:tcPr>
+          <w:p w:rsidRPr="008D3DAD" w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="7C2527FE" w14:textId="77777777">
+            <w:pPr>
+              <w:rPr>
+                <w:noProof />
+                <w:lang w:val="en-US" />
+              </w:rPr>
+            </w:pPr>
+          </w:p>
+        </w:tc>
+      </w:tr>
+    </w:tbl>
+    <w:p w:rsidRPr="00913848" w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="7D9A3313" w14:textId="6B20E134">
+      <w:pPr>
+        <w:rPr>
+          <w:noProof />
+          <w:lang w:val="pt-PT" />
+        </w:rPr>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:noProof />
+          <w:lang w:val="pt-PT" />
+        </w:rPr>
+        <w:t xml:space="preserve">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed </w:t>
+      </w:r>
+      <w:sdt>
+        <w:sdtPr>
+          <w:rPr>
+            <w:noProof />
+            <w:lang w:val="pt-PT" />
+          </w:rPr>
+          <w:alias w:val="textInRunAllowMulti" />
+          <w:tag w:val="textInRunAllowMulti" />
+          <w:id w:val="-376779285" />
+          <w:placeholder>
+            <w:docPart w:val="DefaultPlaceholder_-1854013440" />
+          </w:placeholder>
+          <w:text w:multiLine="1" />
+        </w:sdtPr>
+        <w:sdtEndPr />
+        <w:sdtContent>
+          <w:r w:rsidRPr="00BC5501">
+            <w:rPr>
+              <w:noProof />
+              <w:lang w:val="pt-PT" />
+            </w:rPr>
+            <w:t>Line1</w:t>
+            <w:br />
+            <w:t>Line2</w:t>
+            <w:br />
+            <w:t>Line3</w:t>
+            <w:br />
+            <w:t>Line4</w:t>
+          </w:r>
+        </w:sdtContent>
+      </w:sdt>
+      <w:r>
+        <w:rPr>
+          <w:noProof />
+          <w:lang w:val="pt-PT" />
+        </w:rPr>
+        <w:t xml:space="preserve"> lectus </w:t>
+      </w:r>
+      <w:sdt>
+        <w:sdtPr>
+          <w:rPr>
+            <w:noProof />
+            <w:lang w:val="pt-PT" />
+          </w:rPr>
+          <w:alias w:val="emptyText" />
+          <w:tag w:val="emptyText" />
+          <w:id w:val="-852870450" />
+          <w:placeholder>
+            <w:docPart w:val="DefaultPlaceholder_-1854013440" />
+          </w:placeholder>
+          <w:showingPlcHdr />
+          <w:text />
+        </w:sdtPr>
+        <w:sdtEndPr />
+        <w:sdtContent />
+      </w:sdt>
+      <w:r>
+        <w:rPr>
+          <w:noProof />
+          <w:lang w:val="pt-PT" />
+        </w:rPr>
+        <w:t>malesuada libero, sit amet commodo magna eros quis urna.</w:t>
+      </w:r>
+    </w:p>
+    <w:p w:rsidRPr="00913848" w:rsidR="00E54EE8" w:rsidRDefault="00E54EE8" w14:paraId="5995FEB2" w14:textId="59E2B696">
+      <w:pPr>
+        <w:rPr>
+          <w:noProof />
+          <w:lang w:val="en-US" />
+        </w:rPr>
+      </w:pPr>
+      <w:r w:rsidRPr="00913848">
+        <w:rPr>
+          <w:noProof />
+          <w:lang w:val="en-US" />
+        </w:rPr>
+        <w:t>ewqewqe</w:t>
+      </w:r>
+      <w:sdt>
+        <w:sdtPr>
+          <w:rPr>
+            <w:noProof />
+            <w:lang w:val="pt-PT" />
+          </w:rPr>
+          <w:alias w:val="textInRunWithPlaceholderText" />
+          <w:tag w:val="textInRunWithPlaceholderText" />
+          <w:id w:val="-536275193" />
+          <w:placeholder>
+            <w:docPart w:val="DefaultPlaceholder_-1854013440" />
+          </w:placeholder>
+          <w:text />
+        </w:sdtPr>
+        <w:sdtContent>
+          <w:r w:rsidRPr="00BA4C1B" w:rsidR="00913848">
+            <w:rPr />
+            <w:t>Line1</w:t>
+            <w:br />
+            <w:t>Line2</w:t>
+            <w:br />
+            <w:t>Line3</w:t>
+            <w:br />
+            <w:t>Line4</w:t>
+          </w:r>
+        </w:sdtContent>
+      </w:sdt>
+    </w:p>
+    <w:p w:rsidRPr="00913848" w:rsidR="00E54EE8" w:rsidRDefault="00E54EE8" w14:paraId="43087444" w14:textId="77777777">
+      <w:pPr>
+        <w:rPr>
+          <w:noProof />
+          <w:lang w:val="en-US" />
+        </w:rPr>
+      </w:pPr>
+    </w:p>
+    <w:p w:rsidRPr="00913848" w:rsidR="000513E9" w:rsidRDefault="000513E9" w14:paraId="0A9EA383" w14:textId="485AC4DD">
+      <w:pPr>
+        <w:rPr>
+          <w:noProof />
+          <w:lang w:val="en-US" />
+        </w:rPr>
+      </w:pPr>
+    </w:p>
+    <w:sectPr w:rsidRPr="00913848" w:rsidR="000513E9">
+      <w:pgSz w:w="11906" w:h="16838" />
+      <w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="720" w:footer="720" w:gutter="0" />
+      <w:cols w:space="720" />
+      <w:docGrid w:linePitch="360" />
+    </w:sectPr>
+  </w:body>
+</w:document>

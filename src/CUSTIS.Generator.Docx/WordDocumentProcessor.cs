@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
 using System.Xml.Linq;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Office2013.Word;
@@ -15,6 +16,9 @@ public class WordDocumentProcessor : IDocumentProcessor
     private const string Wordml2006Ns = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
 
     private readonly ILogger<WordDocumentProcessor> _logger;
+
+    private readonly ProcessorOptions _processorOptions;
+
     private static readonly XNamespace W = Wordml2006Ns;
 
     /// <summary> Controls (SDT) that we don't process  </summary>
@@ -40,7 +44,11 @@ public class WordDocumentProcessor : IDocumentProcessor
         typeof(DocumentFormat.OpenXml.Office2013.Word.Appearance),
     };
 
-    public WordDocumentProcessor(ILogger<WordDocumentProcessor> log) => _logger = log;
+    public WordDocumentProcessor(ILogger<WordDocumentProcessor> log, ProcessorOptions? processorOptions = null)
+    {
+        _logger = log;
+        _processorOptions = processorOptions ?? new ProcessorOptions();
+    } 
 
     public async Task<MemoryStream> PopulateDocumentTemplate(string fileName, string jsonData,
         bool showErrorsInDocument = false)
@@ -50,6 +58,27 @@ public class WordDocumentProcessor : IDocumentProcessor
         await fileStream.CopyToAsync(filledStream);
 
         var input = JObject.Parse(jsonData);
+
+        PopulateDocumentTemplate(filledStream, input, showErrorsInDocument);
+        filledStream.Position = 0;
+        return filledStream;
+    }
+
+    public async Task<MemoryStream> PopulateDocumentTemplate(Stream template, object json,
+        JsonSerializerOptions? jsonSerializerOptions = null,
+        bool showErrorsInDocument = false)
+    {
+        var str = JsonSerializer.Serialize(json, jsonSerializerOptions ?? new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+        return await PopulateDocumentTemplate(template, str, showErrorsInDocument);
+    }
+
+    public async Task<MemoryStream> PopulateDocumentTemplate(Stream template, string json,
+        bool showErrorsInDocument = false)
+    {
+        if (template == null) throw new ArgumentException(nameof(template));
+        var input = JObject.Parse(json);
+        var filledStream = new MemoryStream();
+        await template.CopyToAsync(filledStream);
 
         PopulateDocumentTemplate(filledStream, input, showErrorsInDocument);
         filledStream.Position = 0;
@@ -374,16 +403,25 @@ public class WordDocumentProcessor : IDocumentProcessor
         }
 
         var strToken = token.ToString();
+        var strTokensTags = _processorOptions.ReplaceLineBreakWithTag
+            ? SplitToken(strToken)
+            : null;
 
         if (firstText == null)
         {
             if (firstRun != null)
             {
-                firstRun.AddChild(new Text(strToken));
+                firstRun.AddChild(
+                    strTokensTags != null
+                        ? new Run(strTokensTags)
+                        : new Text(strToken));
             }
             else if (paragraph != null)
             {
-                paragraph.AddChild(new Run(new Text(strToken)));
+                paragraph.AddChild(new Run(
+                    strTokensTags != null
+                        ? strTokensTags
+                        : new Text(strToken)));
             }
             else
             {
@@ -394,12 +432,43 @@ public class WordDocumentProcessor : IDocumentProcessor
         }
         else
         {
-            firstText.Text = strToken;
+            if (strTokensTags != null)
+            {
+                firstText.Text = ((Text)strTokensTags[0]).Text;
+                var prev = (OpenXmlElement)firstText;
+                foreach (var t in strTokensTags.Skip(1))
+                {
+                    prev = firstText.Parent!.InsertAfter(t, prev);
+                }
+            }
+            else
+            {
+                firstText.Text = strToken;
+            }
             firstText.Parent!.Descendants<RunStyle>().FirstOrDefault(s => s.Val == "PlaceholderText")?.Remove();
         }
 
         paragraph?.Descendants<RunStyle>().FirstOrDefault(s => s.Val == "PlaceholderText")?.Remove();
         firstRun?.Descendants<RunStyle>().FirstOrDefault(s => s.Val == "PlaceholderText")?.Remove();
+    }
+
+    private static List<OpenXmlElement>? SplitToken(string token)
+    {
+        var strTokens = token
+            .Replace(Environment.NewLine, "\n")
+            .Replace("\r", "\n")
+            .Split("\n");
+        var strTokensTags = new List<OpenXmlElement>();
+        if (strTokens.Length > 1)
+        {
+            foreach (var st in strTokens)
+            {
+                strTokensTags.Add(new Text(st));
+                strTokensTags.Add(new Break());
+            }
+            strTokensTags.RemoveAt(strTokensTags.Count - 1);
+        }
+        return strTokensTags.Any() ? strTokensTags : null;
     }
 
     private static OpenXmlElement? FindContent(SdtElement sdtElement)
