@@ -114,20 +114,6 @@ public class WordDocumentProcessor : IDocumentProcessor
         doc.Save();
     }
 
-    public bool CanProcessDocument(Stream stream)
-    {
-        try
-        {
-            using var doc = WordprocessingDocument.Open(stream, true);
-            var mainPart = doc.MainDocumentPart;
-            return mainPart != null;
-        }
-        catch (OpenXmlPackageException)
-        {
-            return false;
-        }
-    }
-
     private void PopulateSdtElement(JObject parameters, SdtElement sdtElement, ErrorsCollector errorsCollector)
     {
         if (parameters == null)
