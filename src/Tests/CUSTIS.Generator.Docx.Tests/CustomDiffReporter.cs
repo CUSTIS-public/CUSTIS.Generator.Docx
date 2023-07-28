@@ -19,7 +19,7 @@ public class CustomDiffReporter : IApprovalFailureReporter
     /// <param name="received"></param>
     public void Report(string approved, string received)
     {
-        if (true)
+        if (Environment.GetEnvironmentVariable("GITLAB_CI") != null)
         {
             AssertFilesAreEqual(approved, received);
             return;
