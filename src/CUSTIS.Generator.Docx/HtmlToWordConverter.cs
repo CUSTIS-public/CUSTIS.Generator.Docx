@@ -46,6 +46,11 @@ public static class HtmlToWordConverter
                 continue;
             }
 
+            if (IsTagToken(token) && IsCloseTagToken(token) && IsBadCloseTagToken(token))
+            {
+                continue;
+            }
+
             if (IsWhiteSpaceToken(token))
             {
                 if (current.Length > 0 && current[^1] == ' ')
@@ -63,11 +68,6 @@ public static class HtmlToWordConverter
                 if (IsCloseTagToken(token))
                 {
                     //закрывающийся тег
-                    if (IsBadCloseTagToken(token))
-                    {
-                        continue;
-                    }
-
                     var closingTag = match.ValueSpan.Slice(1).Trim();
                     if (currentList != null
                         && (closingTag.Equals("ul", StringComparison.InvariantCultureIgnoreCase) || closingTag.Equals("ol", StringComparison.InvariantCultureIgnoreCase)))
