@@ -54,7 +54,7 @@ public static class HtmlToWordConverter
 
             if (IsTagToken(token))
             {
-                if (!tagName.IsMatch(token.Value))
+                if (IsBadTagToken(token))
                 {
                     continue;
                 }
@@ -125,6 +125,8 @@ public static class HtmlToWordConverter
         static bool IsWhiteSpaceToken(Match token) => token.ValueSpan.IsWhiteSpace();
 
         static bool IsTagToken(Match token) => token.ValueSpan.StartsWith("<");
+
+        bool IsBadTagToken(Match token) => !tagName.IsMatch(token.Value);
     }
 
     private static void AppendParagraph(IList<Paragraph> paragraphs, StringBuilder current, ListInfo? currentList)
