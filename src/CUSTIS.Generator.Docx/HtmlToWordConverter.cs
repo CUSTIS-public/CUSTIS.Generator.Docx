@@ -52,7 +52,7 @@ public static class HtmlToWordConverter
                 continue;
             }
 
-            if (token.ValueSpan.StartsWith("<"))
+            if (IsTagToken(token))
             {
                 if (!tagName.IsMatch(token.Value))
                 {
@@ -123,6 +123,8 @@ public static class HtmlToWordConverter
         return result;
 
         static bool IsWhiteSpaceToken(Match token) => token.ValueSpan.IsWhiteSpace();
+
+        static bool IsTagToken(Match token) => token.ValueSpan.StartsWith("<");
     }
 
     private static void AppendParagraph(IList<Paragraph> paragraphs, StringBuilder current, ListInfo? currentList)
