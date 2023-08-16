@@ -64,12 +64,10 @@ public static class HtmlToWordConverter
 
             if (IsTagToken(token))
             {
-                var match = tagName.Match(token.Value);
                 if (IsCloseTagToken(token) is { } closingTag)
                 {
                     //закрывающийся тег
-                    if (currentList != null
-                        && (closingTag.Equals("ul", StringComparison.InvariantCultureIgnoreCase) || closingTag.Equals("ol", StringComparison.InvariantCultureIgnoreCase)))
+                    if (currentList != null && IsAnyTagOf(closingTag, "ul", "ol"))
                     {
                         AppendParagraph(paragraphs, current, currentList);
                         current = new StringBuilder();
@@ -84,17 +82,14 @@ public static class HtmlToWordConverter
                     continue;
                 }
 
-                if (match.ValueSpan.Equals("p", StringComparison.InvariantCultureIgnoreCase)
-                    || match.ValueSpan.Equals("li", StringComparison.InvariantCultureIgnoreCase)
-                    || match.ValueSpan.Equals("br", StringComparison.InvariantCultureIgnoreCase)
-                    || match.ValueSpan.Equals("br/", StringComparison.InvariantCultureIgnoreCase))
+                if (IsAnyTagOfToken(token, "p", "li", "br", "br/"))
                 {
                     AppendParagraph(paragraphs, current, currentList);
                     current = new StringBuilder();
                 }
 
-                var isBulletList = match.ValueSpan.Equals("ul", StringComparison.InvariantCultureIgnoreCase);
-                var isNumberedList = match.ValueSpan.Equals("ol", StringComparison.InvariantCultureIgnoreCase);
+                var isBulletList = IsAnyTagOfToken(token, "ul");
+                var isNumberedList = IsAnyTagOfToken(token, "ol");
                 if (isBulletList || isNumberedList)
                 {
                     AppendParagraph(paragraphs, current, currentList);
@@ -136,6 +131,12 @@ public static class HtmlToWordConverter
         }
 
         bool IsBadCloseTagToken(Match token) => tagName.Match(token.Value).ValueSpan.Length == 1;
+
+        bool IsAnyTagOfToken(Match token, params string[] tags)
+            => IsAnyTagOf(tagName.Match(token.Value).Value, tags);
+
+        bool IsAnyTagOf(string tagName, params string[] tags)
+            => tags.Any(tag => tagName.Equals(tag, StringComparison.InvariantCultureIgnoreCase));
     }
 
     private static void AppendParagraph(IList<Paragraph> paragraphs, StringBuilder current, ListInfo? currentList)
