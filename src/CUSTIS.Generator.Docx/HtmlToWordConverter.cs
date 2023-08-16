@@ -41,7 +41,7 @@ public static class HtmlToWordConverter
         ListInfo? currentList = null;
         foreach (Match token in tokenizer.Matches(htmlText))
         {
-            if (token.ValueSpan.IsWhiteSpace())
+            if (IsWhiteSpaceToken(token))
             {
                 if (current.Length > 0 && current[^1] == ' ')
                 {
@@ -121,6 +121,8 @@ public static class HtmlToWordConverter
         AppendParagraph(paragraphs, current, currentList);
 
         return result;
+
+        static bool IsWhiteSpaceToken(Match token) => token.ValueSpan.IsWhiteSpace();
     }
 
     private static void AppendParagraph(IList<Paragraph> paragraphs, StringBuilder current, ListInfo? currentList)
