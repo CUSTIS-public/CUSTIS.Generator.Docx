@@ -46,7 +46,7 @@ public static class HtmlToWordConverter
                 continue;
             }
 
-            if (IsTagToken(token) && IsCloseTagToken(token) && IsBadCloseTagToken(token))
+            if (IsTagToken(token) && IsCloseTagToken(token) is { } && IsBadCloseTagToken(token))
             {
                 continue;
             }
@@ -65,10 +65,9 @@ public static class HtmlToWordConverter
             if (IsTagToken(token))
             {
                 var match = tagName.Match(token.Value);
-                if (IsCloseTagToken(token))
+                if (IsCloseTagToken(token) is { } closingTag)
                 {
                     //закрывающийся тег
-                    var closingTag = match.ValueSpan.Slice(1).Trim();
                     if (currentList != null
                         && (closingTag.Equals("ul", StringComparison.InvariantCultureIgnoreCase) || closingTag.Equals("ol", StringComparison.InvariantCultureIgnoreCase)))
                     {
@@ -128,7 +127,13 @@ public static class HtmlToWordConverter
 
         bool IsBadTagToken(Match token) => !tagName.IsMatch(token.Value);
 
-        bool IsCloseTagToken(Match token) => tagName.Match(token.Value).ValueSpan.StartsWith("/");
+        string? IsCloseTagToken(Match token)
+        {
+            var match = tagName.Match(token.Value);
+            return match.ValueSpan.StartsWith("/")
+                ? match.ValueSpan.Slice(1).Trim().ToString()
+                : null;
+        }
 
         bool IsBadCloseTagToken(Match token) => tagName.Match(token.Value).ValueSpan.Length == 1;
     }
