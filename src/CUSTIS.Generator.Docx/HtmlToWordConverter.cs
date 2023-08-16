@@ -41,6 +41,11 @@ public static class HtmlToWordConverter
         ListInfo? currentList = null;
         foreach (Match token in tokenizer.Matches(htmlText))
         {
+            if (IsTagToken(token) && IsBadTagToken(token))
+            {
+                continue;
+            }
+
             if (IsWhiteSpaceToken(token))
             {
                 if (current.Length > 0 && current[^1] == ' ')
@@ -54,11 +59,6 @@ public static class HtmlToWordConverter
 
             if (IsTagToken(token))
             {
-                if (IsBadTagToken(token))
-                {
-                    continue;
-                }
-
                 var match = tagName.Match(token.Value);
                 if (IsCloseTagToken(token))
                 {
