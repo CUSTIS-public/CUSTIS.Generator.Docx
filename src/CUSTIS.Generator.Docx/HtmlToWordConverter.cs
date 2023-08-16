@@ -60,7 +60,7 @@ public static class HtmlToWordConverter
                 }
 
                 var match = tagName.Match(token.Value);
-                if (match.ValueSpan.StartsWith("/"))
+                if (IsCloseTagToken(token))
                 {
                     //закрывающийся тег
                     if (match.ValueSpan.Length == 1)
@@ -127,6 +127,8 @@ public static class HtmlToWordConverter
         static bool IsTagToken(Match token) => token.ValueSpan.StartsWith("<");
 
         bool IsBadTagToken(Match token) => !tagName.IsMatch(token.Value);
+
+        bool IsCloseTagToken(Match token) => tagName.Match(token.Value).ValueSpan.StartsWith("/");
     }
 
     private static void AppendParagraph(IList<Paragraph> paragraphs, StringBuilder current, ListInfo? currentList)
