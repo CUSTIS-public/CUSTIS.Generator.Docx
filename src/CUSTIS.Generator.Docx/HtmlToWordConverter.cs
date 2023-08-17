@@ -48,18 +48,8 @@ public static class HtmlToWordConverter
                     }
                     break;
 
-                case CloseTagToken closingTag:
-                    if (currentList != null && IsAnyTagOf(closingTag.Name, "ul", "ol"))
-                    {
-                        AppendParagraph(paragraphs, current, currentList);
-                        current = new StringBuilder();
-
-                        currentList.Level--;
-                        if (currentList.Level < 0)
-                        {
-                            currentList = null;
-                        }
-                    }
+                case TextToken:
+                    current.Append(token.ValueSpan);
                     break;
 
                 case OpenTagToken openingTag:
@@ -91,8 +81,18 @@ public static class HtmlToWordConverter
                         break;
                     }
 
-                case TextToken:
-                    current.Append(token.ValueSpan);
+                case CloseTagToken closingTag:
+                    if (currentList != null && IsAnyTagOf(closingTag.Name, "ul", "ol"))
+                    {
+                        AppendParagraph(paragraphs, current, currentList);
+                        current = new StringBuilder();
+
+                        currentList.Level--;
+                        if (currentList.Level < 0)
+                        {
+                            currentList = null;
+                        }
+                    }
                     break;
 
                 default:
