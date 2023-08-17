@@ -41,60 +41,53 @@ public static class HtmlToWordConverter
         {
             if (token is WhiteSpaceToken)
             {
-                //пробельный текст
                 if (current.Length <= 0 || current[^1] != ' ')
                 {
                     current.Append(' ');
                 }
             }
-            else if (token is TagToken tag)
+            else if (token is CloseTagToken closingTag)
             {
-                if (token is CloseTagToken closingTag)
+                if (currentList != null && IsAnyTagOf(closingTag.Name, "ul", "ol"))
                 {
-                    //закрывающийся тег
-                    if (currentList != null && IsAnyTagOf(closingTag.Name, "ul", "ol"))
-                    {
-                        AppendParagraph(paragraphs, current, currentList);
-                        current = new StringBuilder();
+                    AppendParagraph(paragraphs, current, currentList);
+                    current = new StringBuilder();
 
-                        currentList.Level--;
-                        if (currentList.Level < 0)
-                        {
-                            currentList = null;
-                        }
+                    currentList.Level--;
+                    if (currentList.Level < 0)
+                    {
+                        currentList = null;
                     }
                 }
-                else if (token is OpenTagToken openingTag)
+            }
+            else if (token is OpenTagToken openingTag)
+            {
+                if (IsAnyTagOf(openingTag.Name, "p", "li", "br", "br/"))
                 {
-                    //открывающийся тег
-                    if (IsAnyTagOf(openingTag.Name, "p", "li", "br", "br/"))
+                    AppendParagraph(paragraphs, current, currentList);
+                    current = new StringBuilder();
+                }
+
+                var isBulletList = IsAnyTagOf(openingTag.Name, "ul");
+                var isNumberedList = IsAnyTagOf(openingTag.Name, "ol");
+                if (isBulletList || isNumberedList)
+                {
+                    AppendParagraph(paragraphs, current, currentList);
+                    current = new StringBuilder();
+
+                    if (currentList == null)
                     {
-                        AppendParagraph(paragraphs, current, currentList);
-                        current = new StringBuilder();
+                        var listFormat = CreateList(existingDoc, result, isBulletList ? NumberFormatValues.Bullet : NumberFormatValues.Decimal);
+                        currentList = new(listFormat);
                     }
-
-                    var isBulletList = IsAnyTagOf(openingTag.Name, "ul");
-                    var isNumberedList = IsAnyTagOf(openingTag.Name, "ol");
-                    if (isBulletList || isNumberedList)
+                    else
                     {
-                        AppendParagraph(paragraphs, current, currentList);
-                        current = new StringBuilder();
-
-                        if (currentList == null)
-                        {
-                            var listFormat = CreateList(existingDoc, result, isBulletList ? NumberFormatValues.Bullet : NumberFormatValues.Decimal);
-                            currentList = new(listFormat);
-                        }
-                        else
-                        {
-                            currentList.Level++;
-                        }
+                        currentList.Level++;
                     }
                 }
             }
             else if (token is TextToken)
             {
-                //текст
                 current.Append(token.ValueSpan);
             }
             else
