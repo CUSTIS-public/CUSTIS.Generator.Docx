@@ -48,8 +48,8 @@ public static class HtmlToWordConverter
                     }
                     break;
 
-                case TextToken:
-                    current.Append(token.ValueSpan);
+                case TextToken text:
+                    current.Append(text.Value);
                     break;
 
                 case OpenTagToken openingTag:
@@ -104,15 +104,15 @@ public static class HtmlToWordConverter
 
         return result;
 
-        static bool IsWhiteSpaceToken(Token token) => token.ValueSpan.IsWhiteSpace();
+        static bool IsWhiteSpaceToken(Match token) => token.ValueSpan.IsWhiteSpace();
 
-        static bool IsTagToken(Token token) => token.ValueSpan.StartsWith("<");
+        static bool IsTagToken(Match token) => token.ValueSpan.StartsWith("<");
 
-        static bool IsTextToken(Token token) => !IsWhiteSpaceToken(token) && !IsTagToken(token);
+        static bool IsTextToken(Match token) => !IsWhiteSpaceToken(token) && !IsTagToken(token);
 
-        bool IsBadTagToken(Token token) => !tagName.IsMatch(token.Value);
+        bool IsBadTagToken(Match token) => !tagName.IsMatch(token.Value);
 
-        string? IsCloseTagToken(Token token)
+        string? IsCloseTagToken(Match token)
         {
             var match = tagName.Match(token.Value);
             return match.ValueSpan.StartsWith("/")
@@ -120,50 +120,40 @@ public static class HtmlToWordConverter
                 : null;
         }
 
-        bool IsBadCloseTagToken(Token token) => tagName.Match(token.Value).ValueSpan.Length == 1;
+        bool IsBadCloseTagToken(Match token) => tagName.Match(token.Value).ValueSpan.Length == 1;
 
         bool IsAnyTagOf(string tagName, params string[] tags)
             => tags.Any(tag => tagName.Equals(tag, StringComparison.InvariantCultureIgnoreCase));
 
-        IEnumerable<Token> GetTokens(string html)
+        IEnumerable<IToken> GetTokens(string html)
         {
             foreach (Match match in tokenizer.Matches(HttpUtility.HtmlDecode(html)))
             {
-                var token = new Token(match);
-                if (IsTagToken(token) && (IsBadTagToken(token) || IsCloseTagToken(token) is { } && IsBadCloseTagToken(token)))
+                if (IsTagToken(match) && (IsBadTagToken(match) || IsCloseTagToken(match) is { } && IsBadCloseTagToken(match)))
                 {
                     continue;
                 }
 
-                if (IsWhiteSpaceToken(token))
-                    yield return new WhiteSpaceToken(match);
-                else if (IsTagToken(token))
-                    if (IsCloseTagToken(token) is { } name)
-                        yield return new CloseTagToken(match, name);
+                if (IsWhiteSpaceToken(match))
+                    yield return new WhiteSpaceToken(match.Value);
+                else if (IsTagToken(match))
+                    if (IsCloseTagToken(match) is { } name)
+                        yield return new CloseTagToken(name);
                     else
-                        yield return new OpenTagToken(match, tagName.Match(token.Value).Value);
-                else if (IsTextToken(token))
-                    yield return new TextToken(match);
+                        yield return new OpenTagToken(tagName.Match(match.Value).Value);
+                else if (IsTextToken(match))
+                    yield return new TextToken(match.Value);
             }
         }
     }
 
-    public class Token
+    public interface IToken
     {
-        private readonly Match _match;
-
-        public Token(Match match)
-        {
-            _match = match;
-        }
-
-        public ReadOnlySpan<char> ValueSpan => _match.ValueSpan;
-        public string Value => _match.Value;
     }
 
-    public abstract class TagToken : Token
+    public abstract class TagToken : IToken
     {
-        protected TagToken(Match match, string name) : base(match)
+        protected TagToken(string name)
         {
             Name = name;
         }
@@ -173,30 +163,33 @@ public static class HtmlToWordConverter
 
     public class OpenTagToken : TagToken
     {
-        public OpenTagToken(Match match, string name) : base(match, name)
+        public OpenTagToken(string name) : base(name)
         {
         }
     }
 
     public class CloseTagToken : TagToken
     {
-        public CloseTagToken(Match match, string name) : base(match, name)
+        public CloseTagToken(string name) : base(name)
         {
         }
     }
 
-    public sealed class WhiteSpaceToken : Token
+    public sealed class WhiteSpaceToken : TextToken
     {
-        public WhiteSpaceToken(Match match) : base(match)
+        public WhiteSpaceToken(string value) : base(value)
         {
         }
     }
 
-    public sealed class TextToken : Token
+    public class TextToken : IToken
     {
-        public TextToken(Match match) : base(match)
+        public TextToken(string value)
         {
+            Value = value;
         }
+
+        public string Value { get; }
     }
 
     private static void AppendParagraph(IList<Paragraph> paragraphs, StringBuilder current, ListInfo? currentList)
