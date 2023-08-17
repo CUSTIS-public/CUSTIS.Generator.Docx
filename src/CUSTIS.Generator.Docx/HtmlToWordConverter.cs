@@ -76,36 +76,38 @@ public static class HtmlToWordConverter
                             currentList = null;
                         }
                     }
-
-                    continue;
                 }
-
-                if (IsAnyTagOfToken(token, "p", "li", "br", "br/"))
+                else
                 {
-                    AppendParagraph(paragraphs, current, currentList);
-                    current = new StringBuilder();
-                }
-
-                var isBulletList = IsAnyTagOfToken(token, "ul");
-                var isNumberedList = IsAnyTagOfToken(token, "ol");
-                if (isBulletList || isNumberedList)
-                {
-                    AppendParagraph(paragraphs, current, currentList);
-                    current = new StringBuilder();
-
-                    if (currentList == null)
+                    //открывающийся тег
+                    if (IsAnyTagOfToken(token, "p", "li", "br", "br/"))
                     {
-                        var listFormat = CreateList(existingDoc, result, isBulletList ? NumberFormatValues.Bullet : NumberFormatValues.Decimal);
-                        currentList = new(listFormat);
+                        AppendParagraph(paragraphs, current, currentList);
+                        current = new StringBuilder();
                     }
-                    else
+
+                    var isBulletList = IsAnyTagOfToken(token, "ul");
+                    var isNumberedList = IsAnyTagOfToken(token, "ol");
+                    if (isBulletList || isNumberedList)
                     {
-                        currentList.Level++;
+                        AppendParagraph(paragraphs, current, currentList);
+                        current = new StringBuilder();
+
+                        if (currentList == null)
+                        {
+                            var listFormat = CreateList(existingDoc, result, isBulletList ? NumberFormatValues.Bullet : NumberFormatValues.Decimal);
+                            currentList = new(listFormat);
+                        }
+                        else
+                        {
+                            currentList.Level++;
+                        }
                     }
                 }
             }
             else
             {
+                //текст
                 current.Append(token.ValueSpan);
             }
         }
