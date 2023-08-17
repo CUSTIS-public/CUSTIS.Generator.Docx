@@ -53,12 +53,11 @@ public static class HtmlToWordConverter
 
             if (IsWhiteSpaceToken(token))
             {
-                if (current.Length > 0 && current[^1] == ' ')
+                //пробельный текст
+                if (current.Length <= 0 || current[^1] != ' ')
                 {
-                    continue;
+                    current.Append(' ');
                 }
-
-                current.Append(' ');
             }
             else if (IsTagToken(token))
             {
