@@ -59,10 +59,8 @@ public static class HtmlToWordConverter
                 }
 
                 current.Append(' ');
-                continue;
             }
-
-            if (IsTagToken(token))
+            else if (IsTagToken(token))
             {
                 if (IsCloseTagToken(token) is { } closingTag)
                 {
@@ -105,11 +103,11 @@ public static class HtmlToWordConverter
                         currentList.Level++;
                     }
                 }
-
-                continue;
             }
-
-            current.Append(token.ValueSpan);
+            else
+            {
+                current.Append(token.ValueSpan);
+            }
         }
 
         AppendParagraph(paragraphs, current, currentList);
