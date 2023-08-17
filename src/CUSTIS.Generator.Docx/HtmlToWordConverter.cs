@@ -41,12 +41,7 @@ public static class HtmlToWordConverter
         ListInfo? currentList = null;
         foreach (Match token in tokenizer.Matches(htmlText))
         {
-            if (IsTagToken(token) && IsBadTagToken(token))
-            {
-                continue;
-            }
-
-            if (IsTagToken(token) && IsCloseTagToken(token) is { } && IsBadCloseTagToken(token))
+            if (IsTagToken(token) && (IsBadTagToken(token) || IsCloseTagToken(token) is { } && IsBadCloseTagToken(token)))
             {
                 continue;
             }
