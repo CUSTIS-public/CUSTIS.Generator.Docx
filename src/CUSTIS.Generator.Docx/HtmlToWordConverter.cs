@@ -92,10 +92,14 @@ public static class HtmlToWordConverter
                     }
                 }
             }
-            else
+            else if (IsTextToken(token))
             {
                 //текст
                 current.Append(token.ValueSpan);
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(token));
             }
         }
 
@@ -106,6 +110,8 @@ public static class HtmlToWordConverter
         static bool IsWhiteSpaceToken(Token token) => token.ValueSpan.IsWhiteSpace();
 
         static bool IsTagToken(Token token) => token.ValueSpan.StartsWith("<");
+
+        static bool IsTextToken(Token token) => !IsWhiteSpaceToken(token) && !IsTagToken(token);
 
         bool IsBadTagToken(Token token) => !tagName.IsMatch(token.Value);
 
