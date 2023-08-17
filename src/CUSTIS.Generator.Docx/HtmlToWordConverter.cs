@@ -49,10 +49,10 @@ public static class HtmlToWordConverter
             }
             else if (token is TagToken tag)
             {
-                if (IsCloseTagToken(token) is { } closingTag)
+                if (token is CloseTagToken closingTag)
                 {
                     //закрывающийся тег
-                    if (currentList != null && IsAnyTagOf(closingTag, "ul", "ol"))
+                    if (currentList != null && IsAnyTagOf(closingTag.Name, "ul", "ol"))
                     {
                         AppendParagraph(paragraphs, current, currentList);
                         current = new StringBuilder();
@@ -64,17 +64,17 @@ public static class HtmlToWordConverter
                         }
                     }
                 }
-                else
+                else if (token is OpenTagToken openingTag)
                 {
                     //открывающийся тег
-                    if (IsAnyTagOf(tag.Name, "p", "li", "br", "br/"))
+                    if (IsAnyTagOf(openingTag.Name, "p", "li", "br", "br/"))
                     {
                         AppendParagraph(paragraphs, current, currentList);
                         current = new StringBuilder();
                     }
 
-                    var isBulletList = IsAnyTagOf(tag.Name, "ul");
-                    var isNumberedList = IsAnyTagOf(tag.Name, "ol");
+                    var isBulletList = IsAnyTagOf(openingTag.Name, "ul");
+                    var isNumberedList = IsAnyTagOf(openingTag.Name, "ol");
                     if (isBulletList || isNumberedList)
                     {
                         AppendParagraph(paragraphs, current, currentList);
@@ -141,7 +141,10 @@ public static class HtmlToWordConverter
                 if (IsWhiteSpaceToken(token))
                     yield return new WhiteSpaceToken(match);
                 else if (IsTagToken(token))
-                    yield return new TagToken(match, tagName.Match(token.Value).Value);
+                    if (IsCloseTagToken(token) is { } name)
+                        yield return new CloseTagToken(match, name);
+                    else
+                        yield return new OpenTagToken(match, tagName.Match(token.Value).Value);
                 else if (IsTextToken(token))
                     yield return new TextToken(match);
             }
@@ -161,14 +164,28 @@ public static class HtmlToWordConverter
         public string Value => _match.Value;
     }
 
-    public class TagToken : Token
+    public abstract class TagToken : Token
     {
-        public TagToken(Match match, string name) : base(match)
+        protected TagToken(Match match, string name) : base(match)
         {
             Name = name;
         }
 
         public string Name { get; }
+    }
+
+    public class OpenTagToken : TagToken
+    {
+        public OpenTagToken(Match match, string name) : base(match, name)
+        {
+        }
+    }
+
+    public class CloseTagToken : TagToken
+    {
+        public CloseTagToken(Match match, string name) : base(match, name)
+        {
+        }
     }
 
     public sealed class WhiteSpaceToken : Token
