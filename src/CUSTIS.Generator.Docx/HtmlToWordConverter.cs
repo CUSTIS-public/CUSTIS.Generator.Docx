@@ -39,60 +39,64 @@ public static class HtmlToWordConverter
         ListInfo? currentList = null;
         foreach (var token in GetTokens(htmlText))
         {
-            if (token is WhiteSpaceToken)
+            switch (token)
             {
-                if (current.Length <= 0 || current[^1] != ' ')
-                {
-                    current.Append(' ');
-                }
-            }
-            else if (token is CloseTagToken closingTag)
-            {
-                if (currentList != null && IsAnyTagOf(closingTag.Name, "ul", "ol"))
-                {
-                    AppendParagraph(paragraphs, current, currentList);
-                    current = new StringBuilder();
-
-                    currentList.Level--;
-                    if (currentList.Level < 0)
+                case WhiteSpaceToken:
+                    if (current.Length <= 0 || current[^1] != ' ')
                     {
-                        currentList = null;
+                        current.Append(' ');
                     }
-                }
-            }
-            else if (token is OpenTagToken openingTag)
-            {
-                if (IsAnyTagOf(openingTag.Name, "p", "li", "br", "br/"))
-                {
-                    AppendParagraph(paragraphs, current, currentList);
-                    current = new StringBuilder();
-                }
+                    break;
 
-                var isBulletList = IsAnyTagOf(openingTag.Name, "ul");
-                var isNumberedList = IsAnyTagOf(openingTag.Name, "ol");
-                if (isBulletList || isNumberedList)
-                {
-                    AppendParagraph(paragraphs, current, currentList);
-                    current = new StringBuilder();
+                case CloseTagToken closingTag:
+                    if (currentList != null && IsAnyTagOf(closingTag.Name, "ul", "ol"))
+                    {
+                        AppendParagraph(paragraphs, current, currentList);
+                        current = new StringBuilder();
 
-                    if (currentList == null)
-                    {
-                        var listFormat = CreateList(existingDoc, result, isBulletList ? NumberFormatValues.Bullet : NumberFormatValues.Decimal);
-                        currentList = new(listFormat);
+                        currentList.Level--;
+                        if (currentList.Level < 0)
+                        {
+                            currentList = null;
+                        }
                     }
-                    else
+                    break;
+
+                case OpenTagToken openingTag:
                     {
-                        currentList.Level++;
+                        if (IsAnyTagOf(openingTag.Name, "p", "li", "br", "br/"))
+                        {
+                            AppendParagraph(paragraphs, current, currentList);
+                            current = new StringBuilder();
+                        }
+
+                        var isBulletList = IsAnyTagOf(openingTag.Name, "ul");
+                        var isNumberedList = IsAnyTagOf(openingTag.Name, "ol");
+                        if (isBulletList || isNumberedList)
+                        {
+                            AppendParagraph(paragraphs, current, currentList);
+                            current = new StringBuilder();
+
+                            if (currentList == null)
+                            {
+                                var listFormat = CreateList(existingDoc, result, isBulletList ? NumberFormatValues.Bullet : NumberFormatValues.Decimal);
+                                currentList = new(listFormat);
+                            }
+                            else
+                            {
+                                currentList.Level++;
+                            }
+                        }
+
+                        break;
                     }
-                }
-            }
-            else if (token is TextToken)
-            {
-                current.Append(token.ValueSpan);
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException(nameof(token));
+
+                case TextToken:
+                    current.Append(token.ValueSpan);
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(token));
             }
         }
 
