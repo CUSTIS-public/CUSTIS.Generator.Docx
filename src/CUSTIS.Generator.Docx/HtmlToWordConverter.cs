@@ -39,7 +39,7 @@ public static class HtmlToWordConverter
         ListInfo? currentList = null;
         foreach (var token in GetTokens(htmlText))
         {
-            if (IsWhiteSpaceToken(token))
+            if (token is WhiteSpaceToken)
             {
                 //пробельный текст
                 if (current.Length <= 0 || current[^1] != ' ')
@@ -47,7 +47,7 @@ public static class HtmlToWordConverter
                     current.Append(' ');
                 }
             }
-            else if (IsTagToken(token))
+            else if (token is TagToken)
             {
                 if (IsCloseTagToken(token) is { } closingTag)
                 {
@@ -92,7 +92,7 @@ public static class HtmlToWordConverter
                     }
                 }
             }
-            else if (IsTextToken(token))
+            else if (token is TextToken)
             {
                 //текст
                 current.Append(token.ValueSpan);
@@ -141,7 +141,12 @@ public static class HtmlToWordConverter
                     continue;
                 }
 
-                yield return token;
+                if (IsWhiteSpaceToken(token))
+                    yield return new WhiteSpaceToken(match);
+                else if (IsTagToken(token))
+                    yield return new TagToken(match);
+                else if (IsTextToken(token))
+                    yield return new TextToken(match);
             }
         }
     }
@@ -157,6 +162,27 @@ public static class HtmlToWordConverter
 
         public ReadOnlySpan<char> ValueSpan => _match.ValueSpan;
         public string Value => _match.Value;
+    }
+
+    public class TagToken : Token
+    {
+        public TagToken(Match match) : base(match)
+        {
+        }
+    }
+
+    public sealed class WhiteSpaceToken : Token
+    {
+        public WhiteSpaceToken(Match match) : base(match)
+        {
+        }
+    }
+
+    public sealed class TextToken : Token
+    {
+        public TextToken(Match match) : base(match)
+        {
+        }
     }
 
     private static void AppendParagraph(IList<Paragraph> paragraphs, StringBuilder current, ListInfo? currentList)
