@@ -39,11 +39,6 @@ public static class HtmlToWordConverter
         ListInfo? currentList = null;
         foreach (var token in GetTokens(htmlText))
         {
-            if (IsTagToken(token) && (IsBadTagToken(token) || IsCloseTagToken(token) is { } && IsBadCloseTagToken(token)))
-            {
-                continue;
-            }
-
             if (IsWhiteSpaceToken(token))
             {
                 //пробельный текст
@@ -134,6 +129,11 @@ public static class HtmlToWordConverter
         {
             foreach (Match token in tokenizer.Matches(HttpUtility.HtmlDecode(html)))
             {
+                if (IsTagToken(token) && (IsBadTagToken(token) || IsCloseTagToken(token) is { } && IsBadCloseTagToken(token)))
+                {
+                    continue;
+                }
+
                 yield return token;
             }
         }
