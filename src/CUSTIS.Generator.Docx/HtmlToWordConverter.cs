@@ -25,15 +25,6 @@ public static class HtmlToWordConverter
 
         var paragraphs = result.Paragraphs;
 
-        // разбивает строку на подстроки. Каждая подстрока либо тег (<...>), либо текст от тега до тега (>...<)
-        // <p>my <div>string</div></p> будет развита на 6 подстрок:
-        // <p>; my ; <div>; string; </div>; </p>
-        var tokenizer = new Regex("<.+?>|[^<>]+");
-
-        // получает название тега (будет в первом результате)
-        // "< p font=>" ----> "p", "font"
-        // "< / w:rPr>" ----> "/ w:rPr"
-        var tagName = new Regex("\\/.*?[a-zA-Z:]+|[a-zA-Z:]+");
         var current = new StringBuilder();
 
         ListInfo? currentList = null;
@@ -104,29 +95,39 @@ public static class HtmlToWordConverter
 
         return result;
 
-        static bool IsWhiteSpaceToken(Match token) => token.ValueSpan.IsWhiteSpace();
-
-        static bool IsTagToken(Match token) => token.ValueSpan.StartsWith("<");
-
-        static bool IsTextToken(Match token) => !IsWhiteSpaceToken(token) && !IsTagToken(token);
-
-        bool IsBadTagToken(Match token) => !tagName.IsMatch(token.Value);
-
-        string? IsCloseTagToken(Match token)
-        {
-            var match = tagName.Match(token.Value);
-            return match.ValueSpan.StartsWith("/")
-                ? match.ValueSpan.Slice(1).Trim().ToString()
-                : null;
-        }
-
-        bool IsBadCloseTagToken(Match token) => tagName.Match(token.Value).ValueSpan.Length == 1;
-
         bool IsAnyTagOf(string tagName, params string[] tags)
             => tags.Any(tag => tagName.Equals(tag, StringComparison.InvariantCultureIgnoreCase));
 
         IEnumerable<IToken> GetTokens(string html)
         {
+            // разбивает строку на подстроки. Каждая подстрока либо тег (<...>), либо текст от тега до тега (>...<)
+            // <p>my <div>string</div></p> будет развита на 6 подстрок:
+            // <p>; my ; <div>; string; </div>; </p>
+            var tokenizer = new Regex("<.+?>|[^<>]+");
+
+            // получает название тега (будет в первом результате)
+            // "< p font=>" ----> "p", "font"
+            // "< / w:rPr>" ----> "/ w:rPr"
+            var tagName = new Regex("\\/.*?[a-zA-Z:]+|[a-zA-Z:]+");
+
+            static bool IsWhiteSpaceToken(Match token) => token.ValueSpan.IsWhiteSpace();
+
+            static bool IsTagToken(Match token) => token.ValueSpan.StartsWith("<");
+
+            static bool IsTextToken(Match token) => !IsWhiteSpaceToken(token) && !IsTagToken(token);
+
+            bool IsBadTagToken(Match token) => !tagName.IsMatch(token.Value);
+
+            string? IsCloseTagToken(Match token)
+            {
+                var match = tagName.Match(token.Value);
+                return match.ValueSpan.StartsWith("/")
+                    ? match.ValueSpan.Slice(1).Trim().ToString()
+                    : null;
+            }
+
+            bool IsBadCloseTagToken(Match token) => tagName.Match(token.Value).ValueSpan.Length == 1;
+
             foreach (Match match in tokenizer.Matches(HttpUtility.HtmlDecode(html)))
             {
                 if (IsTagToken(match) && (IsBadTagToken(match) || IsCloseTagToken(match) is { } && IsBadCloseTagToken(match)))
