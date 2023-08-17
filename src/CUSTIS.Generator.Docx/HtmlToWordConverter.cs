@@ -103,13 +103,13 @@ public static class HtmlToWordConverter
 
         return result;
 
-        static bool IsWhiteSpaceToken(Match token) => token.ValueSpan.IsWhiteSpace();
+        static bool IsWhiteSpaceToken(Token token) => token.ValueSpan.IsWhiteSpace();
 
-        static bool IsTagToken(Match token) => token.ValueSpan.StartsWith("<");
+        static bool IsTagToken(Token token) => token.ValueSpan.StartsWith("<");
 
-        bool IsBadTagToken(Match token) => !tagName.IsMatch(token.Value);
+        bool IsBadTagToken(Token token) => !tagName.IsMatch(token.Value);
 
-        string? IsCloseTagToken(Match token)
+        string? IsCloseTagToken(Token token)
         {
             var match = tagName.Match(token.Value);
             return match.ValueSpan.StartsWith("/")
@@ -117,18 +117,19 @@ public static class HtmlToWordConverter
                 : null;
         }
 
-        bool IsBadCloseTagToken(Match token) => tagName.Match(token.Value).ValueSpan.Length == 1;
+        bool IsBadCloseTagToken(Token token) => tagName.Match(token.Value).ValueSpan.Length == 1;
 
-        bool IsAnyTagOfToken(Match token, params string[] tags)
+        bool IsAnyTagOfToken(Token token, params string[] tags)
             => IsAnyTagOf(tagName.Match(token.Value).Value, tags);
 
         bool IsAnyTagOf(string tagName, params string[] tags)
             => tags.Any(tag => tagName.Equals(tag, StringComparison.InvariantCultureIgnoreCase));
 
-        IEnumerable<Match> GetTokens(string html)
+        IEnumerable<Token> GetTokens(string html)
         {
-            foreach (Match token in tokenizer.Matches(HttpUtility.HtmlDecode(html)))
+            foreach (Match match in tokenizer.Matches(HttpUtility.HtmlDecode(html)))
             {
+                var token = new Token(match);
                 if (IsTagToken(token) && (IsBadTagToken(token) || IsCloseTagToken(token) is { } && IsBadCloseTagToken(token)))
                 {
                     continue;
@@ -137,6 +138,19 @@ public static class HtmlToWordConverter
                 yield return token;
             }
         }
+    }
+
+    public class Token
+    {
+        private readonly Match _match;
+
+        public Token(Match match)
+        {
+            _match = match;
+        }
+
+        public ReadOnlySpan<char> ValueSpan => _match.ValueSpan;
+        public string Value => _match.Value;
     }
 
     private static void AppendParagraph(IList<Paragraph> paragraphs, StringBuilder current, ListInfo? currentList)
