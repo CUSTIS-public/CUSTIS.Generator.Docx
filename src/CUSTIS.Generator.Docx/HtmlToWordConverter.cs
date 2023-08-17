@@ -21,8 +21,6 @@ public static class HtmlToWordConverter
 
     public static ConvertResult ConvertToDocx(this string htmlText, MainDocumentPart existingDoc)
     {
-        // &nbsp; -> ' '
-        htmlText = HttpUtility.HtmlDecode(htmlText);
         var result = new ConvertResult(new List<Paragraph>(), new List<AbstractNum>(), new List<NumberingInstance>());
 
         var paragraphs = result.Paragraphs;
@@ -39,7 +37,7 @@ public static class HtmlToWordConverter
         var current = new StringBuilder();
 
         ListInfo? currentList = null;
-        foreach (Match token in tokenizer.Matches(htmlText))
+        foreach (var token in GetTokens(htmlText))
         {
             if (IsTagToken(token) && (IsBadTagToken(token) || IsCloseTagToken(token) is { } && IsBadCloseTagToken(token)))
             {
@@ -131,6 +129,14 @@ public static class HtmlToWordConverter
 
         bool IsAnyTagOf(string tagName, params string[] tags)
             => tags.Any(tag => tagName.Equals(tag, StringComparison.InvariantCultureIgnoreCase));
+
+        IEnumerable<Match> GetTokens(string html)
+        {
+            foreach (Match token in tokenizer.Matches(HttpUtility.HtmlDecode(html)))
+            {
+                yield return token;
+            }
+        }
     }
 
     private static void AppendParagraph(IList<Paragraph> paragraphs, StringBuilder current, ListInfo? currentList)
