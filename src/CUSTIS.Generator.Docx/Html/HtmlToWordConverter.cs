@@ -26,7 +26,7 @@ public static class HtmlToWordConverter
         var current = new StringBuilder();
 
         ListInfo? currentList = null;
-        var parser = new RegexHtmlParser();
+        var parser = new AngleSharpHtmlParser();
         foreach (var token in parser.GetTokens(htmlText))
         {
             switch (token)
