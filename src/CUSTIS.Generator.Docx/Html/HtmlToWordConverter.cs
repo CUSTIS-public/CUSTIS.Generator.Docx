@@ -31,7 +31,7 @@ public static class HtmlToWordConverter
         {
             switch (token)
             {
-                case WhiteSpaceToken:
+                case TextToken text when text.IsWhiteSpace():
                     if (current.Length <= 0 || current[^1] != ' ')
                     {
                         current.Append(' ');

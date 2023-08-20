@@ -14,21 +14,21 @@ public abstract class TagToken : IToken
     public string Name { get; }
 }
 
-public class OpenTagToken : TagToken
+public sealed class OpenTagToken : TagToken
 {
     public OpenTagToken(string name) : base(name)
     {
     }
 }
 
-public class CloseTagToken : TagToken
+public sealed class CloseTagToken : TagToken
 {
     public CloseTagToken(string name) : base(name)
     {
     }
 }
 
-public class TextToken : IToken
+public sealed class TextToken : IToken
 {
     public TextToken(string value)
     {
@@ -36,11 +36,6 @@ public class TextToken : IToken
     }
 
     public string Value { get; }
-}
 
-public sealed class WhiteSpaceToken : TextToken
-{
-    public WhiteSpaceToken(string value) : base(value)
-    {
-    }
+    public bool IsWhiteSpace() => ((ReadOnlySpan<char>)Value).IsWhiteSpace();
 }
