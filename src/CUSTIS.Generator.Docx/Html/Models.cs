@@ -14,6 +14,9 @@ public abstract class TagToken : IToken
     public INode Node { get; }
 
     public string Name => Node.NodeName;
+
+    public bool IsAnyOf(params string[] tags)
+        => tags.Any(tag => Name.Equals(tag, StringComparison.InvariantCultureIgnoreCase));
 }
 
 public sealed class OpenTagToken : TagToken

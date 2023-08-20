@@ -44,14 +44,14 @@ public static class HtmlToWordConverter
 
                 case OpenTagToken openingTag:
                     {
-                        if (IsAnyTagOf(openingTag.Name, "p", "li", "br", "br/"))
+                        if (openingTag.IsAnyOf("p", "li", "br", "br/"))
                         {
                             AppendParagraph(paragraphs, current, currentList);
                             current = new StringBuilder();
                         }
 
-                        var isBulletList = IsAnyTagOf(openingTag.Name, "ul");
-                        var isNumberedList = IsAnyTagOf(openingTag.Name, "ol");
+                        var isBulletList = openingTag.IsAnyOf("ul");
+                        var isNumberedList = openingTag.IsAnyOf("ol");
                         if (isBulletList || isNumberedList)
                         {
                             AppendParagraph(paragraphs, current, currentList);
@@ -72,7 +72,7 @@ public static class HtmlToWordConverter
                     }
 
                 case CloseTagToken closingTag:
-                    if (currentList != null && IsAnyTagOf(closingTag.Name, "ul", "ol"))
+                    if (currentList != null && closingTag.IsAnyOf("ul", "ol"))
                     {
                         AppendParagraph(paragraphs, current, currentList);
                         current = new StringBuilder();
@@ -93,9 +93,6 @@ public static class HtmlToWordConverter
         AppendParagraph(paragraphs, current, currentList);
 
         return result;
-
-        bool IsAnyTagOf(string tagName, params string[] tags)
-            => tags.Any(tag => tagName.Equals(tag, StringComparison.InvariantCultureIgnoreCase));
     }
 
     private static void AppendParagraph(IList<Paragraph> paragraphs, StringBuilder current, ListInfo? currentList)
