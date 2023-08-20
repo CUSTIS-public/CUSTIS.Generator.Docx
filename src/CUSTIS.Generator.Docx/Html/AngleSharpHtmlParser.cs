@@ -15,9 +15,9 @@ internal class AngleSharpHtmlParser : IHtmlParser
     private static IToken? ToToken(INode node, AngleTagType tagType)
         => node.NodeType switch
         {
-            NodeType.Text when tagType is AngleTagType.Open => new TextToken(node.TextContent),
-            NodeType.Element when tagType is AngleTagType.Open => new OpenTagToken(node.NodeName),
-            NodeType.Element when tagType is AngleTagType.Close => new CloseTagToken(node.NodeName),
+            NodeType.Text when tagType is AngleTagType.Open => new TextToken(node),
+            NodeType.Element when tagType is AngleTagType.Open => new OpenTagToken(node),
+            NodeType.Element when tagType is AngleTagType.Close => new CloseTagToken(node),
             _ => null
         };
 }

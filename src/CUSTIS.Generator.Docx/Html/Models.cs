@@ -1,41 +1,42 @@
-﻿namespace CUSTIS.Generator.Docx.Html;
+﻿using AngleSharp.Dom;
+
+namespace CUSTIS.Generator.Docx.Html;
 
 public interface IToken
 {
+    public INode Node { get; }
 }
 
 public abstract class TagToken : IToken
 {
-    protected TagToken(string name)
-    {
-        Name = name;
-    }
+    protected TagToken(INode node) => Node = node;
 
-    public string Name { get; }
+    public INode Node { get; }
+
+    public string Name => Node.NodeName;
 }
 
 public sealed class OpenTagToken : TagToken
 {
-    public OpenTagToken(string name) : base(name)
+    public OpenTagToken(INode node) : base(node)
     {
     }
 }
 
 public sealed class CloseTagToken : TagToken
 {
-    public CloseTagToken(string name) : base(name)
+    public CloseTagToken(INode node) : base(node)
     {
     }
 }
 
 public sealed class TextToken : IToken
 {
-    public TextToken(string value)
-    {
-        Value = value;
-    }
+    public TextToken(INode node) => Node = node;
 
-    public string Value { get; }
+    public INode Node { get; }
+
+    public string Value => Node.TextContent;
 
     public bool IsWhiteSpace() => ((ReadOnlySpan<char>)Value).IsWhiteSpace();
 }
