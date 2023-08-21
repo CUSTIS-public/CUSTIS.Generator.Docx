@@ -44,7 +44,7 @@ public static class HtmlToWordConverter
 
                 case OpenTagToken openingTag:
                     {
-                        if (openingTag.IsAnyOf("p", "li", "br", "br/"))
+                        if (openingTag.IsAnyOf("p", "li", "br"))
                         {
                             AppendParagraph(paragraphs, current, currentList);
                             current = new StringBuilder();
