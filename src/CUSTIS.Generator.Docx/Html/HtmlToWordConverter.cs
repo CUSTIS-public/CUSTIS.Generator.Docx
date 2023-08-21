@@ -1,13 +1,11 @@
 ﻿using System.Text;
-using System.Text.RegularExpressions;
-using System.Web;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Paragraph = DocumentFormat.OpenXml.Wordprocessing.Paragraph;
 using Run = DocumentFormat.OpenXml.Wordprocessing.Run;
 
-namespace CUSTIS.Generator.Docx;
+namespace CUSTIS.Generator.Docx.Html;
 
 public static class HtmlToWordConverter
 {
@@ -21,56 +19,60 @@ public static class HtmlToWordConverter
 
     public static ConvertResult ConvertToDocx(this string htmlText, MainDocumentPart existingDoc)
     {
-        // &nbsp; -> ' '
-        htmlText = HttpUtility.HtmlDecode(htmlText);
         var result = new ConvertResult(new List<Paragraph>(), new List<AbstractNum>(), new List<NumberingInstance>());
 
         var paragraphs = result.Paragraphs;
 
-        // разбивает строку на подстроки. Каждая подстрока либо тег (<...>), либо текст от тега до тега (>...<)
-        // <p>my <div>string</div></p> будет развита на 6 подстрок:
-        // <p>; my ; <div>; string; </div>; </p>
-        var tokenizer = new Regex("<.+?>|[^<>]+");
-
-        // получает название тега (будет в первом результате)
-        // "< p font=>" ----> "p", "font"
-        // "< / w:rPr>" ----> "/ w:rPr"
-        var tagName = new Regex("\\/.*?[a-zA-Z:]+|[a-zA-Z:]+");
         var current = new StringBuilder();
 
         ListInfo? currentList = null;
-        foreach (Match token in tokenizer.Matches(htmlText))
+        var parser = new AngleSharpHtmlParser();
+        foreach (var token in parser.GetTokens(htmlText))
         {
-            if (token.ValueSpan.IsWhiteSpace())
+            switch (token)
             {
-                if (current.Length > 0 && current[^1] == ' ')
-                {
-                    continue;
-                }
-
-                current.Append(' ');
-                continue;
-            }
-
-            if (token.ValueSpan.StartsWith("<"))
-            {
-                if (!tagName.IsMatch(token.Value))
-                {
-                    continue;
-                }
-
-                var match = tagName.Match(token.Value);
-                if (match.ValueSpan.StartsWith("/"))
-                {
-                    //закрывающийся тег
-                    if (match.ValueSpan.Length == 1)
+                case TextToken text when text.IsWhiteSpace():
+                    if (current.Length <= 0 || current[^1] != ' ')
                     {
-                        continue;
+                        current.Append(' ');
+                    }
+                    break;
+
+                case TextToken text:
+                    current.Append(text.Value);
+                    break;
+
+                case OpenTagToken openingTag:
+                    {
+                        if (openingTag.IsAnyOf("p", "li", "br"))
+                        {
+                            AppendParagraph(paragraphs, current, currentList);
+                            current = new StringBuilder();
+                        }
+
+                        var isBulletList = openingTag.IsAnyOf("ul");
+                        var isNumberedList = openingTag.IsAnyOf("ol");
+                        if (isBulletList || isNumberedList)
+                        {
+                            AppendParagraph(paragraphs, current, currentList);
+                            current = new StringBuilder();
+
+                            if (currentList == null)
+                            {
+                                var listFormat = CreateList(existingDoc, result, isBulletList ? NumberFormatValues.Bullet : NumberFormatValues.Decimal);
+                                currentList = new(listFormat);
+                            }
+                            else
+                            {
+                                currentList.Level++;
+                            }
+                        }
+
+                        break;
                     }
 
-                    var closingTag = match.ValueSpan.Slice(1).Trim();
-                    if (currentList != null
-                        && (closingTag.Equals("ul", StringComparison.InvariantCultureIgnoreCase) || closingTag.Equals("ol", StringComparison.InvariantCultureIgnoreCase)))
+                case CloseTagToken closingTag:
+                    if (currentList != null && closingTag.IsAnyOf("ul", "ol"))
                     {
                         AppendParagraph(paragraphs, current, currentList);
                         current = new StringBuilder();
@@ -81,41 +83,11 @@ public static class HtmlToWordConverter
                             currentList = null;
                         }
                     }
+                    break;
 
-                    continue;
-                }
-
-                if (match.ValueSpan.Equals("p", StringComparison.InvariantCultureIgnoreCase)
-                    || match.ValueSpan.Equals("li", StringComparison.InvariantCultureIgnoreCase)
-                    || match.ValueSpan.Equals("br", StringComparison.InvariantCultureIgnoreCase)
-                    || match.ValueSpan.Equals("br/", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    AppendParagraph(paragraphs, current, currentList);
-                    current = new StringBuilder();
-                }
-
-                var isBulletList = match.ValueSpan.Equals("ul", StringComparison.InvariantCultureIgnoreCase);
-                var isNumberedList = match.ValueSpan.Equals("ol", StringComparison.InvariantCultureIgnoreCase);
-                if (isBulletList || isNumberedList)
-                {
-                    AppendParagraph(paragraphs, current, currentList);
-                    current = new StringBuilder();
-
-                    if (currentList == null)
-                    {
-                        var listFormat = CreateList(existingDoc, result, isBulletList ? NumberFormatValues.Bullet : NumberFormatValues.Decimal);
-                        currentList = new(listFormat);
-                    }
-                    else
-                    {
-                        currentList.Level++;
-                    }
-                }
-
-                continue;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(token));
             }
-
-            current.Append(token.ValueSpan);
         }
 
         AppendParagraph(paragraphs, current, currentList);
